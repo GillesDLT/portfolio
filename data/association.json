@@ -1,0 +1,24 @@
+{
+  "titre": "Association",
+  "icone": "🤝",
+  "items": [
+    {
+      "id": "bde",
+      "titre": "Bureau des Élèves",
+      "periode": "2023 → 2024",
+      "organisation": "BDE …",
+      "description": "Vie étudiante et organisation d'événements.",
+      "points": ["Organisation d'événements", "Gestion du budget"],
+      "pdf": ""
+    },
+    {
+      "id": "robotique",
+      "titre": "Club Robotique",
+      "periode": "2022 → 2025",
+      "organisation": "Club Robotique …",
+      "description": "Conception et construction de robots.",
+      "points": ["Conception CAO", "Impression 3D", "Compétition …"],
+      "pdf": ""
+    }
+  ]
+}

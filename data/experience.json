@@ -1,0 +1,24 @@
+{
+  "titre": "Expérience",
+  "icone": "🛠️",
+  "items": [
+    {
+      "id": "stage1",
+      "titre": "Stage — Bureau d'études",
+      "periode": "Été 2025",
+      "entreprise": "Entreprise …",
+      "description": "Conception et mise en plan de pièces mécaniques.",
+      "points": ["Modélisation CATIA V5", "Calculs de dimensionnement", "Nomenclatures"],
+      "pdf": ""
+    },
+    {
+      "id": "stage2",
+      "titre": "Stage — Production",
+      "periode": "Été 2024",
+      "entreprise": "Entreprise …",
+      "description": "Découverte des processus de fabrication et de la qualité.",
+      "points": ["Suivi de ligne de production", "Amélioration d'un poste", "Rapport d'essais"],
+      "pdf": ""
+    }
+  ]
+}

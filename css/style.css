@@ -1,0 +1,43 @@
+/* ===== Reset & layout global ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font: 11px Tahoma, "Segoe UI", sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #d4d0c8;               /* gris Windows classique */
+  color: #000;
+  user-select: none;
+  overflow: hidden;
+}
+
+.main { flex: 1; display: flex; min-height: 0; }
+
+/* ===== Visionneuse 3D ===== */
+.viewport { flex: 1; position: relative; overflow: hidden;
+            background: linear-gradient(#8ca3b8 0%, #5d748a 45%, #2f3f4f 100%); }
+#scene { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.compass { position: absolute; top: 14px; right: 14px; width: 52px; height: 52px;
+           border-radius: 50%; background: radial-gradient(#fdfdfd, #b9c6d2);
+           border: 1px solid #666; display: flex; align-items: center;
+           justify-content: center; font-size: 14px; font-weight: bold; color: #234; }
+
+/* ===== Fiche de détail ===== */
+.fiche { position: absolute; right: 18px; bottom: 18px; width: 340px;
+         max-height: 75%; overflow: auto;
+         background: #f4f2ea; border: 1px solid #808080;
+         box-shadow: 3px 3px 0 rgba(0,0,0,.25); padding: 10px 12px;
+         user-select: text; }
+.fiche.hidden { display: none; }
+.fiche h2 { font-size: 13px; color: #003399; margin-bottom: 2px; }
+.fiche .sous { color: #666; margin-bottom: 6px; }
+.fiche ul { margin: 4px 0 0 16px; }
+.fiche a { color: #003399; }
+.galerie { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.galerie img { max-width: 100%; border: 1px solid #808080; }
+
+/* ===== Barre de statut ===== */
+.statusbar { display: flex; justify-content: space-between; padding: 3px 8px;
+             background: #d4d0c8; border-top: 1px solid #fff; font-size: 10px; }

@@ -1,0 +1,27 @@
+/* ===== Panneau de l'arbre ===== */
+.spec-tree { width: 270px; background: #fff; border-right: 2px solid #808080;
+             overflow: auto; padding: 5px; }
+.spec-title { font-weight: bold; color: #003399; padding: 2px 4px;
+              border-bottom: 1px solid #ccc; margin-bottom: 5px; }
+
+.tree, .tree ul { list-style: none; }
+.tree ul { padding-left: 20px; display: none; }
+.branch.open > ul { display: block; }
+
+/* ===== Lignes pointillées façon CATIA ===== */
+.tree ul li { position: relative; }
+.tree ul li::before { content: ""; position: absolute; left: -12px; top: 0; bottom: 0;
+                      border-left: 1px dotted #888; }
+.tree ul li:last-child::before { bottom: 50%; }
+
+/* ===== Nœuds & feuilles ===== */
+.node, .leaf { display: flex; align-items: center; gap: 5px;
+               padding: 2px 4px; cursor: pointer; white-space: nowrap; }
+.node:hover, .leaf:hover { background: #e8f0fe; }
+.leaf.selected { background: #316ac5; color: #fff; }
+
+.toggle { width: 12px; height: 12px; line-height: 10px; text-align: center;
+          border: 1px solid #666; background: #fff; font-size: 9px; flex: none; }
+.icon { width: 16px; text-align: center; flex: none; }
+
+.erreur { color: #a00; padding: 8px; user-select: text; line-height: 1.6; }

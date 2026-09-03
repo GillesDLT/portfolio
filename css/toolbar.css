@@ -1,0 +1,12 @@
+/* ===== Barre de menus ===== */
+.menubar { display: flex; gap: 2px; padding: 2px 4px;
+           background: #d4d0c8; border-bottom: 1px solid #999; }
+.menubar span { padding: 3px 9px; cursor: default; }
+.menubar span:hover { background: #316ac5; color: #fff; }
+
+/* ===== Barres d'outils ===== */
+.toolbar { display: flex; gap: 2px; padding: 3px 6px; background: #d4d0c8;
+           border-bottom: 1px solid #808080; box-shadow: inset 0 1px 0 #fff; }
+.toolbar button { width: 27px; height: 24px; background: #d4d0c8;
+                  border: 1px solid #999; cursor: pointer; font-size: 13px; }
+.toolbar button:hover { border-color: #316ac5; background: #e8f0fe; }

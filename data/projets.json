@@ -1,0 +1,25 @@
+{
+  "titre": "Projets",
+  "icone": "📐",
+  "items": [
+    {
+      "id": "pfe",
+      "titre": "Projet de fin d'études",
+      "periode": "2026",
+      "etablissement": "…",
+      "description": "Sujet : … Encadrant : …",
+      "points": [],
+      "pdf": ""
+    },
+    {
+      "id": "drone",
+      "titre": "Conception d'un drone",
+      "periode": "2024",
+      "organisation": "Projet associatif",
+      "description": "Châssis modélisé sous CATIA V5, choix des moteurs, essais en vol.",
+      "points": ["CAO du châssis", "Choix motorisation", "Banc d'essais"],
+      "images": [],
+      "pdf": ""
+    }
+  ]
+}

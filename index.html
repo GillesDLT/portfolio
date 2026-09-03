@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gilles — Ingénieur Génie Mécanique</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/toolbar.css">
+  <link rel="stylesheet" href="css/tree.css">
+</head>
+<body>
+
+  <!-- ===== Barre de menus ===== -->
+  <nav class="menubar">
+    <span>Fichier</span><span>Édition</span><span>Affichage</span>
+    <span>Insérer</span><span>Outils</span><span>Fenêtre</span><span>Aide</span>
+  </nav>
+
+  <!-- ===== Barre d'outils ===== -->
+  <div class="toolbar">
+    <button title="Nouveau">🆕</button>
+    <button title="Ouvrir">📂</button>
+    <button title="Imprimer">🖨️</button>
+    <button title="Arbre">🌳</button>
+    <button title="Ajuster tout">🔍</button>
+  </div>
+
+  <div class="main">
+
+    <!-- ===== Arbre de spécifications ===== -->
+    <aside class="spec-tree">
+      <div class="spec-title">Arbre de spécifications</div>
+      <ul class="tree" id="arbre">
+        <!-- rempli par js/tree.js à partir des fichiers JSON -->
+      </ul>
+    </aside>
+
+    <!-- ===== Visionneuse 3D ===== -->
+    <section class="viewport">
+      <canvas id="scene"></canvas>
+      <div class="compass">V5</div>
+      <div id="fiche" class="fiche hidden"></div>
+    </section>
+  </div>
+
+  <!-- ===== Barre de statut ===== -->
+  <footer class="statusbar">
+    <span id="status-gauche">Chargement…</span>
+    <span>Gilles — Portfolio Ingénieur</span>
+    <span>© 2026</span>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

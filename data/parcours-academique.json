@@ -1,0 +1,42 @@
+{
+  "titre": "Parcours académique",
+  "icone": "🎓",
+  "items": [
+    {
+      "id": "master",
+      "titre": "Master Génie Mécanique",
+      "periode": "2024 → 2026",
+      "etablissement": "Université de …",
+      "description": "Formation orientée conception mécanique et simulation numérique.",
+      "points": [
+        "Mécanique des structures",
+        "CAO — CATIA V5, SolidWorks",
+        "Méthode des éléments finis",
+        "Gestion de projet industriel"
+      ],
+      "pdf": ""
+    },
+    {
+      "id": "licence",
+      "titre": "Licence SPI",
+      "periode": "2021 → 2024",
+      "etablissement": "Université de …",
+      "description": "Sciences pour l'Ingénieur : socle maths / physique / mécanique.",
+      "points": [
+        "Mécanique rationnelle",
+        "Science des matériaux",
+        "Programmation Python (NumPy, SciPy, Matplotlib)"
+      ],
+      "pdf": ""
+    },
+    {
+      "id": "lycee",
+      "titre": "Lycée",
+      "periode": "2018 → 2021",
+      "etablissement": "Lycée …",
+      "description": "Bac scientifique, mention …",
+      "points": [],
+      "pdf": ""
+    }
+  ]
+}
