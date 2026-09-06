@@ -17,8 +17,9 @@ window.addEventListener("error", e => {
 /* ---------- 1. Données + arbre ---------- */
 async function initArbre() {
   try {
-    const themes = await chargerDonnees();
-    construireArbre(arbre, themes, afficherFiche);
+    themesChargees = await chargerDonnees();
+    construireArbre(arbre, themesChargees, afficherFiche);
+    ouvrirDepuisHash();          // ← ouvre la fiche si l'URL contient #id
     statut.textContent = "Prêt";
   } catch (erreur) {
     console.error(erreur);
@@ -130,7 +131,9 @@ function init3D() {
 initArbre();  // ← builds the specification tree
 init3D();     // ← starts the 3D viewer
 
-/* ----- recherche récursive d'un item par id dans les données ----- */
+let themesChargees = [];   // gardé au niveau module pour la navigation par hash
+
+/* ----- recherche récursive d'un item par id ----- */
 function chercherParId(noeuds, id) {
   for (const n of noeuds ?? []) {
     if (n.id === id) return n;
@@ -144,7 +147,7 @@ function chercherParId(noeuds, id) {
 function ouvrirDepuisHash() {
   const id = decodeURIComponent(location.hash.slice(1));
   if (!id) return;
-  const item = chercherParId(themes, id);
+  const item = chercherParId(themesChargees, id);
   if (item) {
     afficherFiche(item,
       document.querySelector(`.leaf[data-id="${CSS.escape(id)}"]`));
