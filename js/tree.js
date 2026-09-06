@@ -62,6 +62,7 @@ function creerNoeud(item, auClic, ouverte = false) {
         auClic(item, leaf);
     });
     li.appendChild(leaf);
+  }
 
   return li;
 }
