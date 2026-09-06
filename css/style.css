@@ -41,3 +41,33 @@ body {
 /* ===== Barre de statut ===== */
 .statusbar { display: flex; justify-content: space-between; padding: 3px 8px;
              background: #d4d0c8; border-top: 1px solid #fff; font-size: 10px; }
+
+/* ===== Parcours académique — timeline (adapted to CATIA theme) ===== */
+.timeline { position: relative; padding-left: 24px; margin: 10px 4px; }
+.timeline::before {
+  content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 0;
+  border-left: 1px dotted #888;            /* same dotted connector as the spec-tree [1] */
+}
+.card {
+  position: relative; margin-bottom: 14px; padding: 8px 10px;
+  background: #f4f2ea; border: 1px solid #808080;
+  box-shadow: 3px 3px 0 rgba(0,0,0,.25);   /* same panel look as .fiche [2] */
+  user-select: text;                        /* body is user-select:none [2] */
+}
+.card:hover { border-color: #316ac5; }      /* same hover/selection blue as the tree [1] */
+.card::before {                             /* node dot pinned to the timeline */
+  content: ""; position: absolute; left: -23px; top: 12px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--c, #316ac5); border: 1px solid #444;
+  box-shadow: 0 0 0 3px #d4d0c8;            /* ring matches the Windows-grey bg [2] */
+}
+.card header { display: flex; align-items: baseline; gap: 6px; }
+.card h3 { font-size: 12px; color: #003399; }          /* like .fiche h2 [2] */
+.periode { margin-left: auto; font-size: 10px; color: #555; white-space: nowrap; }
+.badge { font-size: 9px; padding: 1px 6px; border: 1px solid; }
+.badge.encours { color: #003399; border-color: #316ac5; background: #e8f0fe; }
+.badge.obtenu  { color: #1a6b34; border-color: #46a758; background: #eaf6ec; }
+.card p { margin: 4px 0 0; }
+.tags { margin-top: 5px; }
+.tags span { font-size: 9px; padding: 1px 6px; margin-right: 4px; display: inline-block;
+  background: #e8f0fe; border: 1px solid #b7c9e5; color: #003399; }

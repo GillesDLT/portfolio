@@ -1,11 +1,15 @@
 {
   "titre": "Parcours académique",
   "icone": "🎓",
+  "layout": "timeline",
   "items": [
     {
       "id": "master",
       "titre": "Master Génie Mécanique",
       "periode": "2024 → 2026",
+      "statut": "en cours",
+      "icone": "🛠️",
+      "couleur": "#3b82f6",
       "etablissement": "Université de …",
       "description": "Formation orientée conception mécanique et simulation numérique.",
       "points": [
@@ -14,12 +18,16 @@
         "Méthode des éléments finis",
         "Gestion de projet industriel"
       ],
+      "tags": ["CAO", "MEF", "Simulation"],
       "pdf": ""
     },
     {
       "id": "licence",
       "titre": "Licence SPI",
       "periode": "2021 → 2024",
+      "statut": "obtenu",
+      "icone": "📐",
+      "couleur": "#8b5cf6",
       "etablissement": "Université de …",
       "description": "Sciences pour l'Ingénieur : socle maths / physique / mécanique.",
       "points": [
@@ -27,15 +35,20 @@
         "Science des matériaux",
         "Programmation Python (NumPy, SciPy, Matplotlib)"
       ],
+      "tags": ["Python", "Matériaux"],
       "pdf": ""
     },
     {
       "id": "lycee",
       "titre": "Lycée",
       "periode": "2018 → 2021",
+      "statut": "obtenu",
+      "icone": "🎓",
+      "couleur": "#22c55e",
       "etablissement": "Lycée …",
       "description": "Bac scientifique, mention …",
       "points": [],
+      "tags": ["Bac scientifique"],
       "pdf": ""
     }
   ]
