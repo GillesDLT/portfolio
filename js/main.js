@@ -129,3 +129,28 @@ function init3D() {
 }
 initArbre();  // ← builds the specification tree
 init3D();     // ← starts the 3D viewer
+
+/* ----- recherche récursive d'un item par id dans les données ----- */
+function chercherParId(noeuds, id) {
+  for (const n of noeuds ?? []) {
+    if (n.id === id) return n;
+    const r = chercherParId(n.items, id);
+    if (r) return r;
+  }
+  return null;
+}
+
+/* ----- ouvre la fiche indiquée dans l'URL (index.html#id) ----- */
+function ouvrirDepuisHash() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!id) return;
+  const item = chercherParId(themes, id);
+  if (item) {
+    afficherFiche(item,
+      document.querySelector(`.leaf[data-id="${CSS.escape(id)}"]`));
+  }
+}
+
+/* à appeler juste après construireArbre(arbre, themes, afficherFiche) : */
+ouvrirDepuisHash();
+window.addEventListener("hashchange", ouvrirDepuisHash);

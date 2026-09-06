@@ -47,14 +47,21 @@ function creerNoeud(item, auClic, ouverte = false) {
     li.append(node, ul);
 
   } else {
-    /* ----- feuille ----- */
-    const leaf = document.createElement("span");
+    /* ----- feuille : un vrai lien → Ctrl+clic, clic milieu et menu
+   contextuel « Ouvrir dans un nouvel onglet/fenêtre » natifs ----- */
+    const leaf = document.createElement("a");
     leaf.className = "leaf";
     leaf.dataset.id = item.id ?? "";
+    leaf.href = item.id ? `#${encodeURIComponent(item.id)}` : "#";
     leaf.innerHTML = `<span class="icon">${item.icone ?? "📄"}</span>${item.titre}`;
-    leaf.addEventListener("click", () => auClic(item, leaf));
+    leaf.addEventListener("click", (e) => {
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) {
+            return;                 // ⚠️ ne PAS preventDefault : laisser le navigateur
+        }                         //    ouvrir un nouvel onglet/fenêtre
+        e.preventDefault();       // clic normal : fiche dans la page, URL inchangée
+        auClic(item, leaf);
+    });
     li.appendChild(leaf);
-  }
 
   return li;
 }
