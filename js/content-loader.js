@@ -29,8 +29,27 @@ export function afficherFiche(item, feuille) {
     morceaux.push(`<p style="margin-top:8px"><a href="${item.pdf}" target="_blank">📄 Ouvrir le document (PDF)</a></p>`);
   }
 
-  fiche.innerHTML = `<h2>${item.titre}</h2>` + morceaux.join("");
+    fiche.innerHTML = `<h2>${item.titre}</h2>` + morceaux.join("");
+    installerFermeture();
   fiche.classList.remove("hidden");
 
   statut.textContent = "Fiche : " + item.titre;
 }
+
+/* --- fermeture de la grande fiche (✕ + Échap) --- */
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") fiche.classList.add("hidden");
+});
+
+function installerFermeture() {
+  const barre = document.createElement("div");
+  barre.className = "fiche-barre";
+  barre.innerHTML = `<button class="fiche-fermer" aria-label="Fermer la fiche">✕</button>`;
+  barre.querySelector(".fiche-fermer").addEventListener("click", () => {
+    fiche.classList.add("hidden");
+  });
+  fiche.prepend(barre);   // ← prepend, pas append : la barre reste en haut
+}
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") fiche.classList.add("hidden");
+});

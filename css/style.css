@@ -24,19 +24,35 @@ body {
            border: 1px solid #666; display: flex; align-items: center;
            justify-content: center; font-size: 14px; font-weight: bold; color: #234; }
 
-/* ===== Fiche de détail ===== */
-.fiche { position: absolute; right: 18px; bottom: 18px; width: 340px;
-         max-height: 75%; overflow: auto;
-         background: #f4f2ea; border: 1px solid #808080;
-         box-shadow: 3px 3px 0 rgba(0,0,0,.25); padding: 10px 12px;
-         user-select: text; }
+/* ===== Fiche de détail — grande fenêtre centrée sur la visionneuse ===== */
+.fiche {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(880px, calc(100% - 60px));
+  max-height: 84%;
+  overflow: auto;
+  font-size: 13px;                    /* le body est à 11px */
+  background: #f4f2ea;
+  border: 1px solid #808080;
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .28), 3px 3px 0 rgba(0,0,0,.25);
+  padding: 14px 18px;
+  user-select: text;
+  z-index: 5;
+}
 .fiche.hidden { display: none; }
-.fiche h2 { font-size: 13px; color: #003399; margin-bottom: 2px; }
-.fiche .sous { color: #666; margin-bottom: 6px; }
-.fiche ul { margin: 4px 0 0 16px; }
-.fiche a { color: #003399; }
-.galerie { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-.galerie img { max-width: 100%; border: 1px solid #808080; }
+.fiche h2 { font-size: 17px; color: #003399; margin-bottom: 4px; padding-right: 28px; }
+.fiche .sous { color: #666; font-size: 12px; margin-bottom: 8px; }
+
+/* Bouton fermer, façon Windows classique */
+.fiche-fermer {
+  position: absolute; top: 8px; right: 8px;
+  width: 24px; height: 22px;
+  background: #d4d0c8; border: 1px solid #808080;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #7a7a7a;
+  font: bold 12px Tahoma, sans-serif; cursor: pointer;
+}
+.fiche-fermer:hover { background: #e8f0fe; border-color: #316ac5; }
+.fiche-fermer:active { box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #7a7a7a; }
 
 /* ===== Barre de statut ===== */
 .statusbar { display: flex; justify-content: space-between; padding: 3px 8px;
