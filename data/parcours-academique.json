@@ -5,50 +5,48 @@
   "items": [
     {
       "id": "master",
-      "titre": "Master Génie Mécanique",
-      "periode": "2024 → 2026",
+      "titre": "Master Génie Mécanique — Parcours Conception Avancée",
+      "periode": "2025 → 2027",
       "statut": "en cours",
       "icone": "🛠️",
       "couleur": "#3b82f6",
-      "etablissement": "Université de …",
-      "description": "Formation orientée conception mécanique et simulation numérique.",
+      "etablissement": "Université de Bordeaux — CMI MGCE",
+      "description": "Formation d'excellence en tolérancement et maîtrise dimensionnelle, labellisée par le réseau Figures, en alternance chez Safran Aircraft Engines.",
       "points": [
-        "Mécanique des structures",
-        "CAO — CATIA V5, SolidWorks",
-        "Méthode des éléments finis",
-        "Gestion de projet industriel"
+        "Conception géométrique et conception assistée par ordinateur",
+        "Tolérancement et maîtrise dimensionnelle",
+        "Alternance en maîtrise dimensionnelle chez Safran"
       ],
-      "tags": ["CAO", "MEF", "Simulation"],
+      "tags": ["CMI MGCE", "Conception Avancée"],
       "pdf": ""
     },
     {
       "id": "licence",
-      "titre": "Licence SPI",
-      "periode": "2021 → 2024",
-      "statut": "obtenu",
+      "titre": "Licence SPI, spécialité Génie Mécanique — Option Simulation",
+      "periode": "2022 → 2025",
+      "statut": "obtenu — Mention Bien",
       "icone": "📐",
       "couleur": "#8b5cf6",
-      "etablissement": "Université de …",
-      "description": "Sciences pour l'Ingénieur : socle maths / physique / mécanique.",
+      "etablissement": "Université de Bordeaux — CMI MGCE",
+      "description": "Cursus Master en Ingénierie Mécanique Génie Civil et Énergétique (CMI MGCE).",
       "points": [
-        "Mécanique rationnelle",
-        "Science des matériaux",
+        "Conception assistée par ordinateur et génie mécanique",
         "Programmation Python (NumPy, SciPy, Matplotlib)"
       ],
-      "tags": ["Python", "Matériaux"],
+      "tags": ["Mention Bien", "Option Simulation"],
       "pdf": ""
     },
     {
-      "id": "lycee",
-      "titre": "Lycée",
-      "periode": "2018 → 2021",
+      "id": "bac",
+      "titre": "Baccalauréat général — Mathématiques, Physique-Chimie",
+      "periode": "2019 → 2022",
       "statut": "obtenu",
       "icone": "🎓",
       "couleur": "#22c55e",
-      "etablissement": "Lycée …",
-      "description": "Bac scientifique, mention …",
+      "etablissement": "Lycée de La Sauque",
+      "description": "Bac général avec spécialités Mathématiques et Physique-Chimie.",
       "points": [],
-      "tags": ["Bac scientifique"],
+      "tags": ["Bac général"],
       "pdf": ""
     }
   ]

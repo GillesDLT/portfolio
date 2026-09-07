@@ -1,8 +1,9 @@
+
 /* =================================================================
    tree.js — charge les JSON de data/ et construit l'arbre dépliable
 ================================================================= */
 
-const THEMES = ["parcours-academique", "experience", "association", "projets"];
+const THEMES = ["parcours-academique", "certifications", "experience", "association", "projets"];
 
 /* Charge les 4 fichiers JSON en parallèle */
 export async function chargerDonnees(dossier = "data/") {

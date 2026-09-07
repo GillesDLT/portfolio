@@ -3,21 +3,32 @@
   "icone": "📐",
   "items": [
     {
-      "id": "pfe",
-      "titre": "Projet de fin d'études",
-      "periode": "2026",
-      "etablissement": "…",
-      "description": "Sujet : … Encadrant : …",
-      "points": [],
+      "id": "homelab",
+      "titre": "Homelab",
+      "periode": "2025 → aujourd'hui",
+      "organisation": "Projet personnel",
+      "description": "Serveur auto-hébergé sous Proxmox : virtualisation, réseau et sauvegardes.",
+      "points": ["Nœud Proxmox (VM et conteneurs LXC)", "Stratégie de sauvegarde et snapshots", "Services auto-hébergés", "Supervision et accès distant"],
+      "images": [],
       "pdf": ""
     },
     {
-      "id": "drone",
-      "titre": "Conception d'un drone",
-      "periode": "2024",
-      "organisation": "Projet associatif",
-      "description": "Châssis modélisé sous CATIA V5, choix des moteurs, essais en vol.",
-      "points": ["CAO du châssis", "Choix motorisation", "Banc d'essais"],
+      "id": "site-web",
+      "titre": "Ce site web",
+      "periode": "2026",
+      "organisation": "Projet personnel",
+      "description": "Portfolio statique sans framework, à l'image de CATIA V5.",
+      "points": ["HTML/CSS/JS vanilla en modules ES", "Arbre de spécifications façon CATIA V5", "Cube 3D animé en Canvas 2D", "Hébergé sur GitHub Pages avec domaine personnalisé"],
+      "images": [],
+      "pdf": ""
+    },
+    {
+      "id": "clavier",
+      "titre": "Un clavier de A à Z",
+      "periode": "2026 → …",
+      "organisation": "Projet personnel",
+      "description": "Conception, fabrication et programmation d'un clavier mécanique complet.",
+      "points": ["Conception CAO du boîtier et de la plaque", "Impression 3D du boîtier", "Câblage en matrice et microcontrôleur", "Firmware (QMK) et personnalisation"],
       "images": [],
       "pdf": ""
     }
