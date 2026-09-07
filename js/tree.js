@@ -3,18 +3,35 @@
    tree.js — charge les JSON de data/ et construit l'arbre dépliable
 ================================================================= */
 
-const THEMES = ["parcours-academique", "certifications", "experience", "association", "projets"];
+const THEMES = [
+  "parcours-academique",
+  "certifications",
+  "experience",
+  "association",
+  "projets"
+];
 
 /* Charge les 4 fichiers JSON en parallèle */
-export async function chargerDonnees(dossier = "/data/") {
+export async function chargerDonnees(dossier = "./data/") {
   const promesses = THEMES.map(async theme => {
-    const reponse = await fetch(`${dossier}${theme}.json`);
-    if (!reponse.ok) throw new Error(`Fichier introuvable : data/${theme}.json`);
-    return reponse.json();
+    const url = `${dossier}${theme}.json`;
+
+    try {
+      const reponse = await fetch(url);
+
+      if (!reponse.ok) {
+        throw new Error(`${url} → HTTP ${reponse.status}`);
+      }
+
+      return await reponse.json();
+    } catch (erreur) {
+      console.error("Erreur JSON :", url, erreur);
+      throw erreur;
+    }
   });
+
   return Promise.all(promesses);
 }
-
 /* Construit l'arbre complet ; auClic(item, feuille) est appelé sur une feuille */
 export function construireArbre(conteneur, themes, auClic) {
   themes.forEach((theme, i) => {

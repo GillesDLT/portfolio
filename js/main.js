@@ -26,13 +26,10 @@ async function initArbre() {
     console.error(erreur);
     statut.textContent = "Erreur de chargement";
     arbre.innerHTML = `
-      <li class="erreur">
-        Impossible de charger les fichiers JSON.<br>
-        Lance un serveur local : <code>python -m http.server 8000</code><br>
-        puis ouvre <code>http://localhost:8000</code>.
-      </li>`;
-  }
-}
+       <li class="erreur">
+        Erreur : ${erreur.message}
+       </li>`;
+}}
 
 /* ---------- 2. Visionneuse 3D (cube filaire + trièdre) ---------- */
 const canvas = document.querySelector("canvas");
