@@ -6,7 +6,7 @@
 const THEMES = ["parcours-academique", "certifications", "experience", "association", "projets"];
 
 /* Charge les 4 fichiers JSON en parallèle */
-export async function chargerDonnees(dossier = "data/") {
+export async function chargerDonnees(dossier = "/data/") {
   const promesses = THEMES.map(async theme => {
     const reponse = await fetch(`${dossier}${theme}.json`);
     if (!reponse.ok) throw new Error(`Fichier introuvable : data/${theme}.json`);
