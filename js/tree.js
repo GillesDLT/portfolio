@@ -25,9 +25,16 @@ export async function chargerDonnees(dossier = "data/") {
 
       return await reponse.json();
     } catch (erreur) {
-      console.error("Erreur JSON :", url, erreur);
-      throw erreur;
-    }
+        console.error("Erreur réelle :", erreur);
+
+        statut.textContent = "Erreur : " + erreur.message;
+
+        arbre.innerHTML = `
+            <li class="erreur">
+                Erreur : ${erreur.message}
+            </li>
+        `;
+     }
   });
 
   return Promise.all(promesses);
