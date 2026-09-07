@@ -12,7 +12,7 @@ const THEMES = [
 ];
 
 /* Charge les 4 fichiers JSON en parallèle */
-export async function chargerDonnees(dossier = "./data/") {
+export async function chargerDonnees(dossier = "data/") {
   const promesses = THEMES.map(async theme => {
     const url = `${dossier}${theme}.json`;
 
