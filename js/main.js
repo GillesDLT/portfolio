@@ -1,6 +1,7 @@
-
 /* =================================================================
    main.js — point d'entrée du portfolio
+   Charge les données, construit l'arbre, gère les liens profonds #id
+   et lance la visionneuse 3D (cube filaire + trièdre).
 ================================================================= */
 
 import { chargerDonnees, construireArbre } from "./tree.js";
@@ -10,36 +11,62 @@ const arbre  = document.getElementById("arbre");
 const statut = document.getElementById("status-gauche");
 
 /* ---------- 0. rapport d'erreurs dans la barre de statut ---------- */
-window.addEventListener("error", e => {
-  const statut = document.getElementById("status-gauche");
-  if (statut) statut.textContent = "Erreur JS : " + e.message;
+window.addEventListener("error", (e) => {
+  const s = document.getElementById("status-gauche");
+  if (s) s.textContent = "Erreur JS : " + e.message;
 });
 
-/* ---------- 1. Données + arbre ---------- */
+/* ---------- 1. Données + arbre + liens profonds (#id) ---------- */
+let themesChargees = [];   // ← DÉCLARÉ EN PREMIER : plus jamais de TDZ
+
+function chercherParId(noeuds, id) {
+  for (const n of noeuds ?? []) {
+    if (n.id === id) return n;
+    const r = chercherParId(n.items, id);
+    if (r) return r;
+  }
+  return null;
+}
+
+function ouvrirDepuisHash() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!id) return;
+  const item = chercherParId(themesChargees, id);
+  if (item) {
+    afficherFiche(item,
+      document.querySelector(`.leaf[data-id="${CSS.escape(id)}"]`));
+  }
+}
+
 async function initArbre() {
   try {
-    themesChargees = await chargerDonnees();
+    themesChargees = await chargerDonnees();      // l'affectation se fait après le fetch
     construireArbre(arbre, themesChargees, afficherFiche);
-    ouvrirDepuisHash();          // ← ouvre la fiche si l'URL contient #id
+    ouvrirDepuisHash();          // ouvre la fiche si l'URL contient #id
     statut.textContent = "Prêt";
   } catch (erreur) {
     console.error(erreur);
     statut.textContent = "Erreur de chargement";
     arbre.innerHTML = `
-       <li class="erreur">
-        Erreur : ${erreur.message}
-       </li>`;
-}}
+      <li class="erreur">
+        Impossible de charger les fichiers JSON.<br>
+        Lance un serveur local : <code>python -m http.server 8000</code><br>
+        puis ouvre <code>http://localhost:8000</code>.
+      </li>`;
+  }
+}
+
+window.addEventListener("hashchange", ouvrirDepuisHash);
 
 /* ---------- 2. Visionneuse 3D (cube filaire + trièdre) ---------- */
 const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
+const ctx = canvas?.getContext("2d") ?? null;   // ne casse plus le module sans <canvas>
 let W = 0, H = 0, t = 0;
 const REDUIT = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
 function redimensionner() {
-  const dpr = Math.min(devicePixelRatio || 1, 2);   // netteté sur écrans HiDPI
+  const dpr = Math.min(devicePixelRatio || 1, 2);
   const r = canvas.getBoundingClientRect();
   W = r.width; H = r.height;
   canvas.width = W * dpr; canvas.height = H * dpr;
@@ -61,7 +88,7 @@ function projeter([x, y, z]) {
   const z1 = -x * sy + z * cy;
   const y1 =  y * cx - z1 * sx;
   const z2 =  y * sx + z1 * cx;
-  const f = 5 / (5 + z2);                    // perspective (caméra en z = −5)
+  const f = 5 / (5 + z2);
   const s = Math.min(W, H) * 0.30;
   return { x: W/2 + x1 * f * s, y: H/2 - y1 * f * s, z: z2 };
 }
@@ -74,11 +101,10 @@ function dessinerScene() {
 
   const proj = SOMMETS.map(projeter);
 
-  // arêtes : du plus loin au plus proche + fondu de profondeur
   for (const { a, b, z } of ARETES
       .map(([a, b]) => ({ a, b, z: (proj[a].z + proj[b].z) / 2 }))
       .sort((p, q) => q.z - p.z)) {
-    const d = clamp((1.9 - z) / 3.8, 0, 1);  // 0 = loin, 1 = proche
+    const d = clamp((1.9 - z) / 3.8, 0, 1);
     ctx.strokeStyle = `rgba(96,165,250,${0.22 + d * 0.55})`;
     ctx.lineWidth = 1 + d * 1.5; ctx.lineCap = "round";
     ctx.beginPath();
@@ -86,7 +112,6 @@ function dessinerScene() {
     ctx.stroke();
   }
 
-  // sommets lumineux
   for (const p of proj) {
     const d = clamp((1.9 - p.z) / 3.8, 0, 1);
     ctx.fillStyle = `rgba(199,226,255,${0.35 + d * 0.6})`;
@@ -101,12 +126,12 @@ function dessinerAxes() {
   const axes = [["#e5484d", 34, 0, "X"], ["#46a758", 0, -34, "Y"], ["#3b82f6", -22, -22, "Z"]];
   ctx.font = "10px Tahoma";
   ctx.fillStyle = "rgba(215,230,244,.6)";
-  ctx.beginPath(); ctx.arc(ox, oy, 2.5, 0, Math.PI * 2); ctx.fill();   // origine
+  ctx.beginPath(); ctx.arc(ox, oy, 2.5, 0, Math.PI * 2); ctx.fill();
   for (const [c, dx, dy, label] of axes) {
     const ang = Math.atan2(dy, dx);
     ctx.strokeStyle = ctx.fillStyle = c; ctx.lineWidth = 1.6;
     ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox + dx, oy + dy); ctx.stroke();
-    ctx.beginPath();                                                   // pointe de flèche
+    ctx.beginPath();
     ctx.moveTo(ox + dx, oy + dy);
     ctx.lineTo(ox + dx - 7 * Math.cos(ang - 0.45), oy + dy - 7 * Math.sin(ang - 0.45));
     ctx.lineTo(ox + dx - 7 * Math.cos(ang + 0.45), oy + dy - 7 * Math.sin(ang + 0.45));
@@ -117,41 +142,16 @@ function dessinerAxes() {
 
 /* ---------- Lancement ---------- */
 function init3D() {
+  if (!ctx) { console.warn("Aucun <canvas> dans index.html — visionneuse 3D ignorée"); return; }
   redimensionner();
   new ResizeObserver(redimensionner).observe(canvas);
-  if (REDUIT) { t = 1.2; dessinerScene(); return; }  // image fixe si mouvement réduit
+  if (REDUIT) { t = 1.2; dessinerScene(); return; }
   (function boucle() {
     t += 0.016;
     dessinerScene();
-    requestAnimationFrame(boucle);  // se met en pause tout seul si l'onglet est masqué
+    requestAnimationFrame(boucle);
   })();
 }
-initArbre();  // ← builds the specification tree
-init3D();     // ← starts the 3D viewer
 
-let themesChargees = [];   // gardé au niveau module pour la navigation par hash
-
-/* ----- recherche récursive d'un item par id ----- */
-function chercherParId(noeuds, id) {
-  for (const n of noeuds ?? []) {
-    if (n.id === id) return n;
-    const r = chercherParId(n.items, id);
-    if (r) return r;
-  }
-  return null;
-}
-
-/* ----- ouvre la fiche indiquée dans l'URL (index.html#id) ----- */
-function ouvrirDepuisHash() {
-  const id = decodeURIComponent(location.hash.slice(1));
-  if (!id) return;
-  const item = chercherParId(themesChargees, id);
-  if (item) {
-    afficherFiche(item,
-      document.querySelector(`.leaf[data-id="${CSS.escape(id)}"]`));
-  }
-}
-
-/* à appeler juste après construireArbre(arbre, themes, afficherFiche) : */
-ouvrirDepuisHash();
-window.addEventListener("hashchange", ouvrirDepuisHash);
+initArbre();  // construit l'arbre de spécifications
+init3D();     // démarre la visionneuse 3D
