@@ -1,7 +1,6 @@
-import { buildCube } from "./cube.js";
+import { initCAD } from "./cube3d.js";
 import { buildTree, setActive } from "./tree.js";
 
-const cube = document.getElementById("cube");
 const tree = document.getElementById("tree");
 const space = document.getElementById("scrollSpace");
 const triadSvg = document.getElementById("triadSvg");
@@ -83,6 +82,12 @@ function updateTriad(rx, ry) {
 
 const triadParts = buildTriad(triadSvg);
 
+const cad = initCAD(
+  document.querySelector(".stage"),
+  document.getElementById("cad3d"),
+  document.getElementById("cad-annos")
+);
+
 /* ---- Cube ---- */
 function apply(p) {
   if (labels.length < 2) return;
@@ -92,7 +97,7 @@ function apply(p) {
   const a = ORIENT[i], b = ORIENT[i + 1];
   const rx = lerp(a.rx, b.rx, t);
   const ry = lerp(a.ry, b.ry, t);
-  cube.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+  cad.setPose(rx, ry);
   updateTriad(rx, ry);
   const cur = Math.max(0, Math.min(Math.round(p), n));
   const name = cur === 0 ? "ISO" : labels[cur].toUpperCase();
@@ -148,7 +153,6 @@ async function init() {
       <a href="${profil.linkedin}" target="_blank" rel="noopener">${ICONS.linkedin}<span>LinkedIn</span></a>
       <a href="${profil.github}"  target="_blank" rel="noopener">${ICONS.github}<span>GitHub</span></a>`;
 
-    buildCube(cube, data, textes);
     buildTree(tree, data, textes, scrollToPhase);
 
     labels = [data.home?.titre ?? "Home", ...data.sections.map(s => s.titre)];

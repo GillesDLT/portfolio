@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home — CubeCAD</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home — CubeCAD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  </head>
 <body>
 
 <main class="stage" id="stage">
@@ -22,7 +30,10 @@
 
   <div class="scene">
     <div class="grid-floor"></div>
-    <div class="cube" id="cube"></div>
+    <div class="stage">
+      <canvas id="cad3d"></canvas>
+      <div id="cad-annos"></div>   <!-- couche CSS2D des annotations FTA -->
+    </div>
   </div>
 
   <div class="viewlabel mono" id="hudPath">ISO</div>
