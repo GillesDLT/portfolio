@@ -63,27 +63,28 @@ export function cote(p1, p2, text, offset = new THREE.Vector3(0, 0, 0)) {
 
 export function buildFTA(scene) {
   const g = new THREE.Group();
-  // Datum A : face de pose (dessous semelle)
-  g.add(...datum("A", new THREE.Vector3(-30, 0, 20),
-    new THREE.Vector3(0, -14, 0)));
-  // Datum B : flanc droit
-  g.add(...datum("B", new THREE.Vector3(60, 6, 20),
-    new THREE.Vector3(16, 0, 0)));
-  // Position de l'alésage Ø40 H7
-  g.add(...toleranceFrame("⌖", ["Ø0.05", "A", "B"],
-    new THREE.Vector3(28, 42, -26), new THREE.Vector3(78, 66, -20)));
-  // Perpendicularité du montant / A
-  g.add(...toleranceFrame("⊥", ["0.02", "A"],
-    new THREE.Vector3(20, 72, -33), new THREE.Vector3(40, 86, -33)));
-  // Planéité face semelle
-  g.add(...toleranceFrame("⏥", ["0.05"],
-    new THREE.Vector3(-20, 12, 30), new THREE.Vector3(-58, 26, 30)));
-  // Cotes
-  g.add(...cote(new THREE.Vector3(-60, 0, 40), new THREE.Vector3(60, 0, 40),
-    "120 ±0.1", new THREE.Vector3(0, -8, 10)));
-  g.add(...cote(new THREE.Vector3(60, 0, -40), new THREE.Vector3(60, 0, 40),
-    "80", new THREE.Vector3(14, 0, 0)));
-  g.add(...cote(new THREE.Vector3(-50, 0, 30), new THREE.Vector3(50, 0, 30),
-    "4 × Ø9", new THREE.Vector3(0, -4, 22)));
+  const V = (x, y, z) => new THREE.Vector3(x, y, z);
+
+  // 1) Repère A : face d'appui de la bride (face avant du disque)
+  g.add(...datum("A", V(-46, 20, 26), V(-12, 0, 24)));
+
+  // 2) Repère B : alésage central Ø30 (au fond du contrelamage)
+  g.add(...datum("B", V(11, -11, 40), V(14, -14, 12)));
+
+  // 3) Batement circulaire du pilote Ø70 (ISO 1101)
+  g.add(...toleranceFrame("↗", ["0.05", "A", "B"],
+    V(0, 35, 33), V(40, 74, 44)));
+
+  // 4) Position du trou vertical du bloc
+  g.add(...toleranceFrame("⌖", ["Ø0.2", "A", "B"],
+    V(20, 42, -30), V(64, 86, -38)));
+
+  // 5) Position du trou latéral contrelamé
+  g.add(...toleranceFrame("⌖", ["Ø0.25", "A", "B"],
+    V(46, 24, -30), V(98, 44, -30)));
+
+  // 6) Ajustement ISO 286 de l'alésage
+  g.add(...cote(V(-15, 0, 40), V(15, 0, 40), "Ø30 H7", V(0, -36, 14)));
+
   scene.add(g);
 }
