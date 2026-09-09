@@ -4,22 +4,6 @@ const MAT = () => new THREE.MeshStandardMaterial({
   color: 0xc9d2da, metalness: 0.85, roughness: 0.32,
 });
 
-function plate(w, h, t, holes = [], bevel = 0.8) {
-  const s = new THREE.Shape();
-  s.moveTo(-w / 2, -h / 2); s.lineTo(w / 2, -h / 2);
-  s.lineTo(w / 2, h / 2);   s.lineTo(-w / 2, h / 2); s.closePath();
-  for (const { x, y, d } of holes) {
-    const p = new THREE.Path();
-    p.absarc(x, y, d / 2, 0, Math.PI * 2, true);
-    s.holes.push(p);
-  }
-  const g = new THREE.ExtrudeGeometry(s, {
-    depth: t, bevelEnabled: true, bevelThickness: bevel,
-    bevelSize: bevel, bevelSegments: 1, curveSegments: 48,
-  });
-  return g;
-}
-
 function annulus(dOut, dIn, t) {
   const s = new THREE.Shape();
   s.absarc(0, 0, dOut / 2, 0, Math.PI * 2, false);
@@ -32,52 +16,70 @@ function annulus(dOut, dIn, t) {
   });
 }
 
-function gusset(len, height, t) {
+// Plaquette à angles chanfreinés + alésage central
+function chamferedPlate(w, h, t, chamfer, holeR) {
   const s = new THREE.Shape();
-  s.moveTo(0, 0); s.lineTo(len, 0); s.lineTo(len, height); s.closePath();
+  s.moveTo(-w / 2 + chamfer, -h / 2);
+  s.lineTo(w / 2 - chamfer, -h / 2);
+  s.lineTo(w / 2, -h / 2 + chamfer);
+  s.lineTo(w / 2, h / 2 - chamfer);
+  s.lineTo(w / 2 - chamfer, h / 2);
+  s.lineTo(-w / 2 + chamfer, h / 2);
+  s.lineTo(-w / 2, h / 2 - chamfer);
+  s.lineTo(-w / 2, -h / 2 + chamfer);
+  s.closePath();
+  if (holeR) {
+    const p = new THREE.Path();
+    p.absarc(0, 0, holeR, 0, Math.PI * 2, true);
+    s.holes.push(p);
+  }
   return new THREE.ExtrudeGeometry(s, {
-    depth: t, bevelEnabled: true, bevelThickness: 0.5,
-    bevelSize: 0.5, bevelSegments: 1,
+    depth: t, bevelEnabled: true, bevelThickness: 0.7,
+    bevelSize: 0.7, bevelSegments: 1, curveSegments: 48,
   });
+}
+
+// Bouche de perçage simulée (disque noir affleurant — pas de CSG nécessaire)
+function holeMouth(r, x, y, z, nx, ny, nz, inner = 0) {
+  const n = new THREE.Vector3(nx, ny, nz);
+  const pos = new THREE.Vector3(x, y, z);
+  const disc = (rad, color, lift) => {
+    const m = new THREE.Mesh(
+      new THREE.CircleGeometry(rad, 48),
+      new THREE.MeshBasicMaterial({ color })
+    );
+    m.position.copy(pos).addScaledVector(n, lift);
+    m.lookAt(m.position.clone().add(n));
+    return m;
+  };
+  const discs = [disc(r, 0x0d1117, 0.12)];
+  if (inner) discs.push(disc(inner, 0x05080c, 0.3)); // fond du contrelamage
+  return discs;
 }
 
 export function buildPart() {
   const part = new THREE.Group();
 
-  // --- Semelle 120 × 80 × 12, 4 trous Ø9 ---
-  const base = new THREE.Mesh(
-    plate(120, 80, 12, [
-      { x: -50, y: -30, d: 9 }, { x: 50, y: -30, d: 9 },
-      { x: -50, y: 30, d: 9 },  { x: 50, y: 30, d: 9 },
-    ]), MAT());
-  base.rotation.x = -Math.PI / 2;           // extrusion vers +Y
-  base.position.y = 0;
-  base.userData.footprint = { x: 120, z: 80 };
-  part.add(base);
+  // --- Bride : disque Ø120 × 25, alésage traversant Ø30 ---
+  const flange = new THREE.Mesh(annulus(120, 30, 25), MAT());
+  part.add(flange);                                   // z 0 → 25
 
-  // --- montant 80 × 60 × 14 avec alésage Ø40 + 2 trous M8 ---
-  const up = new THREE.Mesh(
-    plate(80, 60, 14, [
-      { x: 0, y: 0, d: 40 },
-      { x: -30, y: -18, d: 9 }, { x: 30, y: -18, d: 9 },
-    ]), MAT());
-  up.position.set(0, 42, -33);              // centré sur l'axe de l'alésage
-  part.add(up);
+  // --- Pilote Ø70 : corps arrière ---
+  const pilotBody = new THREE.Mesh(annulus(70, 30, 14), MAT());
+  pilotBody.position.z = 25;                          // z 25 → 39
+  part.add(pilotBody);
 
-  // --- bossage Ø56, percé Ø40, dépassement 20 ---
-  const boss = new THREE.Mesh(annulus(56, 40, 20), MAT());
-  boss.position.set(0, 42, -26);            // affleure la face avant du montant
-  part.add(boss);
+  // --- Pilote : face avant, contrelamage Ø46 × 8 ---
+  const pilotFace = new THREE.Mesh(annulus(70, 46, 8), MAT());
+  pilotFace.position.z = 39;                          // z 39 → 47
+  part.add(pilotFace);
 
-  // --- 2 nervures triangulaires ---
-  for (const sx of [-1, 1]) {
-    const g = new THREE.Mesh(gusset(46, 44, 8), MAT());
-    g.rotation.y = Math.PI / 2;             // profil dans le plan ZY
-    g.position.set(sx * 44, 12, 6);
-    part.add(g);
-  }
+  // --- Bloc arrière 92 × 84 × 55, angles chanfreinés, alésage Ø30 ---
+  const block = new THREE.Mesh(chamferedPlate(92, 84, 55, 14, 15), MAT());
+  block.position.z = -55;                             // z -55 → 0
+  part.add(block);
 
-  // --- arêtes nettes, style "shaded with edges" ---
+  // --- Arêtes nettes, style "shaded with edges" ---
   const edgeMat = new THREE.LineBasicMaterial({ color: 0x0d1117 });
   for (const mesh of part.children.slice()) {
     const e = new THREE.LineSegments(
@@ -87,5 +89,14 @@ export function buildPart() {
     part.add(e);
     mesh.castShadow = true;
   }
+
+  // --- Bouches des perçages perpendiculaires à l'axe (simulées) ---
+  // Trou vertical Ø20 traversant le bloc
+  part.add(...holeMouth(10, 20, 42, -30, 0, 1, 0));    // entrée (face dessus)
+  part.add(...holeMouth(10, 20, -42, -30, 0, -1, 0));  // sortie (face dessous)
+  // Trou latéral Ø16 traversant, contrelamage Ø28 côté droit
+  part.add(...holeMouth(14, 46, 10, -30, 1, 0, 0, 8));
+  part.add(...holeMouth(8, -46, 10, -30, -1, 0, 0));   // sortie
+
   return part;
 }
