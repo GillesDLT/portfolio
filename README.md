@@ -1,10 +1,10 @@
 # Portfolio — Gilles, Ingénieur Génie Mécanique
 
-Portfolio web à l'interface inspirée de **CATIA V5** :
+Portfolio web à l'interface inspirée de **logiciel de CAO** :
 arbre de spécifications dépliable à gauche, fiche détaillée au clic,
 visionneuse 3D animée.
 
-![Preview for now](screenshots/V1.png)
+![Preview for now](screenshots/V3.png)
 
 ## Lancer en local
 

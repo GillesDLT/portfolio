@@ -1,93 +1,38 @@
+export function buildTree(treeEl, data, textes, onSection) {
+  const root = document.createElement("a");
+  root.className = "tree__root";
+  root.dataset.phase = "0";
+  root.textContent = data.home?.titre ?? "Home";
+  root.href = "#";
+  root.addEventListener("click", (e) => { e.preventDefault(); onSection(0); });
 
-/* =================================================================
-   tree.js — charge les JSON de data/ et construit l'arbre dépliable
-================================================================= */
+  const ul = document.createElement("ul");
+  data.sections.forEach((s, i) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.dataset.phase = String(i + 1);
+    a.textContent = s.titre;
+    a.href = "#";
+    a.addEventListener("click", (e) => { e.preventDefault(); onSection(i + 1); });
+    li.append(a);
 
-const THEMES = [
-  "parcours-academique",
-  "certifications",
-  "experience",
-  "association",
-  "projets"
-];
-
-/* Charge les 4 fichiers JSON en parallèle */
-export async function chargerDonnees(dossier = "data/") {
-  const promesses = THEMES.map(async theme => {
-    const url = `${dossier}${theme}.json`;
-
-    try {
-      const reponse = await fetch(url);
-
-      if (!reponse.ok) {
-        throw new Error(`${url} → HTTP ${reponse.status}`);
-      }
-
-      return await reponse.json();
-    } catch (erreur) {
-        console.error("Erreur réelle :", erreur);
-
-        statut.textContent = "Erreur : " + erreur.message;
-
-        arbre.innerHTML = `
-            <li class="erreur">
-                Erreur : ${erreur.message}
-            </li>
-        `;
-     }
+    const sub = document.createElement("ul");
+    for (const id of s.textes) {
+      const li2 = document.createElement("li");
+      const a2 = document.createElement("a");
+      a2.href = `pages/texte.html?id=${id}`;
+      a2.textContent = textes?.[String(id)]?.titre ?? `Texte ${id}`;
+      li2.append(a2);
+      sub.append(li2);
+    }
+    li.append(sub);
+    ul.append(li);
   });
-
-  return Promise.all(promesses);
-}
-/* Construit l'arbre complet ; auClic(item, feuille) est appelé sur une feuille */
-export function construireArbre(conteneur, themes, auClic) {
-  themes.forEach((theme, i) => {
-    conteneur.appendChild(creerNoeud(theme, auClic, i === 0));  // 1re branche ouverte
-  });
+  treeEl.append(root, ul);
 }
 
-/* Crée un nœud (branche si "items", sinon feuille cliquable) — récursif */
-function creerNoeud(item, auClic, ouverte = false) {
-  const li = document.createElement("li");
-  const aDesEnfants = Array.isArray(item.items) && item.items.length > 0;
-
-  if (aDesEnfants) {
-    /* ----- branche dépliable ----- */
-    li.className = "branch" + (ouverte ? " open" : "");
-
-    const node = document.createElement("span");
-    node.className = "node";
-    node.innerHTML = `<span class="toggle">${ouverte ? "−" : "+"}</span>` +
-                     `<span class="icon">${item.icone ?? "📁"}</span>${item.titre}`;
-
-    node.addEventListener("click", () => {
-      li.classList.toggle("open");
-      node.querySelector(".toggle").textContent =
-        li.classList.contains("open") ? "−" : "+";
-    });
-
-    const ul = document.createElement("ul");
-    item.items.forEach(enfant => ul.appendChild(creerNoeud(enfant, auClic)));
-
-    li.append(node, ul);
-
-  } else {
-    /* ----- feuille : un vrai lien → Ctrl+clic, clic milieu et menu
-   contextuel « Ouvrir dans un nouvel onglet/fenêtre » natifs ----- */
-    const leaf = document.createElement("a");
-    leaf.className = "leaf";
-    leaf.dataset.id = item.id ?? "";
-    leaf.href = item.id ? `#${encodeURIComponent(item.id)}` : "#";
-    leaf.innerHTML = `<span class="icon">${item.icone ?? "📄"}</span>${item.titre}`;
-    leaf.addEventListener("click", (e) => {
-        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) {
-            return;                 // ⚠️ ne PAS preventDefault : laisser le navigateur
-        }                         //    ouvrir un nouvel onglet/fenêtre
-        e.preventDefault();       // clic normal : fiche dans la page, URL inchangée
-        auClic(item, leaf);
-    });
-    li.appendChild(leaf);
-  }
-
-  return li;
+export function setActive(phase) {
+  document.querySelectorAll("#tree a").forEach((a) =>
+    a.classList.toggle("is-active", a.dataset.phase === String(phase))
+  );
 }

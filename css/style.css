@@ -1,89 +1,169 @@
-/* ===== Reset & layout global ===== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
+:root {
+  --tree-w: 280px;
+  --cube: min(340px, 58vmin);
+  --bg: #17191d; --bg-hi: #23262b;
+  --panel: #1c1f24; --panel-hi: #22262c;
+  --line: #2b2f36; --line-hi: #3a3f47;
+  --ink: #d5dbe2; --muted: #7d8590;
+  --accent: #58a6ff; --warn: #f0883e;
+  --mono: ui-monospace, "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+  --ax-x: #e9564f; --ax-y: #9dcf3f; --ax-z: #5586f5;
+}
+* { box-sizing: border-box; }
+html {
+  scroll-snap-type: y proximity;
+  background: var(--bg);          /* le canvas est peint en sombre, même en overscroll */
+  overscroll-behavior: none;      /* coupe l'élastique haut/bas */
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
-  font: 11px Tahoma, "Segoe UI", sans-serif;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #d4d0c8;               /* gris Windows classique */
-  color: #000;
-  user-select: none;
-  overflow: hidden;
+  margin: 0; color: var(--ink);
+  font: 14px/1.5 system-ui, -apple-system, sans-serif;
+  background: radial-gradient(1200px 800px at 55% 42%, var(--bg-hi), var(--bg)) fixed;
 }
 
-.main { flex: 1; display: flex; min-height: 0; }
-
-/* ===== Visionneuse 3D ===== */
-.viewport { flex: 1; position: relative; overflow: hidden;
-            background: linear-gradient(#8ca3b8 0%, #5d748a 45%, #2f3f4f 100%); }
-#scene { position: absolute; inset: 0; width: 100%; height: 100%; }
-
-.compass { position: absolute; top: 14px; right: 14px; width: 52px; height: 52px;
-           border-radius: 50%; background: radial-gradient(#fdfdfd, #b9c6d2);
-           border: 1px solid #666; display: flex; align-items: center;
-           justify-content: center; font-size: 14px; font-weight: bold; color: #234; }
-
-/* ===== Fiche de détail — grande fenêtre centrée sur la visionneuse ===== */
-.fiche {
-  position: absolute; left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(880px, calc(100% - 60px));
-  max-height: 84%;
-  overflow: auto;
-  font-size: 13px;                    /* le body est à 11px */
-  background: #f4f2ea;
-  border: 1px solid #808080;
-  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .28), 3px 3px 0 rgba(0,0,0,.25);
-  padding: 14px 18px;
-  user-select: text;
-  z-index: 5;
+/* ---------- Barre d'outils ---------- */
+.toolbar {
+  position: absolute; inset: 0 0 auto 0; height: 42px; z-index: 20;
+  display: flex; align-items: center; gap: 16px; padding: 0 14px;
+  background: var(--panel); border-bottom: 1px solid var(--line);
 }
-.fiche.hidden { display: none; }
-.fiche h2 { font-size: 17px; color: #003399; margin-bottom: 4px; padding-right: 28px; }
-.fiche .sous { color: #666; font-size: 12px; margin-bottom: 8px; }
+.toolbar__logo { font-weight: 700; letter-spacing: .04em; }
+.toolbar__logo b { color: var(--accent); }
+.toolbar__views { display: flex; gap: 6px; margin-left: 8px; }
+.toolbar__views button {
+  font: 600 12px var(--mono); letter-spacing: .08em;
+  padding: 5px 12px; color: var(--muted); cursor: pointer;
+  background: transparent; border: 1px solid var(--line); border-radius: 6px;
+}
+.toolbar__views button:hover { color: var(--ink); border-color: var(--line-hi); }
+.toolbar__views button.is-active { color: var(--warn); border-color: var(--warn); background: rgba(240,136,62,.08); }
+.toolbar__file { margin-left: auto; color: var(--muted); font-size: 12px; }
 
-/* Bouton fermer, façon Windows classique */
-.fiche-fermer {
-  position: absolute; top: 8px; right: 8px;
-  width: 24px; height: 22px;
-  background: #d4d0c8; border: 1px solid #808080;
-  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #7a7a7a;
-  font: bold 12px Tahoma, sans-serif; cursor: pointer;
+/* ---------- Arbre façon FeatureManager ---------- */
+.tree {
+  position: fixed; inset: 0 auto 0 0; width: var(--tree-w);
+  padding: 56px 12px 40px; overflow: auto; z-index: 10;
+  background: var(--panel); border-right: 1px solid var(--line);
+  font-size: 13px;
 }
-.fiche-fermer:hover { background: #e8f0fe; border-color: #316ac5; }
-.fiche-fermer:active { box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #7a7a7a; }
+.tree::before {
+  content: "ARBRE DE CONCEPTION";
+  display: block; margin-bottom: 10px;
+  font: 700 10px var(--mono); letter-spacing: .18em; color: var(--muted);
+}
+.tree a { display: block; padding: 4px 8px; border-radius: 6px; color: var(--muted); text-decoration: none; cursor: pointer; }
+.tree a:hover { color: var(--ink); background: var(--panel-hi); }
+.tree a.is-active { color: var(--warn); background: rgba(240,136,62,.08); }
+.tree .tree__root { font-weight: 700; color: var(--ink); }
+.tree .tree__root::before { content: "⌂  "; color: var(--muted); }
+.tree > ul > li > a::before { content: "▸  "; color: var(--muted); }
+.tree ul ul a::before { content: "◦  "; color: var(--line-hi); }
+.tree ul { list-style: none; margin: 4px 0; padding-left: 16px; border-left: 1px solid var(--line); }
 
-/* ===== Barre de statut ===== */
-.statusbar { display: flex; justify-content: space-between; padding: 3px 8px;
-             background: #d4d0c8; border-top: 1px solid #fff; font-size: 10px; }
+/* ---------- Viewport ---------- */
+.stage {
+  position: sticky; top: 0; height: 100vh;
+  margin-left: var(--tree-w);
+  overflow: hidden;                 /* rien ne dépasse ni ne pousse */
+  display: grid; place-items: center;
+}
+.scene { position: relative; width: var(--cube); height: var(--cube); perspective: 1100px; }
 
-/* ===== Parcours académique — timeline (adapted to CATIA theme) ===== */
-.timeline { position: relative; padding-left: 24px; margin: 10px 4px; }
-.timeline::before {
-  content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 0;
-  border-left: 1px dotted #888;            /* same dotted connector as the spec-tree [1] */
+/* Grille de sol (plan XY) */
+.grid-floor {
+  position: absolute;                 /* ← indispensable */
+  left: 50%; top: 50%;
+  width: calc(var(--cube) * 2.6);
+  height: calc(var(--cube) * 2.6);
+  transform: translate(-50%, -50%) translateY(calc(var(--cube) / 2 + 26px)) rotateX(90deg);
+  background:
+    linear-gradient(rgba(120,140,160,.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120,140,160,.16) 1px, transparent 1px);
+  background-size: calc(var(--cube) / 8) calc(var(--cube) / 8);
+  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent);
+          mask-image: radial-gradient(closest-side, #000 55%, transparent);
+  pointer-events: none;
 }
-.card {
-  position: relative; margin-bottom: 14px; padding: 8px 10px;
-  background: #f4f2ea; border: 1px solid #808080;
-  box-shadow: 3px 3px 0 rgba(0,0,0,.25);   /* same panel look as .fiche [2] */
-  user-select: text;                        /* body is user-select:none [2] */
+
+.cube { position: absolute; inset: 0; transform-style: preserve-3d; will-change: transform; }
+.face {
+  position: absolute; inset: 0; padding: 9%;
+  display: flex; flex-direction: column; gap: 12px;
+  background:
+    linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px),
+    rgba(26,29,34,.94);
+  background-size: 24px 24px, 24px 24px, auto;
+  border: 1px solid var(--line-hi); border-radius: 10px;
+  backface-visibility: hidden;
 }
-.card:hover { border-color: #316ac5; }      /* same hover/selection blue as the tree [1] */
-.card::before {                             /* node dot pinned to the timeline */
-  content: ""; position: absolute; left: -23px; top: 12px;
-  width: 9px; height: 9px; border-radius: 50%;
-  background: var(--c, #316ac5); border: 1px solid #444;
-  box-shadow: 0 0 0 3px #d4d0c8;            /* ring matches the Windows-grey bg [2] */
+.face h2 {
+  margin: 0; padding-bottom: 10px; border-bottom: 1px solid var(--line);
+  font: 700 12px var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--accent);
 }
-.card header { display: flex; align-items: baseline; gap: 6px; }
-.card h3 { font-size: 12px; color: #003399; }          /* like .fiche h2 [2] */
-.periode { margin-left: auto; font-size: 10px; color: #555; white-space: nowrap; }
-.badge { font-size: 9px; padding: 1px 6px; border: 1px solid; }
-.badge.encours { color: #003399; border-color: #316ac5; background: #e8f0fe; }
-.badge.obtenu  { color: #1a6b34; border-color: #46a758; background: #eaf6ec; }
-.card p { margin: 4px 0 0; }
-.tags { margin-top: 5px; }
-.tags span { font-size: 9px; padding: 1px 6px; margin-right: 4px; display: inline-block;
-  background: #e8f0fe; border: 1px solid #b7c9e5; color: #003399; }
+.face ul { list-style: none; margin: auto 0 0; padding: 0; display: grid; gap: 8px; }
+.face a {
+  display: block; padding: 10px 12px; border-radius: 6px; font-size: 13px;
+  border: 1px solid var(--line); background: rgba(255,255,255,.02);
+  color: var(--ink); text-decoration: none;
+}
+.face a::before { content: "▸ "; color: var(--muted); }
+.face a:hover { border-color: var(--accent); color: var(--accent); background: rgba(88,166,255,.06); }
+.face--ghost { background: rgba(26,29,34,.3); border-style: dashed; }
+
+/* Position des 6 faces */
+.face--s1     { transform: translateZ(calc(var(--cube) / 2)); }
+.face--s2     { transform: rotateY(180deg) translateZ(calc(var(--cube) / 2)); }
+.face--s3     { transform: rotateX(90deg)  translateZ(calc(var(--cube) / 2)); }
+.face--s4     { transform: rotateY(90deg)  translateZ(calc(var(--cube) / 2)); }
+.face--s5     { transform: rotateY(-90deg) translateZ(calc(var(--cube) / 2)); }
+.face--bottom { transform: rotateX(-90deg) translateZ(calc(var(--cube) / 2)); }
+
+/* ---------- Contacts ---------- */
+.contacts {
+  margin-left: auto;              /* pousse contacts + fichier à droite */
+  display: flex; align-items: center; gap: 14px;
+}
+.contacts + .toolbar__file { margin-left: 14px; }
+.contacts a { display: flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; }
+.contacts a:hover { color: var(--accent); }
+.contacts svg { width: 14px; height: 14px; flex: none; fill: currentColor; }
+.contacts a span { font-size: 12px; }
+
+/* ---------- Trièdre + libellé de vue ---------- */
+.viewlabel { position: absolute; top: 58px; right: 26px; font: 700 13px var(--mono); letter-spacing: .22em; color: var(--warn); }
+.triad { position: absolute; top: 54px; right: 22px; width: 104px; height: 104px; }
+.triad line { stroke-width: 2; stroke-linecap: round; }
+.triad .ax-x { stroke: var(--ax-x); }
+.triad .ax-y { stroke: var(--ax-y); }
+.triad .ax-z { stroke: var(--ax-z); }
+.triad .tip--pos { stroke: #14171b; stroke-width: 1; }
+.triad .tip--pos.ax-x { fill: var(--ax-x); }
+.triad .tip--pos.ax-y { fill: var(--ax-y); }
+.triad .tip--pos.ax-z { fill: var(--ax-z); }
+.triad .tip--neg { fill: #1c1f24; stroke-width: 1.5; }
+.triad .tip--neg.ax-x { stroke: var(--ax-x); }
+.triad .tip--neg.ax-y { stroke: var(--ax-y); }
+.triad .tip--neg.ax-z { stroke: var(--ax-z); }
+.triad .axlabel { font: 700 9px var(--mono); fill: #fff; text-anchor: middle; dominant-baseline: central; }
+.triad .center { fill: #9aa4ae; }
+
+/* ---------- Barre d'état ---------- */
+.statusbar {
+  position: absolute; inset: auto 0 0 0; height: 26px; z-index: 20;
+  display: flex; align-items: center; gap: 24px; padding: 0 14px;
+  background: var(--panel); border-top: 1px solid var(--line);
+  font-size: 11px; color: var(--muted);
+}
+.statusbar #sbPhase { color: var(--warn); letter-spacing: .1em; }
+.statusbar #sbRot { margin-left: auto; }
+.mono { font-family: var(--mono); }
+
+.scroll-space > .snap { height: 100vh; scroll-snap-align: start; }
+
+@media (max-width: 800px) {
+  .tree, .triad, .toolbar__file, #sbRot { display: none; }
+  .stage { margin-left: 0; }
+  .toolbar__views { overflow-x: auto; }
+}

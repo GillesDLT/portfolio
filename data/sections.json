@@ -1,0 +1,10 @@
+{
+  "home": { "titre": "Accueil" },
+  "sections": [
+    { "titre": "Expériences",  "textes": [1, 2, 3] },
+    { "titre": "Formations",   "textes": [4, 5, 6] },
+    { "titre": "Bénévolat",    "textes": [7, 8, 9] },
+    { "titre": "Certifications", "textes": [10, 11, 12] },
+    { "titre": "Freelance & Divers", "textes": [13, 14, 15] }
+  ]
+}

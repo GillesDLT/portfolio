@@ -1,157 +1,189 @@
-/* =================================================================
-   main.js — point d'entrée du portfolio
-   Charge les données, construit l'arbre, gère les liens profonds #id
-   et lance la visionneuse 3D (cube filaire + trièdre).
-================================================================= */
+import { buildCube } from "./cube.js";
+import { buildTree, setActive } from "./tree.js";
 
-import { chargerDonnees, construireArbre } from "./tree.js";
-import { afficherFiche } from "./content-loader.js";
+const cube = document.getElementById("cube");
+const tree = document.getElementById("tree");
+const space = document.getElementById("scrollSpace");
+const triadSvg = document.getElementById("triadSvg");
+const viewLabel = document.getElementById("hudPath");
+const viewButtons = document.getElementById("viewButtons");
+const sbPhase = document.getElementById("sbPhase");
+const sbRot = document.getElementById("sbRot");
 
-const arbre  = document.getElementById("arbre");
-const statut = document.getElementById("status-gauche");
+const ISO = { rx: -28, ry: -42 };
+let ORIENT = [ISO];
 
-/* ---------- 0. rapport d'erreurs dans la barre de statut ---------- */
-window.addEventListener("error", (e) => {
-  const s = document.getElementById("status-gauche");
-  if (s) s.textContent = "Erreur JS : " + e.message;
+let labels = [];
+let targetP = 0;
+let currentP = 0;
+
+const lerp = (a, b, t) => a + (b - a) * t;
+const rad = (d) => (d * Math.PI) / 180;
+
+/* ---- Trièdre façon Blender ---- */
+const SVG_NS = "http://www.w3.org/2000/svg";
+const AXES = [
+  { v: [1, 0, 0],  label: "X", cls: "x" },   // rouge  → droite
+  { v: [0, 0, 1],  label: "Y", cls: "y" },   // verte  → profondeur
+  { v: [0, -1, 0], label: "Z", cls: "z" },   // bleue  → haut
+  { v: [-1, 0, 0], label: null, cls: "x" },
+  { v: [0, 0, -1], label: null, cls: "y" },
+  { v: [0, 1, 0],  label: null, cls: "z" },
+];
+
+function buildTriad(svg) {
+  const parts = [];
+  for (const ax of AXES) {
+    const g = document.createElementNS(SVG_NS, "g");
+    const line = document.createElementNS(SVG_NS, "line");
+    line.setAttribute("class", `ax-${ax.cls}`);
+    const dot = document.createElementNS(SVG_NS, "circle");
+    dot.setAttribute("class", ax.label ? `tip tip--pos ax-${ax.cls}` : `tip tip--neg ax-${ax.cls}`);
+    g.append(line, dot);
+    let t = null;
+    if (ax.label) {
+      t = document.createElementNS(SVG_NS, "text");
+      t.setAttribute("class", "axlabel");
+      t.textContent = ax.label;
+      g.append(t);
+    }
+    svg.append(g);
+    parts.push({ ax, line, dot, t });
+  }
+  const c = document.createElementNS(SVG_NS, "circle");
+  c.setAttribute("class", "center");
+  c.setAttribute("cx", 50); c.setAttribute("cy", 50); c.setAttribute("r", 2.5);
+  svg.append(c);
+  return parts;
+}
+
+function rotVec(rx, ry, [x, y, z]) {
+  const b = rad(ry), a = rad(rx);
+  const x1 = x * Math.cos(b) + z * Math.sin(b);
+  const z1 = -x * Math.sin(b) + z * Math.cos(b);
+  const y2 = y * Math.cos(a) - z1 * Math.sin(a);
+  const z2 = y * Math.sin(a) + z1 * Math.cos(a);
+  return [x1, y2, z2];
+}
+
+function updateTriad(rx, ry) {
+  const L = 36;
+  for (const { ax, line, dot, t } of triadParts) {
+    const [x, y, z] = rotVec(rx, ry, ax.v);
+    const px = 50 + x * L, py = 50 + y * L;
+    const depth = (z + 1) / 2;             // 1 = vers nous, 0 = opposé
+    line.setAttribute("x1", 50); line.setAttribute("y1", 50);
+    line.setAttribute("x2", px.toFixed(1)); line.setAttribute("y2", py.toFixed(1));
+    dot.setAttribute("cx", px.toFixed(1)); dot.setAttribute("cy", py.toFixed(1));
+    dot.setAttribute("r", ((ax.label ? 7 : 4) * (0.8 + 0.2 * depth)).toFixed(1));
+    if (t) { t.setAttribute("x", px.toFixed(1)); t.setAttribute("y", py.toFixed(1)); }
+    line.parentNode.setAttribute("opacity", (0.35 + 0.65 * depth).toFixed(2));
+  }
+}
+
+const triadParts = buildTriad(triadSvg);
+
+/* ---- Cube ---- */
+function apply(p) {
+  if (labels.length < 2) return;
+  const n = labels.length - 1;
+  const i = Math.min(Math.max(Math.floor(p), 0), n - 1);
+  const t = Math.min(Math.max(p - i, 0), 1);
+  const a = ORIENT[i], b = ORIENT[i + 1];
+  const rx = lerp(a.rx, b.rx, t);
+  const ry = lerp(a.ry, b.ry, t);
+  cube.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+  updateTriad(rx, ry);
+  const cur = Math.max(0, Math.min(Math.round(p), n));
+  const name = cur === 0 ? "ISO" : labels[cur].toUpperCase();
+  viewLabel.textContent = name;
+  sbPhase.textContent = name;
+  sbRot.textContent =
+    `RX ${rx >= 0 ? "+" : "−"}${Math.abs(rx).toFixed(1)}°  RY ${ry >= 0 ? "+" : "−"}${Math.abs(ry).toFixed(1)}°`;
+  setActive(cur);
+  [...viewButtons.children].forEach((btn, k) => btn.classList.toggle("is-active", k === cur));
+}
+
+function frame() {
+  currentP += (targetP - currentP) * 0.16;
+  if (Math.abs(targetP - currentP) < 0.0005) currentP = targetP;
+  apply(currentP);
+  requestAnimationFrame(frame);
+}
+
+function onScroll() {
+  const m = document.documentElement.scrollHeight - window.innerHeight;
+  if (m > 0) targetP = (window.scrollY / m) * (labels.length - 1);
+}
+
+function scrollToPhase(i) {
+  const m = document.documentElement.scrollHeight - window.innerHeight;
+  window.scrollTo({ top: (i / (labels.length - 1)) * m, behavior: "smooth" });
+}
+
+addEventListener("keydown", (e) => {
+  if (!labels.length) return;
+  const cur = Math.round(targetP);
+  if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); scrollToPhase(Math.min(cur + 1, labels.length - 1)); }
+  if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   { e.preventDefault(); scrollToPhase(Math.max(cur - 1, 0)); }
 });
 
-/* ---------- 1. Données + arbre + liens profonds (#id) ---------- */
-let themesChargees = [];   // ← DÉCLARÉ EN PREMIER : plus jamais de TDZ
-
-function chercherParId(noeuds, id) {
-  for (const n of noeuds ?? []) {
-    if (n.id === id) return n;
-    const r = chercherParId(n.items, id);
-    if (r) return r;
-  }
-  return null;
-}
-
-function ouvrirDepuisHash() {
-  const id = decodeURIComponent(location.hash.slice(1));
-  if (!id) return;
-  const item = chercherParId(themesChargees, id);
-  if (item) {
-    afficherFiche(item,
-      document.querySelector(`.leaf[data-id="${CSS.escape(id)}"]`));
-  }
-}
-
-async function initArbre() {
+async function init() {
   try {
-    themesChargees = await chargerDonnees();      // l'affectation se fait après le fetch
-    construireArbre(arbre, themesChargees, afficherFiche);
-    ouvrirDepuisHash();          // ouvre la fiche si l'URL contient #id
-    statut.textContent = "Prêt";
-  } catch (erreur) {
-    console.error(erreur);
-    statut.textContent = "Erreur de chargement";
-    arbre.innerHTML = `
-      <li class="erreur">
-        Impossible de charger les fichiers JSON.<br>
-        Lance un serveur local : <code>python -m http.server 8000</code><br>
-        puis ouvre <code>http://localhost:8000</code>.
-      </li>`;
+    const [resS, resT] = await Promise.all([fetch("data/sections.json"), fetch("data/textes.json")]);
+    const data = await resS.json();
+    const textes = await resT.json();
+    const resP = await fetch("data/profil.json");
+    const profil = await resP.json();
+
+    const ICONS = {
+      mail: '<svg viewBox="0 0 16 16"><path d="M0 3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V3Zm1.5.8L8 8.3l6.5-4.5V3.5l-6.5 4.5L1.5 3.5v.3Z"/></svg>',
+      linkedin: '<svg viewBox="0 0 16 16"><path d="M3.4 5.7H.6V15h2.8V5.7ZM2 1a1.7 1.7 0 1 0 0 3.4A1.7 1.7 0 0 0 2 1Zm5.4 4.7H4.8V15h2.7v-4.9c0-2 2.6-2.2 2.6 0V15h2.7V9.2c0-4.3-4.4-4.1-5.4-2V5.7Z"/></svg>',
+      github: '<svg viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.5 15.6c.4 0 .5-.2.5-.4v-1.4c-2 .4-2.5-.9-2.5-.9-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8 0 1.2.8 1.2.8.7 1.3 2 .9 2.4.7 0-.6.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1 0-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.4 7.4 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.5 1.1.1 1.9.1 2.1.5.5.8 1.2.8 2.1 0 3.1-1.9 3.8-3.6 4 .3.2.6.7.6 1.5v2.2c0 .2.1.5.5.4A8 8 0 0 0 8 0Z"/></svg>'
+    };
+
+    const contacts = document.getElementById("contacts");
+    contacts.innerHTML = `
+      <a href="mailto:${profil.mail}">${ICONS.mail}<span>${profil.mail}</span></a>
+      <a href="${profil.linkedin}" target="_blank" rel="noopener">${ICONS.linkedin}<span>LinkedIn</span></a>
+      <a href="${profil.github}"  target="_blank" rel="noopener">${ICONS.github}<span>GitHub</span></a>`;
+
+    buildCube(cube, data, textes);
+    buildTree(tree, data, textes, scrollToPhase);
+
+    labels = [data.home?.titre ?? "Home", ...data.sections.map(s => s.titre)];
+    // 5 sections : S1..S4 en rotation autour de Y, S5 ramenée du dessus
+    // Ordre : ISO → devant → derrière → dessus → droite → gauche
+    ORIENT = [
+      ISO,               // vue isométrique
+      { rx: 0,   ry: 0   },   // S1 : devant
+      { rx: 0,   ry: 180 },   // S2 : derrière (demi-tour)
+      { rx: -90, ry: 180 },   // S3 : dessus (bascule verticale)
+      { rx: 0,   ry: 270 },   // S4 : droite (ry 270 ≡ -90)
+      { rx: 0,   ry: 450 },   // S5 : gauche (ry 450 ≡ 90)
+    ];
+    labels.forEach((l, i) => {
+      const b = document.createElement("button");
+      b.textContent = i === 0 ? "ISO" : `S${i}`;
+      b.title = l;
+      b.addEventListener("click", () => scrollToPhase(i));
+      viewButtons.append(b);
+    });
+
+    space.style.height = `${labels.length * 100}vh`;
+    for (let i = 0; i < labels.length; i++) {
+      const snap = document.createElement("div");
+      snap.className = "snap";
+      space.append(snap);
+    }
+
+    addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    frame();
+  } catch (err) {
+    viewLabel.textContent = "ERREUR";
+    sbPhase.textContent = "ÉCHEC DU CHARGEMENT";
+    console.error(err);
   }
 }
-
-window.addEventListener("hashchange", ouvrirDepuisHash);
-
-/* ---------- 2. Visionneuse 3D (cube filaire + trièdre) ---------- */
-const canvas = document.querySelector("canvas");
-const ctx = canvas?.getContext("2d") ?? null;   // ne casse plus le module sans <canvas>
-let W = 0, H = 0, t = 0;
-const REDUIT = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-
-function redimensionner() {
-  const dpr = Math.min(devicePixelRatio || 1, 2);
-  const r = canvas.getBoundingClientRect();
-  W = r.width; H = r.height;
-  canvas.width = W * dpr; canvas.height = H * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-}
-
-const SOMMETS = [
-  [-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],
-  [-1,-1, 1],[1,-1, 1],[1,1, 1],[-1,1, 1],
-];
-const ARETES = [
-  [0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7],
-];
-
-function projeter([x, y, z]) {
-  const ay = 0.7 + t * 0.15, ax = 0.45 + Math.sin(t * 0.4) * 0.12;
-  const cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax);
-  const x1 =  x * cy + z * sy;
-  const z1 = -x * sy + z * cy;
-  const y1 =  y * cx - z1 * sx;
-  const z2 =  y * sx + z1 * cx;
-  const f = 5 / (5 + z2);
-  const s = Math.min(W, H) * 0.30;
-  return { x: W/2 + x1 * f * s, y: H/2 - y1 * f * s, z: z2 };
-}
-
-function dessinerScene() {
-  ctx.clearRect(0, 0, W, H);
-  const g = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H)/1.4);
-  g.addColorStop(0, "rgba(59,130,246,.10)"); g.addColorStop(1, "rgba(59,130,246,0)");
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-
-  const proj = SOMMETS.map(projeter);
-
-  for (const { a, b, z } of ARETES
-      .map(([a, b]) => ({ a, b, z: (proj[a].z + proj[b].z) / 2 }))
-      .sort((p, q) => q.z - p.z)) {
-    const d = clamp((1.9 - z) / 3.8, 0, 1);
-    ctx.strokeStyle = `rgba(96,165,250,${0.22 + d * 0.55})`;
-    ctx.lineWidth = 1 + d * 1.5; ctx.lineCap = "round";
-    ctx.beginPath();
-    ctx.moveTo(proj[a].x, proj[a].y); ctx.lineTo(proj[b].x, proj[b].y);
-    ctx.stroke();
-  }
-
-  for (const p of proj) {
-    const d = clamp((1.9 - p.z) / 3.8, 0, 1);
-    ctx.fillStyle = `rgba(199,226,255,${0.35 + d * 0.6})`;
-    ctx.beginPath(); ctx.arc(p.x, p.y, 1.5 + d * 2, 0, Math.PI * 2); ctx.fill();
-  }
-
-  dessinerAxes();
-}
-
-function dessinerAxes() {
-  const ox = 42, oy = H - 42;
-  const axes = [["#e5484d", 34, 0, "X"], ["#46a758", 0, -34, "Y"], ["#3b82f6", -22, -22, "Z"]];
-  ctx.font = "10px Tahoma";
-  ctx.fillStyle = "rgba(215,230,244,.6)";
-  ctx.beginPath(); ctx.arc(ox, oy, 2.5, 0, Math.PI * 2); ctx.fill();
-  for (const [c, dx, dy, label] of axes) {
-    const ang = Math.atan2(dy, dx);
-    ctx.strokeStyle = ctx.fillStyle = c; ctx.lineWidth = 1.6;
-    ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox + dx, oy + dy); ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(ox + dx, oy + dy);
-    ctx.lineTo(ox + dx - 7 * Math.cos(ang - 0.45), oy + dy - 7 * Math.sin(ang - 0.45));
-    ctx.lineTo(ox + dx - 7 * Math.cos(ang + 0.45), oy + dy - 7 * Math.sin(ang + 0.45));
-    ctx.closePath(); ctx.fill();
-    ctx.fillText(label, ox + dx * 1.25, oy + dy * 1.25);
-  }
-}
-
-/* ---------- Lancement ---------- */
-function init3D() {
-  if (!ctx) { console.warn("Aucun <canvas> dans index.html — visionneuse 3D ignorée"); return; }
-  redimensionner();
-  new ResizeObserver(redimensionner).observe(canvas);
-  if (REDUIT) { t = 1.2; dessinerScene(); return; }
-  (function boucle() {
-    t += 0.016;
-    dessinerScene();
-    requestAnimationFrame(boucle);
-  })();
-}
-
-initArbre();  // construit l'arbre de spécifications
-init3D();     // démarre la visionneuse 3D
+init();

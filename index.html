@@ -1,55 +1,47 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gilles — Ingénieur Génie Mécanique</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/toolbar.css">
-  <link rel="stylesheet" href="css/tree.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home — CubeCAD</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ===== Barre de menus ===== -->
-  <nav class="menubar">
-    <span>Fichier</span><span>Édition</span><span>Affichage</span>
-    <span>Insérer</span><span>Outils</span><span>Fenêtre</span><span>Aide</span>
-  </nav>
+<main class="stage" id="stage">
 
-  <!-- ===== Barre d'outils ===== -->
-  <div class="toolbar">
-    <button title="Nouveau">🆕</button>
-    <button title="Ouvrir">📂</button>
-    <button title="Imprimer">🖨️</button>
-    <button title="Arbre">🌳</button>
-    <button title="Ajuster tout">🔍</button>
+  <!-- Barre d'outils -->
+<header class="toolbar">
+  <span class="toolbar__logo">▣ <b>GDLT</b></span>
+  <nav class="toolbar__views" id="viewButtons"></nav>
+  <div class="contacts mono" id="contacts"></div>
+  <span class="toolbar__file mono">accueil.htm</span>
+</header>
+
+  <div class="contacts mono" id="contacts"></div>
+
+  <div class="scene">
+    <div class="grid-floor"></div>
+    <div class="cube" id="cube"></div>
   </div>
 
-  <div class="main">
+  <div class="viewlabel mono" id="hudPath">ISO</div>
 
-    <!-- ===== Arbre de spécifications ===== -->
-    <aside class="spec-tree">
-      <div class="spec-title">Arbre de spécifications</div>
-      <ul class="tree" id="arbre">
-        <!-- rempli par js/tree.js à partir des fichiers JSON -->
-      </ul>
-    </aside>
+  <!-- Trièdre -->
+<svg class="triad" id="triadSvg" viewBox="0 0 100 100" aria-hidden="true"></svg>
 
-    <!-- ===== Visionneuse 3D ===== -->
-    <section class="viewport">
-      <canvas id="scene"></canvas>
-      <div class="compass">V5</div>
-      <div id="fiche" class="fiche hidden"></div>
-    </section>
-  </div>
-
-  <!-- ===== Barre de statut ===== -->
-  <footer class="statusbar">
-    <span id="status-gauche">Chargement…</span>
-    <span>Gilles — Portfolio Ingénieur</span>
-    <span>© 2026</span>
+  <!-- Barre d'état -->
+  <footer class="statusbar mono">
+    <span id="sbPhase">ISO</span>
+    <span id="sbRot">RX +0.0°  RY +0.0°</span>
+    <span>←/→ : vues · molette : rotation</span>
   </footer>
 
-  <script type="module" src="js/main.js"></script>
+</main>
+
+<nav class="tree" id="tree" aria-label="Arbre de conception"></nav>
+<div class="scroll-space" id="scrollSpace"></div>
+
+<script type="module" src="js/main.js"></script>
 </body>
 </html>
