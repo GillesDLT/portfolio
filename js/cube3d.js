@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { CSS2DRenderer } from "three/addons/renderers/CSS2DRenderer.js";
+import { CSS3DRenderer } from "three/addons/renderers/CSS3DRenderer.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { buildPart } from "./part.js";
 import { buildFTA } from "./fta.js";
@@ -19,10 +19,10 @@ export function initCAD(container, canvas, annoEl) {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
-  const css2d = new CSS2DRenderer({ element: annoEl });
-  css2d.domElement.style.position = "absolute";
-  css2d.domElement.style.inset = "0";
-  css2d.domElement.style.pointerEvents = "none";
+  const css3d = new CSS3DRenderer({ element: annoEl });
+  css3d.domElement.style.position = "absolute";
+  css3d.domElement.style.inset = "0";
+  css3d.domElement.style.pointerEvents = "none";
 
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
@@ -44,9 +44,40 @@ export function initCAD(container, canvas, annoEl) {
   sol.receiveShadow = true;
   scene.add(sol);
 
-  scene.add(buildPart());
-  buildFTA(scene);
+  const modele = new THREE.Group();
+  modele.add(buildPart());
+  scene.add(modele);
 
+  const annoPlanes = [null, null, null, null];
+  // À aligner sur tes ORIENT : ry=0 → caméra sur +Z (face), ry=−90 → +X (côté), rx≈−85 → au-dessus
+  const PLANE_ROT = {
+    1: [0, 0, 0],             // S1 face    (caméra +Z)
+    2: [0, Math.PI / 2, 0],   // S2 droite  (+X)
+    3: [0, Math.PI, 0],       // S3 arrière (−Z)
+    4: [0, -Math.PI / 2, 0],  // S4 gauche  (−X)
+    5: [-Math.PI / 2, 0, 0],  // S5 dessus  (+Y)
+  };
+  function getAnnoPlane(i) {
+    if (!PLANE_ROT[i]) return null;      // section sans plan (ex. ISO)
+    if (!annoPlanes[i]) {
+      const g = new THREE.Group();
+      g.rotation.set(...PLANE_ROT[i]);
+      g.visible = false;
+      modele.add(g);
+      annoPlanes[i] = g;
+    }
+    return annoPlanes[i];
+  }
+  function setSection(cur) {
+    annoPlanes.forEach((pl, i) => {
+      if (!pl) return;
+      const on = i === cur;                    // 0 = ISO → tout caché
+      pl.visible = on;                         // lignes/triangles THREE
+      pl.traverse((o) => { if (o.isCSS3DObject) o.visible = on; });
+    });
+  }
+
+buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
   let rx = -28, ry = -42;
   let azOff = 0, elOff = 0;
 
@@ -75,7 +106,7 @@ export function initCAD(container, canvas, annoEl) {
     vw = Math.max(2, Math.round(r.width) || container.clientWidth || innerWidth);
     vh = Math.max(2, Math.round(r.height) || container.clientHeight || innerHeight);
     renderer.setSize(vw, vh, false);
-    css2d.setSize(vw, vh);
+    css3d.setSize(vw, vh);
   }
   addEventListener("resize", resize);
   resize();
@@ -97,8 +128,8 @@ export function initCAD(container, canvas, annoEl) {
     camera.bottom = -half;
     camera.updateProjectionMatrix();
     renderer.render(scene, camera);
-    css2d.render(scene, camera);
+    css3d.render(scene, camera);
   })();
 
-  return { setPose };
+    return { setPose, setSection };
 }

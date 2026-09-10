@@ -188,6 +188,7 @@ function apply(p) {
   cad.setPose(rx, ry);
   updateTriad(rx, ry);
   const cur = Math.max(0, Math.min(Math.round(p), n));
+  cad.setSection(cur);   // ← active le plan de datum de la section courante
   showSectionTexts(cur);
   const name = cur === 0 ? "ISO" : labels[cur].toUpperCase();
   viewLabel.textContent = name;

@@ -1,12 +1,8 @@
 import * as THREE from "three";
-import { CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
+import { CSS3DObject } from "three/addons/renderers/CSS3DRenderer.js";
 
-const lineMat = () => new THREE.LineBasicMaterial({
-  color: 0xdfe7ee, transparent: true, opacity: 0.85, depthTest: false,
-});
-const arrowMat = () => new THREE.MeshBasicMaterial({
-  color: 0xdfe7ee, depthTest: false,
-});
+const lineMat = () => new THREE.LineBasicMaterial({ color: 0xdfe7ee, transparent: true, opacity: 0.85, depthTest: false });
+const flatMat = () => new THREE.MeshBasicMaterial({ color: 0xdfe7ee, side: THREE.DoubleSide, depthTest: false });
 
 /* ---- Specs cliquables → navigation vers la section ---- */
 let sectionsCache = null;
@@ -27,7 +23,7 @@ async function sectionTitle(i) {
 
 function makeClickable(el, section) {
   if (!section) return;
-  el.style.pointerEvents = "auto";   // l'annoEl parent est en pointer-events:none [1]
+  el.style.pointerEvents = "auto";   // l'annoEl parent est en pointer-events:none
   el.style.cursor = "pointer";
   const sub = document.createElement("div");
   sub.className = "gdnt-link";
@@ -40,8 +36,54 @@ function makeClickable(el, section) {
   });
 }
 
-// Cadre de tolérance : [symbole, valeurs..., datums]
-export function toleranceFrame(symbol, values, anchor, labelPos) {
+/* ---- registre des plans de datum (rempli par buildFTA(getPlane)) ---- */
+const planes = [null, null, null, null];
+
+/* monde → (u,v) local du plan de la section i
+   S1 face : u=x, v=y | S2 côté : u=−z, v=y | S3 dessus : u=x, v=−z */
+function toUV(i, [x, y, z]) {
+  return i === 2 ? [-z, y]     // S2 droite
+       : i === 3 ? [-x, y]     // S3 arrière
+       : i === 4 ? [z, y]      // S4 gauche
+       : i === 5 ? [x, -z]     // S5 dessus
+       : [x, y];               // S1 face
+}
+
+const LABEL_SCALE = 0.5; // px CSS → unités monde ; à régler une fois
+
+function putLabel(el, i, u, v, section, z = 1) {
+  const o = new CSS3DObject(el);
+  o.position.set(u, v, z);
+  o.scale.setScalar(LABEL_SCALE);
+  planes[i].add(o);
+  makeClickable(el, section);
+  return o;
+}
+
+function flatPoly(i, pts, z = 0.2) {
+  const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(
+    pts.map(([u, v]) => new THREE.Vector3(u, v, z))), lineMat());
+  l.renderOrder = 10;
+  planes[i].add(l);
+}
+
+function flatTri(i, u, v, du, dv, w = 7, h = 8) { // flèche/triangle À PLAT
+  const len = Math.hypot(du, dv) || 1;
+  const dx = du / len, dy = dv / len;
+  const bx = u - dx * h, by = v - dy * h, px = -dy * w / 2, py = dx * w / 2;
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(
+    [u, v, 0.3, bx + px, by + py, 0.3, bx - px, by - py, 0.3], 3));
+  const m = new THREE.Mesh(g, flatMat());
+  m.renderOrder = 10;
+  planes[i].add(m);
+}
+
+/* Cadre de tolérance : entité (ancrage 3D projeté) → label posé sur le plan */
+export function toleranceFrame(symbol, values, i, anchor, labelUV, section) {
+  const [au, av] = toUV(i, anchor), [lu, lv] = labelUV;
+  flatPoly(i, [[au, av], [lu, lv]]);
+  flatTri(i, au, av, lu - au, lv - av);
   const el = document.createElement("div");
   el.className = "gdnt";
   const sym = document.createElement("span");
@@ -52,57 +94,41 @@ export function toleranceFrame(symbol, values, anchor, labelPos) {
     c.className = "gdnt-cell"; c.textContent = v;
     el.append(c);
   }
-  const obj = new CSS2DObject(el);
-  obj.position.copy(labelPos);
-  const geo = new THREE.BufferGeometry().setFromPoints([anchor, labelPos]);
-  const line = new THREE.Line(geo, lineMat());
-  const cone = new THREE.Mesh(new THREE.ConeGeometry(1.6, 7, 12), arrowMat());
-  cone.position.copy(anchor);
-  cone.lookAt(labelPos); cone.rotateX(Math.PI / 2);
-  line.renderOrder = cone.renderOrder = 10;
-  return [line, cone, obj];
+  return putLabel(el, i, lu, lv, section);
 }
 
-// Datum : triangle plein + cadre lettré
-export function datum(letter, anchor, offset) {
-  const tri = new THREE.Mesh(
-    new THREE.ConeGeometry(3.5, 8, 3), arrowMat());
-  const p = anchor.clone().add(offset);
-  tri.position.copy(p);
-  tri.lookAt(anchor); tri.rotateX(-Math.PI / 2);
+/* Datum : triangle à plat + leader + cadre lettré, tout sur le plan */
+export function datum(letter, i, anchor, offset, section) {
+  const [au, av] = toUV(i, anchor);
+  const [bu, bv] = toUV(i, anchor.map((c, k) => c + offset[k]));
+  flatTri(i, au, av, bu - au, bv - av);
+  flatPoly(i, [[au, av], [bu, bv]]);
   const el = document.createElement("div");
   el.className = "gdnt-datum"; el.textContent = letter;
-  const box = new CSS2DObject(el);
-  box.position.copy(p.clone().add(offset));
-  const line = new THREE.Line(new THREE.BufferGeometry()
-    .setFromPoints([p, p.clone().add(offset)]), lineMat());
-  return [tri, line, box];
+  return putLabel(el, i, bu, bv, section);
 }
 
-// Cote : ligne + flèches + texte
-export function cote(p1, p2, text, offset = new THREE.Vector3(0, 0, 0)) {
-  const a = p1.clone().add(offset), b = p2.clone().add(offset);
-  const pts = [a, b, p1, a, p2, b].map(v => v.clone());
-  const geo = new THREE.BufferGeometry().setFromPoints(
-    [a, b, p1, a, p2, b]);
-  const line = new THREE.LineSegments(geo, lineMat());
+/* Cote : lignes de rappel + ligne de cote + flèches + texte, sur le plan */
+export function cote(text, i, p1, p2, off = -30, section) {
+  const [u1, v1] = toUV(i, p1), [u2, v2] = toUV(i, p2);
+  const alongU = Math.abs(u2 - u1) >= Math.abs(v2 - v1);
+  const s = Math.sign(off) || 1, d = Math.abs(off);
+  const A = [u1 + (alongU ? 0 : s) * d, v1 + (alongU ? s : 0) * d];
+  const B = [u2 + (alongU ? 0 : s) * d, v2 + (alongU ? s : 0) * d];
+  flatPoly(i, [[u1, v1], A]); flatPoly(i, [[u2, v2], B]); flatPoly(i, [A, B]);
+  flatTri(i, A[0], A[1], B[0] - A[0], B[1] - A[1]);
+  flatTri(i, B[0], B[1], A[0] - B[0], A[1] - B[1]);
   const el = document.createElement("div");
   el.className = "gdnt-cote"; el.textContent = text;
-  const label = new CSS2DObject(el);
-  label.position.copy(a.clone().add(b).multiplyScalar(0.5));
-  return [line, label];
+  return putLabel(el, i, (A[0] + B[0]) / 2 + (alongU ? 0 : 12 * s),
+                        (A[1] + B[1]) / 2 + (alongU ? 12 * s : 0), section);
 }
 
-export function buildFTA(scene) {
-  const g = new THREE.Group();
-  const V = (x, y, z) => new THREE.Vector3(x, y, z);
-
-  g.add(...datum("A", V(-46, 20, 26), V(-12, 0, 24), 1));
-  g.add(...datum("B", V(11, -11, 40), V(14, -14, 12), 1));
-  g.add(...toleranceFrame("↗", ["0.05", "A", "B"], V(0, 35, 33), V(40, 74, 44), 2));
-  g.add(...toleranceFrame("⌖", ["Ø0.2", "A", "B"], V(20, 42, -30), V(64, 86, -38), 2));
-  g.add(...toleranceFrame("⌖", ["Ø0.25", "A", "B"], V(46, 24, -30), V(98, 44, -30), 3));
-  g.add(...cote(V(-15, 0, 40), V(15, 0, 40), "Ø30 H7", V(0, -36, 14), 3));
-
-  scene.add(g);
+export function buildFTA(getPlane) {
+  planes[1] = getPlane(1); planes[2] = getPlane(2); planes[3] = getPlane(3);
+  datum("A", 1, [-46, 20, 26], [-14, 0, 0], 1);                       // S1 face
+  toleranceFrame("↗", ["0.05", "A", "B"], 2, [11, -11, 40], [64, 86], 2);
+  toleranceFrame("⌖", ["Ø0.2", "A", "B"], 2, [20, 42, -30], [64, -38], 2);
+  toleranceFrame("⌖", ["Ø0.25", "A", "B"], 3, [46, 24, -30], [98, -44], 3);
+  cote("Ø30 H7", 3, [-15, 0, 40], [15, 0, 40], -30, 3);               // alésage central
 }

@@ -17,6 +17,7 @@
   padding: 1px 6px; background: rgba(10,13,17,.8); border-radius: 3px;
   font: 500 10px monospace; color: #c8d2dc;
 }
+.gdnt, .gdnt-datum, .gdnt-cote { backface-visibility: hidden; }
 
 /* ---------- Viewer 3D : le canvas REMPLIT le stage ---------- */
 #cad3d {
