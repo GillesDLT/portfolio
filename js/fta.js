@@ -8,6 +8,38 @@ const arrowMat = () => new THREE.MeshBasicMaterial({
   color: 0xdfe7ee, depthTest: false,
 });
 
+/* ---- Specs cliquables → navigation vers la section ---- */
+let sectionsCache = null;
+function loadSections() {
+  sectionsCache ??= fetch("data/sections.json")
+    .then((r) => r.json())
+    .catch(() => null);
+  return sectionsCache;
+}
+
+async function sectionTitle(i) {
+  const data = await loadSections();
+  const arr = Array.isArray(data) ? data
+    : data?.sections || Object.values(data || {});
+  const s = arr[i - 1];
+  return s?.titre || s?.title || s?.name || `Section ${i}`;
+}
+
+function makeClickable(el, section) {
+  if (!section) return;
+  el.style.pointerEvents = "auto";   // l'annoEl parent est en pointer-events:none [1]
+  el.style.cursor = "pointer";
+  const sub = document.createElement("div");
+  sub.className = "gdnt-link";
+  sub.textContent = "→ …";
+  el.append(sub);
+  sectionTitle(section).then((t) => { sub.textContent = `→ ${t}`; });
+  el.addEventListener("click", () => {
+    window.dispatchEvent(new CustomEvent("goto-section",
+      { detail: { index: section } }));
+  });
+}
+
 // Cadre de tolérance : [symbole, valeurs..., datums]
 export function toleranceFrame(symbol, values, anchor, labelPos) {
   const el = document.createElement("div");
@@ -65,26 +97,12 @@ export function buildFTA(scene) {
   const g = new THREE.Group();
   const V = (x, y, z) => new THREE.Vector3(x, y, z);
 
-  // 1) Repère A : face d'appui de la bride (face avant du disque)
-  g.add(...datum("A", V(-46, 20, 26), V(-12, 0, 24)));
-
-  // 2) Repère B : alésage central Ø30 (au fond du contrelamage)
-  g.add(...datum("B", V(11, -11, 40), V(14, -14, 12)));
-
-  // 3) Batement circulaire du pilote Ø70 (ISO 1101)
-  g.add(...toleranceFrame("↗", ["0.05", "A", "B"],
-    V(0, 35, 33), V(40, 74, 44)));
-
-  // 4) Position du trou vertical du bloc
-  g.add(...toleranceFrame("⌖", ["Ø0.2", "A", "B"],
-    V(20, 42, -30), V(64, 86, -38)));
-
-  // 5) Position du trou latéral contrelamé
-  g.add(...toleranceFrame("⌖", ["Ø0.25", "A", "B"],
-    V(46, 24, -30), V(98, 44, -30)));
-
-  // 6) Ajustement ISO 286 de l'alésage
-  g.add(...cote(V(-15, 0, 40), V(15, 0, 40), "Ø30 H7", V(0, -36, 14)));
+  g.add(...datum("A", V(-46, 20, 26), V(-12, 0, 24), 1));
+  g.add(...datum("B", V(11, -11, 40), V(14, -14, 12), 1));
+  g.add(...toleranceFrame("↗", ["0.05", "A", "B"], V(0, 35, 33), V(40, 74, 44), 2));
+  g.add(...toleranceFrame("⌖", ["Ø0.2", "A", "B"], V(20, 42, -30), V(64, 86, -38), 2));
+  g.add(...toleranceFrame("⌖", ["Ø0.25", "A", "B"], V(46, 24, -30), V(98, 44, -30), 3));
+  g.add(...cote(V(-15, 0, 40), V(15, 0, 40), "Ø30 H7", V(0, -36, 14), 3));
 
   scene.add(g);
 }

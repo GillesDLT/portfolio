@@ -167,3 +167,15 @@ body {
   .stage { margin-left: 0; }
   .toolbar__views { overflow-x: auto; }
 }
+
+/* ----------- les specifs, je crois ----------- */
+.gdnt-link {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  color: #7fc4ff;
+  white-space: nowrap;
+}
+.gdnt:hover, .gdnt-datum:hover, .gdnt-cote:hover { filter: brightness(1.4); }
+#sectionTexts h2 { font-size: 14px; margin: 0 0 8px; color: #dfe7ee; }
+#sectionTexts h3 { font-size: 12px; margin: 10px 0 4px; color: #9fc0d8; }

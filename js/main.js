@@ -88,6 +88,94 @@ const cad = initCAD(
   document.getElementById("cad-annos")
 );
 
+/* ---- Specs cliquables → scroll vers la phase de la section ---- */
+addEventListener("goto-section", (e) => {
+  if (labels.length) scrollToPhase(e.detail.index);
+});
+
+/* ---- Textes de la section affichés quand le scroll y arrive ---- */
+let textesData = null;
+let sectionsData = [];
+let shownSection = -1;
+
+const panel = document.createElement("aside");
+panel.id = "sectionTexts";
+panel.style.cssText =
+  "position:fixed;right:16px;bottom:16px;width:340px;max-height:60vh;" +
+  "overflow:auto;background:rgba(20,23,28,.92);border:1px solid #2a3038;" +
+  "border-radius:10px;padding:14px 16px;z-index:20;display:none;";
+document.body.append(panel);
+
+(async () => {
+  try {
+    const [rs, rt] = await Promise.all([
+      fetch("data/sections.json"),
+      fetch("data/textes.json"),
+    ]);
+    const sData = await rs.json();
+    sectionsData = Array.isArray(sData) ? sData : sData.sections || Object.values(sData);
+    textesData = await rt.json();
+    shownSection = -1;              // force un rafraîchissement au prochain apply()
+  } catch (err) {
+    console.error("Impossible de charger data/ — lance un serveur local", err);
+  }
+})();
+
+function textesDeSection(i) {
+  if (!textesData) return [];
+  const s = sectionsData[i - 1];
+  const ids = (s?.textes || s?.texts || [])
+    .map((t) => (typeof t === "string" ? t : t?.id))
+    .filter(Boolean);
+  let list = ids.map((id) => textesData[id]).filter(Boolean);
+  if (!list.length) {                       // fallbacks si sections.json ne liste pas les ids
+    const all = Object.values(textesData);
+    list = all.filter((t) => Number(t?.section) === i);
+    if (!list.length) list = all.slice((i - 1) * 3, i * 3);
+  }
+  return list;
+}
+
+function showSectionTexts(i) {
+  if (i === shownSection) return;
+  shownSection = i;
+  panel.replaceChildren();
+  if (!i) { panel.style.display = "none"; return; }   // phase 0 = ISO : panneau masqué
+  const s = sectionsData[i - 1];
+  const h2 = document.createElement("h2");
+  h2.textContent = s?.titre || s?.title || `Section ${i}`;
+  panel.append(h2);
+  for (const t of textesDeSection(i)) {
+    if (t?.titre) {
+      const h3 = document.createElement("h3");
+      h3.textContent = t.titre;
+      panel.append(h3);
+    }
+    if (t?.meta) {
+      const m = document.createElement("p");
+      m.className = "meta mono";
+      m.textContent = t.meta;
+      panel.append(m);
+    }
+    for (const p of t?.contenu || []) {
+      const pel = document.createElement("p");
+      pel.textContent = p;
+      panel.append(pel);
+    }
+    if (t?.tags?.length) {
+      const tags = document.createElement("div");
+      tags.className = "tags mono";
+      for (const tag of t.tags) {
+        const sp = document.createElement("span");
+        sp.textContent = tag;
+        tags.append(sp);
+      }
+      panel.append(tags);
+    }
+  }
+  panel.style.display = "block";
+}
+
 /* ---- Cube ---- */
 function apply(p) {
   if (labels.length < 2) return;
@@ -100,6 +188,7 @@ function apply(p) {
   cad.setPose(rx, ry);
   updateTriad(rx, ry);
   const cur = Math.max(0, Math.min(Math.round(p), n));
+  showSectionTexts(cur);
   const name = cur === 0 ? "ISO" : labels[cur].toUpperCase();
   viewLabel.textContent = name;
   sbPhase.textContent = name;

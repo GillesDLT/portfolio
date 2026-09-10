@@ -4,10 +4,11 @@ Portfolio web à l'interface inspirée de **logiciel de CAO** :
 arbre de spécifications dépliable à gauche, fiche détaillée au clic,
 visionneuse 3D animée.
 
-Cette interface 3D n'a pas de sens mais c'est joli et me permet de voir les capacités du website.
-![Preview for now](screenshots/V3.1b.png)
+Cette interface reprends une pièce que j'ai usiné en 2026. 
+Les spécifications ISO de la pièce non aucun sens pour l'instant.
+![Preview for now](screenshots/V3.3a.png)
 
-![Preview for now](screenshots/V3.1a.png)
+![Preview for now](screenshots/V3.3b.png)
 
 ## Lancer en local
 
