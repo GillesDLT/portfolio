@@ -8,16 +8,47 @@ const viewLabel = document.getElementById("hudPath");
 const viewButtons = document.getElementById("viewButtons");
 const sbPhase = document.getElementById("sbPhase");
 const sbRot = document.getElementById("sbRot");
+const ISO = { rx: -28, ry: -42, zoom: 1 };
+let KEYS = [{ p: 0, ...ISO }];
+let SECTION_P = [];            // positions "phase" des sections (1, 2, 3, …)
 
-const ISO = { rx: -28, ry: -42 };
+const cadEl = document.getElementById("cad3d");
 let ORIENT = [ISO];
-
 let labels = [];
 let targetP = 0;
 let currentP = 0;
 
 const lerp = (a, b, t) => a + (b - a) * t;
 const rad = (d) => (d * Math.PI) / 180;
+
+/* Vues par défaut des sections, une par face (cyclées s'il y en a plus) */
+const VIEWS = [
+  { rx: 0,   ry: 0   },   // S1 Expérience  : devant  (+Z)   — datum A visible
+  { rx: 0,   ry: 180 },   // S2 Projets     : derrière
+  { rx: -90, ry: 180 },   // S3 Compétences : dessus  (rx ≈ −85…−90)
+  { rx: 0,   ry: 270 },   // S4 Le reste    : côté    (270 ≡ −90 → caméra sur +X)
+];
+
+/* Règle : section inline → rien. > 5 boîtes → zoom, > 10 → 3 étapes. */
+function buildKeys(sections) {
+  const keys = [{ p: 0, ...ISO }];
+  sections.forEach((s, i) => {
+    const view = VIEWS[i % VIEWS.length];
+    const boxes = (s.textes || []).length;
+    const zoomable = boxes > 5 && !s.inline;
+    const steps = zoomable ? (boxes > 10 ? 3 : 2) : 0;
+    for (let k = 1; k <= steps; k++) {
+      keys.push({
+        p: i + k / (steps + 1),           // à l'intérieur de l'intervalle de la section
+        rx: view.rx + k * 6,
+        ry: view.ry + k * 18,             // petite dérive en rotation pour l'effet "exploration"
+        zoom: 1 + k * (steps === 3 ? 0.7 : 0.9),
+      });
+    }
+    keys.push({ p: i + 1, ...view, zoom: 1 });
+  });
+  return keys;
+}
 
 /* ---- Trièdre façon Blender ---- */
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -124,53 +155,51 @@ document.body.append(panel);
 function textesDeSection(i) {
   if (!textesData) return [];
   const s = sectionsData[i - 1];
-  const ids = (s?.textes || s?.texts || [])
-    .map((t) => (typeof t === "string" ? t : t?.id))
-    .filter(Boolean);
-  let list = ids.map((id) => textesData[id]).filter(Boolean);
-  if (!list.length) {                       // fallbacks si sections.json ne liste pas les ids
-    const all = Object.values(textesData);
-    list = all.filter((t) => Number(t?.section) === i);
-    if (!list.length) list = all.slice((i - 1) * 3, i * 3);
-  }
-  return list;
+  const ids = (s?.textes || []);
+  return ids.map((id) => ({ id, ...textesData[String(id)] })).filter((t) => t.titre);
 }
 
 function showSectionTexts(i) {
   if (i === shownSection) return;
   shownSection = i;
   panel.replaceChildren();
-  if (!i) { panel.style.display = "none"; return; }   // phase 0 = ISO : panneau masqué
+  if (!i) { panel.style.display = "none"; return; }
   const s = sectionsData[i - 1];
   const h2 = document.createElement("h2");
-  h2.textContent = s?.titre || s?.title || `Section ${i}`;
+  h2.textContent = s?.titre || `Section ${i}`;
   panel.append(h2);
-  for (const t of textesDeSection(i)) {
-    if (t?.titre) {
+
+  if (s?.inline) {
+    // Expérience : contenu simple sur la page principale, pas de liens
+    const ul = document.createElement("ul");
+    ul.className = "inlineList";
+    for (const item of s.items || []) {
+      const li = document.createElement("li");
+      li.textContent = item;
+      ul.append(li);
+    }
+    panel.append(ul);
+  } else {
+    for (const t of textesDeSection(i)) {
+      const card = document.createElement("a");
+      card.className = "card";
+      card.href = `pages/texte.html?id=${t.id}`;
       const h3 = document.createElement("h3");
       h3.textContent = t.titre;
-      panel.append(h3);
-    }
-    if (t?.meta) {
-      const m = document.createElement("p");
-      m.className = "meta mono";
-      m.textContent = t.meta;
-      panel.append(m);
-    }
-    for (const p of t?.contenu || []) {
-      const pel = document.createElement("p");
-      pel.textContent = p;
-      panel.append(pel);
-    }
-    if (t?.tags?.length) {
-      const tags = document.createElement("div");
-      tags.className = "tags mono";
-      for (const tag of t.tags) {
-        const sp = document.createElement("span");
-        sp.textContent = tag;
-        tags.append(sp);
+      card.append(h3);
+      if (t.meta) {
+        const m = document.createElement("p");
+        m.className = "meta mono";
+        m.textContent = t.meta;
+        card.append(m);
       }
-      panel.append(tags);
+      if (t.contenu?.length) {
+        const p = document.createElement("p");
+        p.className = "cardExcerpt";
+        p.textContent = t.contenu[0].slice(0, 90) + "…";
+        card.append(p);
+      }
+      panel.append(card);
     }
   }
   panel.style.display = "block";
@@ -178,23 +207,27 @@ function showSectionTexts(i) {
 
 /* ---- Cube ---- */
 function apply(p) {
-  if (labels.length < 2) return;
-  const n = labels.length - 1;
-  const i = Math.min(Math.max(Math.floor(p), 0), n - 1);
-  const t = Math.min(Math.max(p - i, 0), 1);
-  const a = ORIENT[i], b = ORIENT[i + 1];
+  if (KEYS.length < 2) return;
+  const last = KEYS[KEYS.length - 1];
+  const q = Math.min(Math.max(p, 0), last.p);
+  let i = 0;
+  while (i < KEYS.length - 2 && KEYS[i + 1].p < q) i++;
+  const a = KEYS[i], b = KEYS[i + 1];
+  const t = b.p === a.p ? 1 : (q - a.p) / (b.p - a.p);
   const rx = lerp(a.rx, b.rx, t);
   const ry = lerp(a.ry, b.ry, t);
+  const zoom = lerp(a.zoom ?? 1, b.zoom ?? 1, t);
   cad.setPose(rx, ry);
+  if (cad.setZoom) cad.setZoom(zoom);
+  else cadEl.style.transform = `scale(${zoom})`;   // fallback CSS si cube3d n'a pas setZoom
   updateTriad(rx, ry);
-  const cur = Math.max(0, Math.min(Math.round(p), n));
-  cad.setSection(cur);   // ← active le plan de datum de la section courante
+  const cur = q < 0.02 ? 0 : Math.ceil(q - 0.001); // p ∈ ]i-1, i] → section i
+  cad.setSection(cur);
   showSectionTexts(cur);
   const name = cur === 0 ? "ISO" : labels[cur].toUpperCase();
   viewLabel.textContent = name;
   sbPhase.textContent = name;
-  sbRot.textContent =
-    `RX ${rx >= 0 ? "+" : "−"}${Math.abs(rx).toFixed(1)}°  RY ${ry >= 0 ? "+" : "−"}${Math.abs(ry).toFixed(1)}°`;
+  sbRot.textContent = `RX ${rx >= 0 ? "+" : "−"}${Math.abs(rx).toFixed(1)}°  RY ${ry >= 0 ? "+" : "−"}${Math.abs(ry).toFixed(1)}°  Z ×${zoom.toFixed(2)}`;
   setActive(cur);
   [...viewButtons.children].forEach((btn, k) => btn.classList.toggle("is-active", k === cur));
 }
@@ -248,14 +281,7 @@ async function init() {
     labels = [data.home?.titre ?? "Home", ...data.sections.map(s => s.titre)];
     // 5 sections : S1..S4 en rotation autour de Y, S5 ramenée du dessus
     // Ordre : ISO → devant → derrière → dessus → droite → gauche
-    ORIENT = [
-      ISO,               // vue isométrique
-      { rx: 0,   ry: 0   },   // S1 : devant
-      { rx: 0,   ry: 180 },   // S2 : derrière (demi-tour)
-      { rx: -90, ry: 180 },   // S3 : dessus (bascule verticale)
-      { rx: 0,   ry: 270 },   // S4 : droite (ry 270 ≡ -90)
-      { rx: 0,   ry: 450 },   // S5 : gauche (ry 450 ≡ 90)
-    ];
+    KEYS = buildKeys(data.sections);
     labels.forEach((l, i) => {
       const b = document.createElement("button");
       b.textContent = i === 0 ? "ISO" : `S${i}`;

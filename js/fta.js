@@ -126,9 +126,11 @@ export function cote(text, i, p1, p2, off = -30, section) {
 
 export function buildFTA(getPlane) {
   planes[1] = getPlane(1); planes[2] = getPlane(2); planes[3] = getPlane(3);
-  datum("A", 1, [-46, 20, 26], [-14, 0, 0], 1);                       // S1 face
-  toleranceFrame("↗", ["0.05", "A", "B"], 2, [11, -11, 40], [64, 86], 2);
-  toleranceFrame("⌖", ["Ø0.2", "A", "B"], 2, [20, 42, -30], [64, -38], 2);
-  toleranceFrame("⌖", ["Ø0.25", "A", "B"], 3, [46, 24, -30], [98, -44], 3);
-  cote("Ø30 H7", 3, [-15, 0, 40], [15, 0, 40], -30, 3);               // alésage central
+  datum("A", 1, [-46, 20, 26], [-14, 0, 0], 1);                             // S1 face → Expérience
+  toleranceFrame("↗", ["0.05", "A", "B"], 2, [11, -11, 40], [64, 86], 4);   // face droite → S4 Le reste
+  toleranceFrame("⌖", ["Ø0.2", "A", "B"], 2, [20, 42, -30], [64, -38], 4);  // face droite → S4 Le reste
+  toleranceFrame("⌖", ["Ø0.25", "A", "B"], 3, [46, 24, -30], [98, -44], 2); // face arrière → S2 Projets
+  cote("Ø30 H7", 3, [-15, 0, 40], [15, 0, 40], -30, 2);                     // face arrière → S2 Projets
+  planes[5] = getPlane(5);                                                    // plan du dessus
+  toleranceFrame("⏥", ["0.1", "A"], 5, [0, 30, 20], [70, 60], 3);             // dessus → S3 Compétences
 }

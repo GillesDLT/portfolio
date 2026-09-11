@@ -17,13 +17,22 @@ export function buildTree(treeEl, data, textes, onSection) {
     li.append(a);
 
     const sub = document.createElement("ul");
-    for (const id of s.textes) {
-      const li2 = document.createElement("li");
-      const a2 = document.createElement("a");
-      a2.href = `pages/texte.html?id=${id}`;
-      a2.textContent = textes?.[String(id)]?.titre ?? `Texte ${id}`;
-      li2.append(a2);
-      sub.append(li2);
+    if (s.inline) {
+      for (const item of s.items || []) {
+        const li2 = document.createElement("li");
+        li2.className = "tree__plain";
+        li2.textContent = item;
+        sub.append(li2);
+      }
+    } else {
+      for (const id of s.textes || []) {
+        const li2 = document.createElement("li");
+        const a2 = document.createElement("a");
+        a2.href = `pages/texte.html?id=${id}`;
+        a2.textContent = textes?.[String(id)]?.titre ?? `Texte ${id}`;
+        li2.append(a2);
+        sub.append(li2);
+      }
     }
     li.append(sub);
     ul.append(li);

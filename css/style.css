@@ -179,3 +179,15 @@ body {
 .gdnt:hover, .gdnt-datum:hover, .gdnt-cote:hover { filter: brightness(1.4); }
 #sectionTexts h2 { font-size: 14px; margin: 0 0 8px; color: #dfe7ee; }
 #sectionTexts h3 { font-size: 12px; margin: 10px 0 4px; color: #9fc0d8; }
+
+.card {
+  display: block; margin: 10px 0; padding: 10px 12px;
+  background: rgba(20,23,28,.92); border: 1px solid #2a3038;
+  border-radius: 8px; color: inherit; text-decoration: none;
+  transition: border-color .15s, transform .15s;
+}
+.card:hover { border-color: #4a90d9; transform: translateX(3px); }
+.cardExcerpt { color: #8a93a0; font-size: .85em; margin: 4px 0 0; }
+.inlineList { padding-left: 1.2em; }
+.tree__plain { color: #8a93a0; }
+#cad3d { transform-origin: center center; }
