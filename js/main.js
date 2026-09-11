@@ -23,10 +23,11 @@ const rad = (d) => (d * Math.PI) / 180;
 
 /* Vues par défaut des sections, une par face (cyclées s'il y en a plus) */
 const VIEWS = [
-  { rx: 0,   ry: 0   },   // S1 Expérience  : devant  (+Z)   — datum A visible
-  { rx: 0,   ry: 180 },   // S2 Projets     : derrière
-  { rx: -90, ry: 180 },   // S3 Compétences : dessus  (rx ≈ −85…−90)
-  { rx: 0,   ry: 270 },   // S4 Le reste    : côté    (270 ≡ −90 → caméra sur +X)
+  { rx: 0,   ry: -90 },   // S1 Expériences : face DROITE (+X) — annotations cliquables  ← modifié
+  { rx: 0,   ry: 180 },   // S2 Formations  : derrière       (inchangé)
+  { rx: -90, ry: 180 },   // S3 Bénévolat   : dessus         (inchangé)
+  { rx: 0,   ry: 270 },   // S4 Certifications : côté (+X)   (inchangé)
+  { rx: 0,   ry: 0   },   // S5 Freelance & Divers : devant  (inchangé — épinglé ici, était VIEWS[0])
 ];
 
 /* Règle : section inline → rien. > 5 boîtes → zoom, > 10 → 3 étapes. */
@@ -163,44 +164,22 @@ function showSectionTexts(i) {
   if (i === shownSection) return;
   shownSection = i;
   panel.replaceChildren();
-  if (!i) { panel.style.display = "none"; return; }
   const s = sectionsData[i - 1];
+  // ISO + S1 Expériences (+ sections inline) : la scène 3D porte elle-même les annotations
+  if (!i || i === 1 || s?.inline) { panel.style.display = "none"; return; }
   const h2 = document.createElement("h2");
   h2.textContent = s?.titre || `Section ${i}`;
   panel.append(h2);
-
-  if (s?.inline) {
-    // Expérience : contenu simple sur la page principale, pas de liens
-    const ul = document.createElement("ul");
-    ul.className = "inlineList";
-    for (const item of s.items || []) {
-      const li = document.createElement("li");
-      li.textContent = item;
-      ul.append(li);
-    }
-    panel.append(ul);
-  } else {
-    for (const t of textesDeSection(i)) {
-      const card = document.createElement("a");
-      card.className = "card";
-      card.href = `pages/texte.html?id=${t.id}`;
-      const h3 = document.createElement("h3");
-      h3.textContent = t.titre;
-      card.append(h3);
-      if (t.meta) {
-        const m = document.createElement("p");
-        m.className = "meta mono";
-        m.textContent = t.meta;
-        card.append(m);
-      }
-      if (t.contenu?.length) {
-        const p = document.createElement("p");
-        p.className = "cardExcerpt";
-        p.textContent = t.contenu[0].slice(0, 90) + "…";
-        card.append(p);
-      }
-      panel.append(card);
-    }
+  for (const t of textesDeSection(i)) {
+    const card = document.createElement("a");
+    card.className = "card";
+    card.href = `pages/texte.html?id=${t.id}`;
+    const h3 = document.createElement("h3");
+    h3.textContent = t.titre;
+    card.append(h3);
+    if (t.meta) { const m = document.createElement("p"); m.className = "meta mono"; m.textContent = t.meta; card.append(m); }
+    if (t.contenu?.length) { const p = document.createElement("p"); p.className = "cardExcerpt"; p.textContent = t.contenu[0].slice(0, 90) + "…"; card.append(p); }
+    panel.append(card);
   }
   panel.style.display = "block";
 }

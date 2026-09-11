@@ -156,7 +156,15 @@
     ],
     "tags": ["Thermodynamique", "Mécanique des fluides"]
   },
-  "16": { "titre": "Projet d'indus", "section": 2, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies ac tempor dui sagittis."], "tags": ["Lorem"] },
+  "16": {
+    "titre": "Planéité — étude freelance",
+    "section": 1,
+    "meta": "Freelance · période à compléter",
+    "contenu": [
+      "[À compléter] Contexte de l'étude planéité réalisée en freelance : pièce concernée, plan de référence, valeur de la tolérance, méthode de contrôle."
+    ],
+    "tags": ["Planéité", "Tolérancement géométrique", "Freelance"]
+  },
   "17": { "titre": "Projet de rétro-conception", "section": 2, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies."], "tags": ["Lorem"] },
   "18": { "titre": "Projet de tolérancement", "section": 2, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus luctus."], "tags": ["Lorem"] },
   "19": { "titre": "Serveur perso et hardware", "section": 2, "meta": "Lorem · Homelab", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },

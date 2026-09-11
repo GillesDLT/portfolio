@@ -49,13 +49,13 @@ export function initCAD(container, canvas, annoEl) {
   scene.add(modele);
 
   const annoPlanes = [null, null, null, null];
-  // À aligner sur tes ORIENT : ry=0 → caméra sur +Z (face), ry=−90 → +X (côté), rx≈−85 → au-dessus
+  // À aligner sur les vues : ry=0 → caméra sur +Z (face), ry=−90 → +X (droite), rx≈−85 → au-dessus
   const PLANE_ROT = {
-    1: [0, 0, 0],             // S1 face    (caméra +Z)
-    2: [0, Math.PI / 2, 0],   // S2 droite  (+X)
-    3: [0, Math.PI, 0],       // S3 arrière (−Z)
-    4: [0, -Math.PI / 2, 0],  // S4 gauche  (−X)
-    5: [-Math.PI / 2, 0, 0],  // S5 dessus  (+Y)
+    1: [0, Math.PI / 2, 0],   // S1 Expériences : face DROITE (+X)  ← modifié (caméra ry=−90)
+    2: [0, Math.PI / 2, 0],   // inchangé
+    3: [0, Math.PI, 0],       // inchangé
+    4: [0, -Math.PI / 2, 0],  // inchangé
+    5: [-Math.PI / 2, 0, 0],  // inchangé
   };
   function getAnnoPlane(i) {
     if (!PLANE_ROT[i]) return null;      // section sans plan (ex. ISO)
