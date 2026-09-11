@@ -191,3 +191,39 @@ body {
 .inlineList { padding-left: 1.2em; }
 .tree__plain { color: #8a93a0; }
 #cad3d { transform-origin: center center; }
+
+/* ---------- Fiche overlay ---------- */
+#ficheOverlay {
+  position: fixed; inset: 0 0 0 var(--tree-w); z-index: 40;
+  display: none; place-items: center;
+  padding: 24px; box-sizing: border-box;      /* marge de sécurité sur les 4 côtés */
+  background: rgba(8,10,13,.45); backdrop-filter: blur(2px);
+}
+#ficheOverlay.is-open { display: grid; }
+#ficheOverlay .fiche {
+  width: min(1200px, 100%);                   /* % de la zone à droite de l'arbre — plus jamais en vw */
+  max-height: 100%; overflow: auto;
+  background: rgba(23,26,31,.88); border: 1px solid var(--line-hi);
+  border-radius: 14px; padding: 26px 32px; box-shadow: 0 24px 70px rgba(0,0,0,.55);
+}
+.fiche h2 { font-size: 22px; padding-bottom: 12px; }
+.ficheMeta { font-size: 13px; margin: 12px 0 0; }
+.ficheContenu p { font-size: 15px; line-height: 1.7; margin: 12px 0 0; }
+.ficheTags { margin: 16px 0 0; }
+.ficheTags span { font-size: 13px; padding: 3px 10px; }
+.fiche header {
+  display: flex; align-items: flex-start; gap: 12px;
+  position: sticky; top: 0; z-index: 1;
+  margin: 0px -32px 10px;                    /* remonte dans le padding de .fiche */
+  padding: 0px 32px 0px;                     /* et rétablit l'espacement interne */
+  background: rgba(23,26,31,.97);
+  border-bottom: 1px solid var(--line);
+}
+.ficheClose { margin-left: auto; flex: none; width: 28px; height: 28px; cursor: pointer;
+  color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 6px; }
+.ficheClose:hover { color: var(--ink); border-color: var(--warn); }
+.fiche footer { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--line); }
+.ficheNewTab { color: var(--accent); text-decoration: none; font-size: 12px; }
+.ficheNewTab:hover { text-decoration: underline; }
+html.fiche-lock { overflow: hidden; }
+@media (max-width: 800px) { #ficheOverlay { inset: 0; padding: 12px; } }

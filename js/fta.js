@@ -26,12 +26,19 @@ function loadTextes() {
   textesCache ??= fetch("data/textes.json").then((r) => r.json()).catch(() => null);
   return textesCache;
 }
-async function ficheTitle(href) {   // pour l'infobulle au survol
-  const m = String(href).match(/[?&]id=([^&]+)/);
+
+async function ficheTitle(href) {
+  const m = String(href).match(/fiche=([^&]+)/);
   if (!m) return null;
   const data = await loadTextes();
   return data?.[decodeURIComponent(m[1])]?.titre ?? null;
 }
+
+/* titre tronqué pour le sous-libellé : "Alternant en maîtrise …" */
+const shortTitle = (s, n = 28) =>
+  s.length > n
+    ? s.slice(0, s.lastIndexOf(" ", n) > 0 ? s.lastIndexOf(" ", n) : n).trimEnd() + "…"
+    : s;
 
 function makeClickable(el, target) {
   if (!target) return;
@@ -46,9 +53,15 @@ function makeClickable(el, target) {
     el.addEventListener("click", () =>
       window.dispatchEvent(new CustomEvent("goto-section", { detail: { index: target } })));
   } else {
-    sub.textContent = "→ ouvrir la fiche";
-    ficheTitle(target).then((t) => { if (t) el.title = t; });
-    el.addEventListener("click", () => { window.location.href = target; });
+    sub.textContent = "→ …";
+    ficheTitle(target).then((t) => {
+      sub.textContent = t ? `→ ${shortTitle(t)}` : "→ ouvrir la fiche";   // ex. « → Alternant en maîtrise … »
+      if (t) el.title = t;                                                // titre complet au survol
+    });
+    el.addEventListener("click", (e) => {
+      if (e.ctrlKey || e.metaKey) { window.open(target, "_blank"); return; }  // Ctrl+clic → nouvel onglet sur #fiche=N
+      window.dispatchEvent(new CustomEvent("open-fiche", { detail: { href: target } }));
+    });
   }
 }
 
@@ -160,13 +173,12 @@ export function buildFTA(getPlane) {
   planes[1] = getPlane(1); planes[2] = getPlane(2); planes[3] = getPlane(3);
 
   /* ---- S1 EXPÉRIENCES : face droite (+X), 6 annotations cliquables ---- */
-  experienceNote("⌖", "Alternance Safran", "pages/texte.html?id=1",  1, [46, 24, -30], [64, 84]);
-  experienceNote("⌖", "I2M tolérance",     "pages/texte.html?id=2",  1, [46, -4, -30], [64, -84]);
-  experienceNote("⏥", "Planéité",          "pages/texte.html?id=16", 1, [46, -28, -12], [-38, -66]);
-  experienceNote("⌭", "Cylindricité",      "pages/texte.html?id=3",  1, [46, 18, -30], [-28, 78]);
-  cote("Ø28", 1, [46, 24, -30], [46, -4, -30],  30, "pages/texte.html?id=14"); // cotation Ø → STIRWELD
-  cote("32",  1, [46, 10, -30], [46, 42, -30], -36, "pages/texte.html?id=15"); // cotation distance → I2M thermo
-
+  experienceNote("⌖", "Alternance Safran", "#fiche=1",  1, [46, 24, -30], [64, 84]);
+  experienceNote("⌖", "I2M tolérance",     "#fiche=2",  1, [46, -4, -30], [64, -84]);
+  experienceNote("⏥", "Planéité",          "#fiche=16", 1, [46, -28, -12], [-38, -66]);
+  experienceNote("⌭", "Cylindricité",      "#fiche=3",  1, [46, 18, -30], [-28, 78]);
+  cote("Ø28", 1, [46, 24, -30], [46, -4, -30],  30, "#fiche=14");
+  cote("32",  1, [46, 10, -30], [46, 42, -30], -36, "#fiche=15");
   /* ---- autres sections : inchangées ---- */
   toleranceFrame("↗", ["0.05", "A", "B"], 2, [11, -11, 40], [64, 86], 4);
   toleranceFrame("⌖", ["Ø0.2", "A", "B"], 2, [20, 42, -30], [64, -38], 4);

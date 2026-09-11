@@ -173,7 +173,7 @@ function showSectionTexts(i) {
   for (const t of textesDeSection(i)) {
     const card = document.createElement("a");
     card.className = "card";
-    card.href = `pages/texte.html?id=${t.id}`;
+    card.href = `#fiche=${t.id}`;
     const h3 = document.createElement("h3");
     h3.textContent = t.titre;
     card.append(h3);
@@ -183,6 +183,68 @@ function showSectionTexts(i) {
   }
   panel.style.display = "block";
 }
+
+/* ---- Fiche : voile semi-transparent au-dessus de la pièce ---- */
+const overlay = document.createElement("div");
+overlay.id = "ficheOverlay";
+overlay.innerHTML = `
+  <article class="fiche">
+    <header>
+      <h2 class="ficheTitre"></h2>
+      <button class="ficheClose" aria-label="Fermer (Échap)">✕</button>
+    </header>
+    <p class="ficheMeta meta mono"></p>
+    <div class="ficheContenu"></div>
+    <p class="ficheTags"></p>
+  </article>`;
+document.body.append(overlay);
+
+let ficheCache = null;
+const loadFiches = () => (ficheCache ??= fetch("data/textes.json").then((r) => r.json()).catch(() => null));
+
+async function openFiche(hrefOrId) {
+  const id = decodeURIComponent(String(hrefOrId).match(/fiche=([^&]+)/)?.[1] ?? hrefOrId);
+  const data = await loadFiches();
+  const t = data?.[String(id)];
+  if (!t) { console.warn("Fiche introuvable :", id); return; }
+  overlay.querySelector(".ficheTitre").textContent = t.titre ?? "";
+  overlay.querySelector(".ficheMeta").textContent = t.meta || "";
+  const cont = overlay.querySelector(".ficheContenu");
+  cont.replaceChildren();
+  for (const par of t.contenu || []) { const p = document.createElement("p"); p.textContent = par; cont.append(p); }
+  const tags = overlay.querySelector(".ficheTags");
+  tags.replaceChildren();
+  for (const tag of t.tags || []) { const sp = document.createElement("span"); sp.textContent = tag; tags.append(sp); }
+  overlay.classList.add("is-open");
+  document.documentElement.classList.add("fiche-lock");
+  history.replaceState(null, "", `#fiche=${id}`);   // URL partageable
+}
+function closeFiche() {
+  overlay.classList.remove("is-open");
+  document.documentElement.classList.remove("fiche-lock");
+  history.replaceState(null, "", location.pathname + location.search);   // retire le hash
+}
+
+addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && overlay.classList.contains("is-open")) closeFiche();
+});
+
+overlay.querySelector(".ficheClose").addEventListener("click", closeFiche);
+overlay.addEventListener("click", (e) => { if (e.target === overlay) closeFiche(); });   // clic sur le voile, hors de la fiche
+
+/* un seul handler pour TOUS les liens #fiche= (arbre + cartes du panneau S2-S5) ;
+   Ctrl/Meta+clic est laissé au navigateur → nouvel onglet natif */
+addEventListener("click", (e) => {
+  const a = e.target.closest('a[href^="#fiche="]');
+  if (!a || e.ctrlKey || e.metaKey) return;
+  e.preventDefault();
+  openFiche(a.getAttribute("href"));
+});
+addEventListener("open-fiche", (e) => openFiche(e.detail.href));
+
+/* boot : si l'URL contient déjà #fiche=N, ouvrir l'overlay au chargement */
+const bootFiche = location.hash.match(/fiche=([^&]+)/);
+if (bootFiche) openFiche(bootFiche[1]);
 
 /* ---- Cube ---- */
 function apply(p) {
@@ -224,6 +286,7 @@ function onScroll() {
 }
 
 function scrollToPhase(i) {
+  if (overlay.classList.contains("is-open")) return;
   const m = document.documentElement.scrollHeight - window.innerHeight;
   window.scrollTo({ top: (i / (labels.length - 1)) * m, behavior: "smooth" });
 }

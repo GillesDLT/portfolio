@@ -28,7 +28,7 @@ export function buildTree(treeEl, data, textes, onSection) {
       for (const id of s.textes || []) {
         const li2 = document.createElement("li");
         const a2 = document.createElement("a");
-        a2.href = `pages/texte.html?id=${id}`;
+        a2.href = `#fiche=${id}`;
         a2.textContent = textes?.[String(id)]?.titre ?? `Texte ${id}`;
         li2.append(a2);
         sub.append(li2);
