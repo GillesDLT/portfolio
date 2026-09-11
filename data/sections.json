@@ -1,11 +1,11 @@
 {
   "home": { "titre": "Accueil" },
   "sections": [
-    {
-      "titre": "Expérience",
-      "inline": true,
-      "items": ["Master", "Licence", "CMI MGCE", "Scout ENR", "Scout CC", "Scout ACT", "Lycée", "TOEIC", "Permis B", "BIA", "PIX"]
-    },
+    { "titre": "Expériences",       "textes": [1, 2, 16, 3, 14, 15] },
+    { "titre": "Formations",        "textes": [4, 5, 6] },
+    { "titre": "Bénévolat",         "textes": [7, 8, 9] },
+    { "titre": "Certifications",    "textes": [10, 11, 12] },
+      { "titre": "Freelance & Divers","textes": [13, 14, 15] },
     { "titre": "Projets", "textes": [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29] },
     { "titre": "Compétences", "textes": [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40] },
     { "titre": "Le reste", "textes": [41, 42, 43, 44] }
