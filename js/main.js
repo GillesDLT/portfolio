@@ -125,65 +125,6 @@ addEventListener("goto-section", (e) => {
   if (labels.length) scrollToPhase(e.detail.index);
 });
 
-/* ---- Textes de la section affichés quand le scroll y arrive ---- */
-let textesData = null;
-let sectionsData = [];
-let shownSection = -1;
-
-const panel = document.createElement("aside");
-panel.id = "sectionTexts";
-panel.style.cssText =
-  "position:fixed;right:16px;bottom:16px;width:340px;max-height:60vh;" +
-  "overflow:auto;background:rgba(20,23,28,.92);border:1px solid #2a3038;" +
-  "border-radius:10px;padding:14px 16px;z-index:20;display:none;";
-document.body.append(panel);
-
-(async () => {
-  try {
-    const [rs, rt] = await Promise.all([
-      fetch("data/sections.json"),
-      fetch("data/textes.json"),
-    ]);
-    const sData = await rs.json();
-    sectionsData = Array.isArray(sData) ? sData : sData.sections || Object.values(sData);
-    textesData = await rt.json();
-    shownSection = -1;              // force un rafraîchissement au prochain apply()
-  } catch (err) {
-    console.error("Impossible de charger data/ — lance un serveur local", err);
-  }
-})();
-
-function textesDeSection(i) {
-  if (!textesData) return [];
-  const s = sectionsData[i - 1];
-  const ids = (s?.textes || []);
-  return ids.map((id) => ({ id, ...textesData[String(id)] })).filter((t) => t.titre);
-}
-
-function showSectionTexts(i) {
-  if (i === shownSection) return;
-  shownSection = i;
-  panel.replaceChildren();
-  const s = sectionsData[i - 1];
-  // ISO + S1 Expériences (+ sections inline) : la scène 3D porte elle-même les annotations
-  if (!i || i === 1 || s?.inline) { panel.style.display = "none"; return; }
-  const h2 = document.createElement("h2");
-  h2.textContent = s?.titre || `Section ${i}`;
-  panel.append(h2);
-  for (const t of textesDeSection(i)) {
-    const card = document.createElement("a");
-    card.className = "card";
-    card.href = `#fiche=${t.id}`;
-    const h3 = document.createElement("h3");
-    h3.textContent = t.titre;
-    card.append(h3);
-    if (t.meta) { const m = document.createElement("p"); m.className = "meta mono"; m.textContent = t.meta; card.append(m); }
-    if (t.contenu?.length) { const p = document.createElement("p"); p.className = "cardExcerpt"; p.textContent = t.contenu[0].slice(0, 90) + "…"; card.append(p); }
-    panel.append(card);
-  }
-  panel.style.display = "block";
-}
-
 /* ---- Fiche : voile semi-transparent au-dessus de la pièce ---- */
 const overlay = document.createElement("div");
 overlay.id = "ficheOverlay";
@@ -264,7 +205,6 @@ function apply(p) {
   updateTriad(rx, ry);
   const cur = q < 0.02 ? 0 : Math.ceil(q - 0.001); // p ∈ ]i-1, i] → section i
   cad.setSection(cur);
-  showSectionTexts(cur);
   const name = cur === 0 ? "ISO" : labels[cur].toUpperCase();
   viewLabel.textContent = name;
   sbPhase.textContent = name;
