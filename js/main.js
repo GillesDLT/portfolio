@@ -100,7 +100,7 @@ function updateTriad(rx, ry) {
     line.setAttribute("x1", 50); line.setAttribute("y1", 50);
     line.setAttribute("x2", px.toFixed(1)); line.setAttribute("y2", py.toFixed(1));
     dot.setAttribute("cx", px.toFixed(1)); dot.setAttribute("cy", py.toFixed(1));
-    dot.setAttribute("r", ((ax.label ? 6 : 4) * TIP * (0.8 + 0.2 * depth)).toFixed(1));
+    dot.setAttribute("r", ((ax.label ? 6 : 5) * TIP * (0.8 + 0.2 * depth)).toFixed(1));
     if (t) { t.setAttribute("x", px.toFixed(1)); t.setAttribute("y", py.toFixed(1)); }
     line.parentNode.setAttribute("opacity", (0.35 + 0.65 * depth).toFixed(2));
     order.push({ g: line.parentNode, depth });
