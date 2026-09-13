@@ -48,16 +48,12 @@ export function initCAD(container, canvas, annoEl) {
   modele.add(buildPart());
   scene.add(modele);
 
-  const annoPlanes = [null, null, null, null, null, null, null, null, null];
+  const annoPlanes = [null, null, null, null, null];
   const PLANE_ROT = {
-    1: [0,  Math.PI / 2, 0],       // S1 Expériences    : droite  (+X)
-    2: [0,  0,           0],       // S2 Formations     : face    (+Z)   ← changé
-    3: [0,  0,           0],       // S3 Bénévolat      : face    (+Z)   ← changé
-    4: [0,  0,           0],       // S4 Certifications : face    (+Z)   ← changé
-    5: [0,  Math.PI / 2, 0],       // S5 Freelance      : droite  (+X)   ← changé
-    6: [-Math.PI / 2, 0, Math.PI], // S6 Projets        : dessus         ← nouveau
-    7: [0,  Math.PI,     0],       // S7 Compétences    : arrière (−Z)   ← nouveau
-    8: [0,  Math.PI,     0],       // S8 Le reste       : arrière (−Z)   ← nouveau
+    1: [0,  Math.PI / 2, 0],        // S1 Expériences            : droite  (+X)
+    2: [0,  0,           0],        // S2 Formations & divers    : face    (+Z)
+    3: [-Math.PI / 2, 0, Math.PI],  // S3 Projets                : dessus
+    4: [0,  Math.PI,     0],        // S4 Compétences & le reste : arrière (−Z)
   };
   function getAnnoPlane(i) {
     if (!PLANE_ROT[i]) return null;      // section sans plan (ex. ISO)
@@ -145,16 +141,20 @@ buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
   addEventListener("resize", resize);
   resize();
 
+const TARGET = new THREE.Vector3(0, 25, 0);   // la caméra orbite autour du point visé
+
+  function resetOrbit() { azOff = 0; elOff = 0; }
+
   (function tick() {
     requestAnimationFrame(tick);
     const az = -ry + azOff;
-    const el = Math.min(88, Math.max(1, -rx + elOff));
+    const el = Math.min(88, Math.max(0, -rx + elOff));   // min 0 → vues de face exactes
     camera.position.set(
-      R * Math.cos(rad(el)) * Math.sin(rad(az)),
-      R * Math.sin(rad(el)),
-      R * Math.cos(rad(el)) * Math.cos(rad(az))
+      TARGET.x + R * Math.cos(rad(el)) * Math.sin(rad(az)),
+      TARGET.y + R * Math.sin(rad(el)),
+      TARGET.z + R * Math.cos(rad(el)) * Math.cos(rad(az))
     );
-    camera.lookAt(0, 25, 0);
+    camera.lookAt(TARGET);
     const half = 150;
     camera.left = -half * (vw / vh);
     camera.right = -camera.left;
@@ -165,5 +165,5 @@ buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
     css3d.render(scene, camera);
   })();
 
-    return { setPose, setSection, setSections };
+    return { setPose, setSection, setSections, resetOrbit };
 }

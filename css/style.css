@@ -133,20 +133,20 @@ body {
 
 /* ---------- Trièdre + libellé de vue ---------- */
 .viewlabel { position: absolute; top: 58px; right: 26px; font: 700 13px var(--mono); letter-spacing: .22em; color: var(--warn); }
-.triad { position: absolute; top: 54px; right: 22px; width: 104px; height: 104px; }
+.triad { position: absolute; top: 96px; right: 24px; width: 104px; height: 104px; } /* ↓ sous le libellé (était 54px) */
 .triad line { stroke-width: 2; stroke-linecap: round; }
 .triad .ax-x { stroke: var(--ax-x); }
 .triad .ax-y { stroke: var(--ax-y); }
 .triad .ax-z { stroke: var(--ax-z); }
-.triad .tip--pos { stroke: #14171b; stroke-width: 1; }
+.triad .tip--pos { stroke: rgba(0,0,0,.45); stroke-width: 1; }   /* liseré sombre comme Blender */
 .triad .tip--pos.ax-x { fill: var(--ax-x); }
 .triad .tip--pos.ax-y { fill: var(--ax-y); }
 .triad .tip--pos.ax-z { fill: var(--ax-z); }
-.triad .tip--neg { fill: #1c1f24; stroke-width: 1.5; }
+.triad .tip--neg { fill: #14171b; stroke-width: 1.5; }           /* bille creuse (fond du viewport) */
 .triad .tip--neg.ax-x { stroke: var(--ax-x); }
 .triad .tip--neg.ax-y { stroke: var(--ax-y); }
 .triad .tip--neg.ax-z { stroke: var(--ax-z); }
-.triad .axlabel { font: 700 9px var(--mono); fill: #fff; text-anchor: middle; dominant-baseline: central; }
+.triad .axlabel { font: 700 10px var(--mono); fill: #fff; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
 .triad .center { fill: #9aa4ae; }
 
 /* ---------- Barre d'état ---------- */
@@ -208,7 +208,15 @@ body {
 }
 .fiche h2 { font-size: 22px; padding-bottom: 12px; }
 .ficheMeta { font-size: 13px; margin: 12px 0 0; }
-.ficheContenu p { font-size: 15px; line-height: 1.7; margin: 12px 0 0; }
+.ficheContenu .ficheImg {
+  display: block;
+  max-height: 56px;
+  max-width: 180px;
+  margin: 0 0 10px;
+  padding: 5px 8px;
+  background: #fff;            /* fond clair : les logos sombres sur PNG transparent sinon disparaissent */
+  border-radius: 6px;
+}
 .ficheTags { margin: 16px 0 0; }
 .ficheTags span { font-size: 13px; padding: 3px 10px; }
 .fiche header {

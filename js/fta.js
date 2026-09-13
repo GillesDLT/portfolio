@@ -71,14 +71,10 @@ const planes = [null, null, null, null];
 /* monde → (u,v) local du plan de la section i
    S1 face : u=x, v=y | S2 côté : u=−z, v=y | S3 dessus : u=x, v=−z */
 function toUV(i, [x, y, z]) {
-  return i === 1 ? [-z, y]     // S1 droite (+X)
-       : i === 2 ? [x, y]      // S2 face (+Z)    ← changé
-       : i === 3 ? [x, y]      // S3 face (+Z)    ← changé
-       : i === 4 ? [x, y]      // S4 face (+Z)    ← changé
-       : i === 5 ? [-z, y]     // S5 droite (+X)  ← changé
-       : i === 6 ? [-x, z]     // S6 dessus       ← nouveau
-       : i === 7 ? [-x, y]     // S7 arrière      ← nouveau
-       : i === 8 ? [-x, y]     // S8 arrière      ← nouveau
+  return i === 1 ? [-z, y]     // S1 droite
+       : i === 2 ? [x, y]      // S2 face
+       : i === 3 ? [-x, z]     // S3 dessus
+       : i === 4 ? [-x, y]     // S4 arrière
        : [x, y];
 }
 
@@ -173,7 +169,9 @@ export function experienceNote(glyph, label, href, i, anchor, labelUV, scale) {
 }
 
 export function buildFTA(getPlane) {
-  planes[1] = getPlane(1); planes[2] = getPlane(2); planes[3] = getPlane(3);
+  planes[1] = getPlane(1);
+  planes[2] = getPlane(2);
+  planes[3] = getPlane(3);
   planes[4] = getPlane(4);                                   // ← NOUVEAU : face Certifications
   planes[5] = getPlane(5);
   planes[6] = getPlane(6);                            // ← prêt pour Projets (dessus)
@@ -185,26 +183,24 @@ export function buildFTA(getPlane) {
   experienceNote("⌖", "I2M tolérance",     "#fiche=2",  1, [46, -4, -30], [64, -84]);
   experienceNote("⏥", "Planéité",          "#fiche=16", 1, [46, -28, -12], [-38, -66]);
   experienceNote("⌭", "Cylindricité",      "#fiche=3",  1, [46, 18, -30], [-28, 78]);
+  toleranceFrame("⏥", ["0.1","A"], 1, [0, 30, 20],   [36, 92],  "#fiche=13");       // LaTeX freelance
   cote("Ø28", 1, [46, 24, -30], [46, -4, -30],  30, "#fiche=14");
   cote("32",  1, [46, 10, -30], [46, 42, -30], -36, "#fiche=15");
 
-  /* ---- S2 FORMATIONS (derrière) : fiches 4/5/6 ---- */
-  toleranceFrame("⌖", ["Ø0.2", "A", "B"], 2, [20, 42, -30], [64, 84], "#fiche=4");   // Master GM
-  toleranceFrame("↗", ["0.05", "A", "B"], 2, [11, -11, 40], [64, -38], "#fiche=5");  // Licence SPI
-  experienceNote("⌖", "Bac général", "#fiche=6", 2, [20, 42, -30], [64, -84]);       // Bac
-
-  /* ---- S3 BÉNÉVOLAT (dessus) : fiches 7/8/9 ---- */
-  toleranceFrame("⌖", ["Ø0.25", "A", "B"], 3, [46, 24, -30], [98, -44], "#fiche=7"); // Chef scouts
-  cote("Ø30 H7", 3, [-15, 0, 40], [15, 0, 40], -30, "#fiche=8");                     // Assistant intendant
-  experienceNote("⏥", "Scouts GSE", "#fiche=9", 3, [46, 24, -30], [98, 84]);        // Engagement en bref
-
-  /* ---- S4 CERTIFICATIONS (côté) : fiches 10/11/12 — ancres à ajuster, face neuve ---- */
-  experienceNote("⌖", "TOEIC C1", "#fiche=10", 4, [20, 42, -30], [70, 84]);
-  experienceNote("⏥", "PIX",      "#fiche=11", 4, [11, -11, 40], [70, -10]);
-  cote("Ø28", 4, [46, 24, -30], [46, -4, -30], 30, "#fiche=12");                     // BIA
-
-  /* ---- S5 FREELANCE & DIVERS (devant) : fiches 13/14/15 ---- */
-  toleranceFrame("⏥", ["0.1", "A"], 5, [0, 30, 20], [70, 60], "#fiche=13");          // LaTeX freelance
-  experienceNote("⌖", "STIRWELD FSW", "#fiche=14", 5, [0, 30, 20], [70, -60]);
-  experienceNote("⌖", "I2M thermo",   "#fiche=15", 5, [0, 30, 20], [70, 0]);
+  /* ---- S2 FORMATIONS & DIVERS (face) : fiches 4 → 15 ---- */
+  // Formations
+  toleranceFrame("⌖", ["Ø0.2","A","B"], 2, [30, 30, 20],  [72, 78],  "#fiche=4");   // Master GM
+  toleranceFrame("↗", ["0.05","A","B"], 2, [30, -30, 20], [72, -78], "#fiche=5");   // Licence SPI
+  experienceNote("⌖", "Bac général", "#fiche=6", 2, [0, 45, 20],     [0, 92]);      // Bac
+  // Bénévolat
+  toleranceFrame("⌖", ["Ø0.25","A","B"], 2, [-30, 30, 20], [-72, 78], "#fiche=7");  // Chef scouts
+  cote("Ø30 H7", 2, [-15, 0, 20], [15, 0, 20], -40, "#fiche=8");                    // Assistant intendant (alésage Ø30 [1])
+  experienceNote("⏥", "Scouts GSE", "#fiche=9", 2, [-45, 0, 20],     [-100, 0]);    // Engagement en bref
+  // Certifications
+  experienceNote("⌖", "TOEIC C1", "#fiche=10", 2, [45, 0, 20],       [100, 0]);
+  experienceNote("⏥", "PIX",      "#fiche=11", 2, [-30, -30, 20],    [-72, -78]);
+  cote("Ø28", 2, [23, 24, 20], [23, -4, 20], 30, "#fiche=12");                      // BIA (sur le contrelamage Ø46 [1])
+  // Freelance & Divers
+  experienceNote("⌖", "STIRWELD FSW", "#fiche=14", 2, [0, -52, 20],  [0, -92]);
+  experienceNote("⌖", "I2M thermo",   "#fiche=15", 2, [15, 15, 20],  [76, 40]);
 }

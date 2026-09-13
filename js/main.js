@@ -30,18 +30,16 @@ const DERRIERE = { rx: 0,   ry: -180 };  // caméra sur −Z
 const VIEWS = [
   DROITE,    // S1 Expériences        → droite
   DEVANT,    // S2 Formations         → face
-  DEVANT,    // S3 Bénévolat          → face
-  DEVANT,    // S4 Certifications     → face
-  DROITE,    // S5 Freelance & Divers → droite
   DESSUS,    // S6 Projets            → dessus
   DERRIERE,  // S7 Compétences        → arrière
-  DERRIERE,  // S8 Le reste           → arrière
 ];
 
 function buildKeys(sections) {
-  const keys = [{ p: 0, ...ISO }];                 // l'ouverture reste ISO
+  const keys = [{ p: 0, ...ISO }];
   sections.forEach((s, i) => {
-    keys.push({ p: i + 1, ...VIEWS[i % VIEWS.length], zoom: 1 });  // zoom toujours ×1
+    const view = VIEWS[i % VIEWS.length];
+    if (i > 0) keys.push({ p: i + 0.5, ...ISO });   // repasse par l'iso entre chaque vue
+    keys.push({ p: i + 1, ...view, zoom: 1 });
   });
   return keys;
 }
@@ -93,18 +91,24 @@ function rotVec(rx, ry, [x, y, z]) {
 }
 
 function updateTriad(rx, ry) {
-  const L = 36;
+  const L = 36, TIP = 1.8;                     // ← billes ×1.8
+  const order = [];
   for (const { ax, line, dot, t } of triadParts) {
     const [x, y, z] = rotVec(rx, ry, ax.v);
     const px = 50 + x * L, py = 50 + y * L;
-    const depth = (z + 1) / 2;             // 1 = vers nous, 0 = opposé
+    const depth = (z + 1) / 2;
     line.setAttribute("x1", 50); line.setAttribute("y1", 50);
     line.setAttribute("x2", px.toFixed(1)); line.setAttribute("y2", py.toFixed(1));
     dot.setAttribute("cx", px.toFixed(1)); dot.setAttribute("cy", py.toFixed(1));
-    dot.setAttribute("r", ((ax.label ? 7 : 4) * (0.8 + 0.2 * depth)).toFixed(1));
+    dot.setAttribute("r", ((ax.label ? 6 : 4) * TIP * (0.8 + 0.2 * depth)).toFixed(1));
     if (t) { t.setAttribute("x", px.toFixed(1)); t.setAttribute("y", py.toFixed(1)); }
     line.parentNode.setAttribute("opacity", (0.35 + 0.65 * depth).toFixed(2));
+    order.push({ g: line.parentNode, depth });
   }
+  /* z-sort maison : on repeint loin → près, donc une ligne ne peut plus
+     recouvrir la bille d'un axe plus proche */
+  order.sort((a, b) => a.depth - b.depth);
+  for (const { g } of order) triadSvg.append(g);
 }
 
 const triadParts = buildTriad(triadSvg);
@@ -147,6 +151,14 @@ async function openFiche(hrefOrId) {
   overlay.querySelector(".ficheMeta").textContent = t.meta || "";
   const cont = overlay.querySelector(".ficheContenu");
   cont.replaceChildren();
+  if (t.img) {
+    const img = document.createElement("img");
+    img.src = t.img;
+    img.alt = t.titre ?? "";          // accessibilité
+    img.className = "ficheImg";
+    img.onerror = () => img.remove(); // logo manquant → pas de cadre vide
+    cont.append(img);
+  }
   for (const par of t.contenu || []) { const p = document.createElement("p"); p.textContent = par; cont.append(p); }
   const tags = overlay.querySelector(".ficheTags");
   tags.replaceChildren();
@@ -217,8 +229,11 @@ function apply(p) {
   if (cad.setZoom) cad.setZoom(zoom);
   else cadEl.style.transform = `scale(${zoom})`;   // fallback CSS si cube3d n'a pas setZoom
   updateTriad(rx, ry);
-  const cur = q < 0.02 ? 0 : Math.ceil(q - 0.001); // p ∈ ]i-1, i] → section i
-  cad.setSections(sectionWeights(q));
+  const w = sectionWeights(q);
+  cad.setSections(w);
+  // section affichée = celle dont les annotations sont dominantes (même logique que le fondu)
+  let cur = 0, best = 0;
+  for (let i = 1; i < w.length; i++) if (w[i] > best) { best = w[i]; cur = i; }
   const name = cur === 0 ? "ISO" : labels[cur].toUpperCase();
   viewLabel.textContent = name;
   sbPhase.textContent = name;
@@ -241,6 +256,7 @@ function onScroll() {
 
 function scrollToPhase(i) {
   if (overlay.classList.contains("is-open")) return;
+  cad.resetOrbit?.();                 // annule l'orbite manuelle → pose exacte
   const m = document.documentElement.scrollHeight - window.innerHeight;
   window.scrollTo({ top: (i / (labels.length - 1)) * m, behavior: "smooth" });
 }
