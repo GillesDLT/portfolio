@@ -1,5 +1,57 @@
 {
-  "1": {
+    "exp:stgStirweld": {
+      "titre": "Stage d'observation — STIRWELD",
+      "section": 5,
+      "meta": "mai 2022 · Rennes",
+      "contenu": [
+        "Stage d'observation dans une entreprise de soudage-malaxage (FSW), découverte des métiers d'ingénieur soudeur et projeteur.",
+        "Observation des procédés de fabrication, de conception et du travail en environnement industriel."
+      ],
+      "tags": ["Soudage FSW", "Industrie"]
+    },
+    "exp:i2mL2": {
+      "titre": "Stage R&D — Thermodynamique et mécanique des fluides — I2M",
+      "section": 5,
+      "meta": "sept. 2023 – juil. 2024 · Bordeaux · Stage (11 mois)",
+      "contenu": [
+        "Études expérimentales et numériques d'une sphère évoluant dans un matériau à changement de phases.",
+        "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."
+      ],
+      "tags": ["Thermodynamique", "Mécanique des fluides"]
+    },
+  "exp:i2mL3": {
+    "titre": "Stagiaire R&D — Tolérancement et maîtrise dimensionnelle — I2M Bordeaux",
+    "section": 1,
+    "meta": "sept. 2024 – juil. 2025 · Bordeaux · Stage (11 mois)",
+    "contenu": [
+      "Études numériques sur la création de jumeaux numériques pour la surveillance de l'usure et le tolérancement de pièces usinées, sous la tutelle du Pr. D. Teissandier.",
+      "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."
+    ],
+    "tags": ["Simulations", "Jumeaux numériques", "Conception géométrique"]
+  },
+    "exp:frlLaTeX": {
+      "titre": "Expert LaTeX freelance — Fiverr",
+      "section": 5,
+      "meta": "sept. 2024 – aujourd'hui · À distance",
+      "contenu": [
+        "Rédaction, formatage et typographie de documents professionnels sur mesure avec LaTeX.",
+        "Débogage et structuration avancée de documents complexes pour une mise en page fiable, claire et professionnelle.",
+        "Expertise développée sur plusieurs années : rigueur technique, gestion efficace du temps et communication claire."
+      ],
+      "tags": ["LaTeX", "Typographie", "Débogage"]
+    },
+    "exp:stgExoes": {
+    "titre": "Stagiaire bureau d'étude — EXOES",
+    "section": 1,
+    "meta": "mai 2024 – juil. 2024 · Gradignan · Stage (3 mois)",
+    "contenu": [
+      "Stage au sein du bureau d'étude d'EXOES, entreprise spécialisée en électromobilité.",
+      "Amélioration de pièces d'interface pour le système d'immersion des batteries, création de notices de montage, mise en pratique des compétences de CAO.",
+      "Renforcement de la maîtrise des normes techniques et collaboration au sein d'une équipe en environnement industriel."
+    ],
+    "tags": ["CAO", "Rédaction technique", "Gestion de projet"]
+  },
+  "exp:altSafran": {
     "titre": "Alternant en maîtrise dimensionnelle — Safran Aircraft Engines",
     "section": 1,
     "meta": "sept. 2025 – aujourd'hui · Corbeil-Essonnes · Alternance",
@@ -11,27 +63,6 @@
       "Identification et proposition de pistes d'amélioration concernant la définition et la gestion de l'état contraint lors des opérations de contrôle."
     ],
     "tags": ["Normes ISO", "Tolérancement géométrique", "Métrologie"]
-  },
-  "2": {
-    "titre": "Stagiaire R&D — Tolérancement et maîtrise dimensionnelle — I2M Bordeaux",
-    "section": 1,
-    "meta": "sept. 2024 – juil. 2025 · Bordeaux · Stage (11 mois)",
-    "contenu": [
-      "Études numériques sur la création de jumeaux numériques pour la surveillance de l'usure et le tolérancement de pièces usinées, sous la tutelle du Pr. D. Teissandier.",
-      "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."
-    ],
-    "tags": ["Simulations", "Jumeaux numériques", "Conception géométrique"]
-  },
-  "3": {
-    "titre": "Stagiaire bureau d'étude — EXOES",
-    "section": 1,
-    "meta": "mai 2024 – juil. 2024 · Gradignan · Stage (3 mois)",
-    "contenu": [
-      "Stage au sein du bureau d'étude d'EXOES, entreprise spécialisée en électromobilité.",
-      "Amélioration de pièces d'interface pour le système d'immersion des batteries, création de notices de montage, mise en pratique des compétences de CAO.",
-      "Renforcement de la maîtrise des normes techniques et collaboration au sein d'une équipe en environnement industriel."
-    ],
-    "tags": ["CAO", "Rédaction technique", "Gestion de projet"]
   },
   "4": {
     "titre": "Master Génie Mécanique — Université de Bordeaux",
@@ -125,37 +156,6 @@
       "Notions d'aéronautisme, météorologie, navigation, réglementation aérienne et mécanique du vol."
     ],
     "tags": ["Aéronautique"]
-  },
-  "13": {
-    "titre": "Expert LaTeX freelance — Fiverr",
-    "section": 5,
-    "meta": "sept. 2024 – aujourd'hui · À distance",
-    "contenu": [
-      "Rédaction, formatage et typographie de documents professionnels sur mesure avec LaTeX.",
-      "Débogage et structuration avancée de documents complexes pour une mise en page fiable, claire et professionnelle.",
-      "Expertise développée sur plusieurs années : rigueur technique, gestion efficace du temps et communication claire."
-    ],
-    "tags": ["LaTeX", "Typographie", "Débogage"]
-  },
-  "14": {
-    "titre": "Stage d'observation — STIRWELD",
-    "section": 5,
-    "meta": "mai 2022 · Rennes",
-    "contenu": [
-      "Stage d'observation dans une entreprise de soudage-malaxage (FSW), découverte des métiers d'ingénieur soudeur et projeteur.",
-      "Observation des procédés de fabrication, de conception et du travail en environnement industriel."
-    ],
-    "tags": ["Soudage FSW", "Industrie"]
-  },
-  "15": {
-    "titre": "Stage R&D — Thermodynamique et mécanique des fluides — I2M",
-    "section": 5,
-    "meta": "sept. 2023 – juil. 2024 · Bordeaux · Stage (11 mois)",
-    "contenu": [
-      "Études expérimentales et numériques d'une sphère évoluant dans un matériau à changement de phases.",
-      "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."
-    ],
-    "tags": ["Thermodynamique", "Mécanique des fluides"]
   },
   "16": { "titre": "Projet", "section": 2, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies."], "tags": ["Lorem"] },
   "17": { "titre": "Projet de rétro-conception", "section": 2, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies."], "tags": ["Lorem"] },

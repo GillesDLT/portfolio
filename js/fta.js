@@ -179,13 +179,12 @@ export function buildFTA(getPlane) {
   planes[8] = getPlane(8);   // ← prêt pour Compétences / Le reste
 
   /* ---- S1 EXPÉRIENCES : face droite (+X), 6 annotations cliquables ---- */
-  experienceNote("⌖", "Alternance Safran", "#fiche=1",  1, [46, 24, -30], [64, 84]);
-  experienceNote("⌖", "I2M tolérance",     "#fiche=2",  1, [46, -4, -30], [64, -84]);
-  experienceNote("⏥", "Planéité",          "#fiche=16", 1, [46, -28, -12], [-38, -66]);
-  experienceNote("⌭", "Cylindricité",      "#fiche=3",  1, [46, 18, -30], [-28, 78]);
-  toleranceFrame("⏥", ["0.1","A"], 1, [0, 30, 20],   [36, 92],  "#fiche=13");       // LaTeX freelance
-  cote("Ø28", 1, [46, 24, -30], [46, -4, -30],  30, "#fiche=14");
-  cote("32",  1, [46, 10, -30], [46, 42, -30], -36, "#fiche=15");
+  experienceNote("⌖", "Alternance Safran", "#fiche=exp:altSafran",  1, [46, 24, -30], [64, 84]);
+  experienceNote("⌖", "I2M polytoCAT",     "#fiche=exp:i2mL3",  1, [46, -4, -30], [64, -84]);
+  experienceNote("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX", 1, [46, -28, -12], [-38, -66]);
+  experienceNote("⌭", "Stage Exoes",       "#fiche=exp:stgExoes",  1, [46, 18, -30], [-28, 78]);
+  cote("Ø28", 1, [46, 24, -30], [46, -4, -30],  30, "#fiche=exp:stgStirweld");
+  cote("32",  1, [46, 10, -30], [46, 42, -30], -36, "#fiche=exp:i2mL2");
 
   /* ---- S2 FORMATIONS & DIVERS (face) : fiches 4 → 15 ---- */
   // Formations
