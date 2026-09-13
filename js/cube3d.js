@@ -48,14 +48,16 @@ export function initCAD(container, canvas, annoEl) {
   modele.add(buildPart());
   scene.add(modele);
 
-  const annoPlanes = [null, null, null, null];
-  // À aligner sur les vues : ry=0 → caméra sur +Z (face), ry=−90 → +X (droite), rx≈−85 → au-dessus
+  const annoPlanes = [null, null, null, null, null, null, null, null, null];
   const PLANE_ROT = {
-    1: [0, Math.PI / 2, 0],   // S1 Expériences : face DROITE (+X)  ← modifié (caméra ry=−90)
-    2: [0, Math.PI / 2, 0],   // inchangé
-    3: [0, Math.PI, 0],       // inchangé
-    4: [0, -Math.PI / 2, 0],  // inchangé
-    5: [-Math.PI / 2, 0, 0],  // inchangé
+    1: [0,  Math.PI / 2, 0],       // S1 Expériences    : droite  (+X)
+    2: [0,  0,           0],       // S2 Formations     : face    (+Z)   ← changé
+    3: [0,  0,           0],       // S3 Bénévolat      : face    (+Z)   ← changé
+    4: [0,  0,           0],       // S4 Certifications : face    (+Z)   ← changé
+    5: [0,  Math.PI / 2, 0],       // S5 Freelance      : droite  (+X)   ← changé
+    6: [-Math.PI / 2, 0, Math.PI], // S6 Projets        : dessus         ← nouveau
+    7: [0,  Math.PI,     0],       // S7 Compétences    : arrière (−Z)   ← nouveau
+    8: [0,  Math.PI,     0],       // S8 Le reste       : arrière (−Z)   ← nouveau
   };
   function getAnnoPlane(i) {
     if (!PLANE_ROT[i]) return null;      // section sans plan (ex. ISO)
@@ -68,13 +70,45 @@ export function initCAD(container, canvas, annoEl) {
     }
     return annoPlanes[i];
   }
-  function setSection(cur) {
-    annoPlanes.forEach((pl, i) => {
-      if (!pl) return;
-      const on = i === cur;                    // 0 = ISO → tout caché
-      pl.visible = on;                         // lignes/triangles THREE
-      pl.traverse((o) => { if (o.isCSS3DObject) o.visible = on; });
+    /* ---- Fondu des annotations (au lieu d'un on/off) ---- */
+  function applyWeight(pl, w) {
+    const on = w > 0.002;
+    pl.visible = on;
+    pl.traverse((o) => {
+      if (o.isCSS3DObject) {                       // cadres, datums, cotes (HTML)
+        o.visible = on;
+        const el = o.element;
+        if (el) {
+          el.style.opacity = w.toFixed(3);
+          if (el.dataset.pe === undefined)
+            el.dataset.pe = el.style.pointerEvents === "auto" ? "1" : "";
+          if (el.dataset.pe === "1") el.style.pointerEvents = w > 0.6 ? "auto" : "none";
+        }
+      } else if (o.material) {                     // lignes / triangles THREE
+        const mats = Array.isArray(o.material) ? o.material : [o.material];
+        for (const m of mats) {
+          if (m.userData.base === undefined) {
+            m.userData.base = m.opacity ?? 1;
+            m.transparent = true;
+            m.needsUpdate = true;
+          }
+          m.opacity = m.userData.base * w;
+        }
+        o.visible = on;
+      }
     });
+  }
+
+  /* poids 0..1 par section (indexé 1..N) */
+  function setSections(weights) {
+    annoPlanes.forEach((pl, i) => { if (pl) applyWeight(pl, weights[i] ?? 0); });
+  }
+
+  /* compat : une seule section nette (ISO, clic arbre, etc.) */
+  function setSection(cur) {
+    const w = [];
+    for (let i = 0; i < 6; i++) w[i] = i === cur ? 1 : 0;
+    setSections(w);
   }
 
 buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
@@ -131,5 +165,5 @@ buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
     css3d.render(scene, camera);
   })();
 
-    return { setPose, setSection };
+    return { setPose, setSection, setSections };
 }

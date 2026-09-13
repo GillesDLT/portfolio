@@ -21,32 +21,27 @@ let currentP = 0;
 const lerp = (a, b, t) => a + (b - a) * t;
 const rad = (d) => (d * Math.PI) / 180;
 
-/* Vues par défaut des sections, une par face (cyclées s'il y en a plus) */
+/* Une vue par section, dans l'ordre de data/sections.json (plus de cycle) */
+const DROITE   = { rx: 0,   ry: -90  };  // caméra sur +X
+const DEVANT   = { rx: 0,   ry: 0    };  // caméra sur +Z
+const DESSUS   = { rx: -90, ry: -180 };  // au-dessus (−180 : chemin de rotation le plus court)
+const DERRIERE = { rx: 0,   ry: -180 };  // caméra sur −Z
+
 const VIEWS = [
-  { rx: 0,   ry: -90 },   // S1 Expériences : face DROITE (+X) — annotations cliquables  ← modifié
-  { rx: 0,   ry: 180 },   // S2 Formations  : derrière       (inchangé)
-  { rx: -90, ry: 180 },   // S3 Bénévolat   : dessus         (inchangé)
-  { rx: 0,   ry: 270 },   // S4 Certifications : côté (+X)   (inchangé)
-  { rx: 0,   ry: 0   },   // S5 Freelance & Divers : devant  (inchangé — épinglé ici, était VIEWS[0])
+  DROITE,    // S1 Expériences        → droite
+  DEVANT,    // S2 Formations         → face
+  DEVANT,    // S3 Bénévolat          → face
+  DEVANT,    // S4 Certifications     → face
+  DROITE,    // S5 Freelance & Divers → droite
+  DESSUS,    // S6 Projets            → dessus
+  DERRIERE,  // S7 Compétences        → arrière
+  DERRIERE,  // S8 Le reste           → arrière
 ];
 
-/* Règle : section inline → rien. > 5 boîtes → zoom, > 10 → 3 étapes. */
 function buildKeys(sections) {
-  const keys = [{ p: 0, ...ISO }];
+  const keys = [{ p: 0, ...ISO }];                 // l'ouverture reste ISO
   sections.forEach((s, i) => {
-    const view = VIEWS[i % VIEWS.length];
-    const boxes = (s.textes || []).length;
-    const zoomable = boxes > 5 && !s.inline;
-    const steps = zoomable ? (boxes > 10 ? 3 : 2) : 0;
-    for (let k = 1; k <= steps; k++) {
-      keys.push({
-        p: i + k / (steps + 1),           // à l'intérieur de l'intervalle de la section
-        rx: view.rx + k * 6,
-        ry: view.ry + k * 18,             // petite dérive en rotation pour l'effet "exploration"
-        zoom: 1 + k * (steps === 3 ? 0.7 : 0.9),
-      });
-    }
-    keys.push({ p: i + 1, ...view, zoom: 1 });
+    keys.push({ p: i + 1, ...VIEWS[i % VIEWS.length], zoom: 1 });  // zoom toujours ×1
   });
   return keys;
 }
@@ -187,6 +182,25 @@ addEventListener("open-fiche", (e) => openFiche(e.detail.href));
 const bootFiche = location.hash.match(/fiche=([^&]+)/);
 if (bootFiche) openFiche(bootFiche[1]);
 
+/* ---- Fenêtre d'affichage des annotations FTA ---- */
+const LEAD = 0.45;   // plateau avant la clé (apparition anticipée)
+const LAG  = 0.35;   // plateau après la clé  ← c'est le correctif
+const FADE = 0.10;   // largeur du fondu
+const smooth = (t) => t * t * (3 - 2 * t);        // smoothstep
+
+function sectionWeights(q) {
+  const w = [];
+  const a = LEAD + FADE, b = LAG + FADE;
+  for (let i = 1; i < labels.length; i++) {       // labels[0] = Home
+    const d = q - i;                              // écart à la clé de la section i
+    if (d <= -a || d >= b)  w[i] = 0;
+    else if (d < -LEAD)     w[i] = smooth((d + a) / FADE);
+    else if (d >  LAG)      w[i] = smooth((b - d) / FADE);
+    else                    w[i] = 1;
+  }
+  return w;
+}
+
 /* ---- Cube ---- */
 function apply(p) {
   if (KEYS.length < 2) return;
@@ -204,7 +218,7 @@ function apply(p) {
   else cadEl.style.transform = `scale(${zoom})`;   // fallback CSS si cube3d n'a pas setZoom
   updateTriad(rx, ry);
   const cur = q < 0.02 ? 0 : Math.ceil(q - 0.001); // p ∈ ]i-1, i] → section i
-  cad.setSection(cur);
+  cad.setSections(sectionWeights(q));
   const name = cur === 0 ? "ISO" : labels[cur].toUpperCase();
   viewLabel.textContent = name;
   sbPhase.textContent = name;

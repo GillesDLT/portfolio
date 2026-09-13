@@ -71,11 +71,14 @@ const planes = [null, null, null, null];
 /* monde → (u,v) local du plan de la section i
    S1 face : u=x, v=y | S2 côté : u=−z, v=y | S3 dessus : u=x, v=−z */
 function toUV(i, [x, y, z]) {
-  return i === 1 ? [-z, y]     // S1 face DROITE (+X) — EXPERIENCE   ← modifié
-       : i === 2 ? [-z, y]     // inchangé
-       : i === 3 ? [-x, y]
-       : i === 4 ? [z, y]
-       : i === 5 ? [x, -z]
+  return i === 1 ? [-z, y]     // S1 droite (+X)
+       : i === 2 ? [x, y]      // S2 face (+Z)    ← changé
+       : i === 3 ? [x, y]      // S3 face (+Z)    ← changé
+       : i === 4 ? [x, y]      // S4 face (+Z)    ← changé
+       : i === 5 ? [-z, y]     // S5 droite (+X)  ← changé
+       : i === 6 ? [-x, z]     // S6 dessus       ← nouveau
+       : i === 7 ? [-x, y]     // S7 arrière      ← nouveau
+       : i === 8 ? [-x, y]     // S8 arrière      ← nouveau
        : [x, y];
 }
 
@@ -173,6 +176,9 @@ export function buildFTA(getPlane) {
   planes[1] = getPlane(1); planes[2] = getPlane(2); planes[3] = getPlane(3);
   planes[4] = getPlane(4);                                   // ← NOUVEAU : face Certifications
   planes[5] = getPlane(5);
+  planes[6] = getPlane(6);                            // ← prêt pour Projets (dessus)
+  planes[7] = getPlane(7);
+  planes[8] = getPlane(8);   // ← prêt pour Compétences / Le reste
 
   /* ---- S1 EXPÉRIENCES : face droite (+X), 6 annotations cliquables ---- */
   experienceNote("⌖", "Alternance Safran", "#fiche=1",  1, [46, 24, -30], [64, 84]);
