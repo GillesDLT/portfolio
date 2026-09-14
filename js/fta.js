@@ -157,18 +157,35 @@ export function dimensionISO(text, i, p1, p2, off = -30, section) {
                         (A[1] + B[1]) / 2 + (alongU ? 12 * s : 0), section);
 }
 
-/* Annotation « expérience » : ligne de rappel + flèche + cadre GD&T cliquable → fiche existante */
-export function specificationISO(glyph, label, href, i, anchor, labelUV, scale) {
+/* Cadre ISO multi-cases : symbole | valeur | datums… (1 case par référence)
+   Leader : anchor (3D, flèche) → bendUV (coude, UV plan, optionnel) → labelUV (cadre) */
+export function specificationISO(glyph, label, href, i, anchor, labelUV, bendUV, scale) {
   const [au, av] = toUV(i, anchor), [lu, lv] = labelUV;
-  flatPoly(i, [[au, av], [lu, lv]]);          // ligne de rappel
-  flatTri(i, au, av, lu - au, lv - av);       // flèche sur la face
+
+  const pts = bendUV ? [[au, av], bendUV, [lu, lv]] : [[au, av], [lu, lv]];
+  flatPoly(i, pts);                                  // ligne de rappel : droite ou coudée
+  const [tu, tv] = bendUV ? bendUV : [lu, lv];
+  flatTri(i, au, av, tu - au, tv - av);              // flèche orientée sur le 1er segment
+
   const el = document.createElement("div");
   el.className = "gdnt";
+
+  const frame = document.createElement("div");
+  frame.className = "gdnt-frame";
+
   const sym = document.createElement("span");
-  sym.className = "gdnt-sym"; sym.textContent = glyph;
-  const val = document.createElement("span");
-  val.className = "gdnt-cell"; val.textContent = label;
-  el.append(sym, val);
+  sym.className = "gdnt-cell gdnt-sym";
+  sym.textContent = glyph;
+  frame.append(sym);
+
+  for (const txt of [].concat(label)) {              // 1 case par référence
+    const c = document.createElement("span");
+    c.className = "gdnt-cell";
+    c.textContent = txt;
+    frame.append(c);
+  }
+
+  el.append(frame);
   return putLabel(el, i, lu, lv, href, 1, scale);
 }
 
@@ -183,29 +200,29 @@ export function buildFTA(getPlane) {
   planes[8] = getPlane(8);   // ← prêt pour Compétences / Le reste
 
   /* ---- S1 EXPÉRIENCES : face droite (+X), 6 annotations cliquables ---- */
-  specificationISO("⌖", "Alternance Safran", "#fiche=exp:altSafran", 1, [46, 24, -30], [64, 84]);
-  specificationISO("⌖", "I2M polytoCAT",     "#fiche=exp:i2mL3",     1, [46, -4, -30], [64, -84]);
+  specificationISO("⌖", ["Alternance Safran","A"], "#fiche=exp:altSafran", 1, [0, 36, 0], [64, 36], [48, 84]);
+  specificationISO("⌖", "I2M polytoCAT",     "#fiche=exp:i2mL3",      1, [0, 36, 0], [64, 36], [48, 84]);
   specificationISO("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX",  1, [46, -28, -12], [-38, -66]);
   specificationISO("⌭", "Stage Exoes",       "#fiche=exp:stgExoes",  1, [46, 18, -30], [-28, 78]);
   dimensionISO("Ø28", 1, [46, 24, -30], [46, -4, -30],  30, "#fiche=exp:stgStirweld");
   dimensionISO("32",  1, [46, 10, -30], [46, 42, -30], -36, "#fiche=exp:i2mL2");
 
-  /* ---- S2 FORMATIONS & DIVERS (face) : fiches 4 → 15 ---- */
+   /* ---- S2 FORMATIONS & DIVERS (face · plane 2) : etu · aso · dip · exp ---- */
   // Formations
-  specificationISO("⌖", ["Ø0.2","A","B"], 2, [30, 30, 20],  [72, 78],  "#fiche=4");   // Master GM
-  specificationISO("↗", ["0.05","A","B"], 2, [30, -30, 20], [72, -78], "#fiche=5");   // Licence SPI
-  specificationISO("⌖", "Bac général", "#fiche=6", 2, [0, 45, 20],     [0, 92]);      // Bac
+  specificationISO("⌖", ["Ø0.2","A","B"],  "#fiche=etu:masterGM",   2, [ 30,  30, 20], [  72,  78]);  // Master GM
+  specificationISO("↗", ["0.05","A","B"],  "#fiche=etu:licenceSPI", 2, [ 30, -30, 20], [  72, -78]);  // Licence SPI
+  specificationISO("⌖", "Bac général",     "#fiche=etu:lycee",      2, [  0,  45, 20], [   0,  92]);  // Bac
   // Bénévolat
-  specificationISO("⌖", ["Ø0.25","A","B"], 2, [-30, 30, 20], [-72, 78], "#fiche=7");  // Chef scouts
-  dimensionISO("Ø30 H7", 2, [-15, 0, 20], [15, 0, 20], -40, "#fiche=8");                    // Assistant intendant (alésage Ø30 [1])
-  specificationISO("⏥", "Scouts GSE", "#fiche=9", 2, [-45, 0, 20],     [-100, 0]);    // Engagement en bref
+  specificationISO("⌖", ["Ø0.25","A","B"], "#fiche=aso:scoutCC",    2, [-30,  30, 20], [ -72,  78]);  // Chef scouts
+  dimensionISO("Ø30 H7", 2, [-15, 0, 20], [15, 0, 20], -40, "#fiche=aso:scoutACT");                  // Assistant intendant (alésage Ø30 [1])
+  specificationISO("⏥", "Scouts GSE",      "#fiche=aso:scoutENR",   2, [-45,   0, 20], [-100,   0]);  // Engagement en bref
   // Certifications
-  specificationISO("⌖", "TOEIC C1", "#fiche=10", 2, [45, 0, 20],       [100, 0]);
-  specificationISO("⏥", "PIX",      "#fiche=11", 2, [-30, -30, 20],    [-72, -78]);
-  dimensionISO("Ø28", 2, [23, 24, 20], [23, -4, 20], 30, "#fiche=12");                      // BIA (sur le contrelamage Ø46 [1])
+  specificationISO("⌖", "TOEIC C1",        "#fiche=dip:toeic",      2, [ 45,   0, 20], [ 100,   0]);
+  specificationISO("⏥", "PIX",             "#fiche=dip:pix",        2, [-30, -30, 20], [ -72, -78]);
+  dimensionISO("Ø28", 2, [23, 24, 20], [23, -4, 20], 30, "#fiche=dip:bia");                         // BIA (sur le contrelamage Ø46 [1])
   // Freelance & Divers
-  specificationISO("⌖", "STIRWELD FSW", "#fiche=14", 2, [0, -52, 20],  [0, -92]);
-  specificationISO("⌖", "I2M thermo",   "#fiche=15", 2, [15, 15, 20],  [76, 40]);
+  specificationISO("⌖", "STIRWELD FSW",    "#fiche=exp:stgStirweld", 2, [  0, -52, 20], [   0, -92]);
+  specificationISO("⌖", "I2M thermo",      "#fiche=exp:i2mL2",       2, [ 15,  15, 20], [  76,  40]);
 
     /* ---- S3 PROJETS (dessus · plane 6) : 12 fiches, 2 colonnes ---- */
   // Colonne gauche (u = -x) : projets académiques

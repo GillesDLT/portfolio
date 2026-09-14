@@ -168,17 +168,46 @@ body {
   .toolbar__views { overflow-x: auto; }
 }
 
-/* ----------- les specifs, je crois ----------- */
-/* le titre de fiche passe SOUS le cadre, plus dedans */
+/* ----------- Cadres de spécification ISO ----------- */
+
+.gdnt {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;              /* le cadre garde sa largeur de contenu */
+  color: #dfe7ee;                       /* même teinte que lignes/cotes three.js */
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;
+}
+
+/* Le cadre à cases proprement dit */
+.gdnt-frame {
+  display: inline-flex;
+  align-items: center;                  /* centrage vertical des glyphes */
+  border: 1.5px solid currentColor;
+  background: rgba(8, 12, 16, .55);     /* lisibilité sur la scène 3D */
+  line-height: 1.3;
+}
+.gdnt-cell { padding: 1px 6px; white-space: nowrap; }
+.gdnt-cell + .gdnt-cell { border-left: 1.5px solid currentColor; }  /* vraie délimitation */
+.gdnt-sym  { min-width: 1.6em; text-align: center; }
+
+/* Sous-libellé « → fiche » ajouté par makeClickable() dans le .gdnt [1] */
 .gdnt-link {
-  position: absolute;          /* sort du flux inline-flex du cadre */
-  top: calc(100% + 2px);       /* juste sous la bordure du bas */
-  left: 0;                     /* aligné à gauche comme ton croquis */
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
   font-size: 10px;
   color: #7fc4ff;
   white-space: nowrap;
+  text-shadow: 0 0 4px rgba(0, 0, 0, .8);  /* lisible hors du cadre */
 }
+
 .gdnt:hover, .gdnt-datum:hover, .gdnt-cote:hover { filter: brightness(1.4); }
+.gdnt, .gdnt-datum, .gdnt-cote { transition: filter .15s ease; }
+
+/* Cohérence datum / cote avec les cadres (à ignorer si déjà stylés ailleurs) */
+.gdnt-datum { border: 1.5px solid currentColor; padding: 0 4px; background: rgba(8, 12, 16, .55); }
+.gdnt-cote  { color: #dfe7ee; padding: 0 4px; background: rgba(8, 12, 16, .45); }
+
 #sectionTexts h2 { font-size: 14px; margin: 0 0 8px; color: #dfe7ee; }
 #sectionTexts h3 { font-size: 12px; margin: 10px 0 4px; color: #9fc0d8; }
 
