@@ -112,22 +112,25 @@ function flatTri(i, u, v, du, dv, w = 7, h = 8) {
   planes[i].add(m);
 }
 
-/* Cadre de tolérance : entité (ancrage 3D projeté) → label posé sur le plan */
-export function toleranceFrame(symbol, values, i, anchor, labelUV, section) {
-  const [au, av] = toUV(i, anchor), [lu, lv] = labelUV;
-  flatPoly(i, [[au, av], [lu, lv]]);
-  flatTri(i, au, av, lu - au, lv - av);
-  const el = document.createElement("div");
-  el.className = "gdnt";
-  const sym = document.createElement("span");
-  sym.className = "gdnt-sym"; sym.textContent = symbol;
-  el.append(sym);
-  for (const v of values) {
-    const c = document.createElement("span");
-    c.className = "gdnt-cell"; c.textContent = v;
-    el.append(c);
-  }
-  return putLabel(el, i, lu, lv, section);
+/* Pointe de flèche fine et pointue */
+function flatArrow(i, u, v, du, dv, size = 7, width = 2) {
+  if (!planes[i]) return;
+
+  const len = Math.hypot(du, dv) || 1;
+  const dx = du / len, dy = dv / len;
+  const px = -dy, py = dx;
+
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute([
+    u, v, 0.3,
+    u + dx * size + px * width, v + dy * size + py * width, 0.3,
+    u + dx * size - px * width, v + dy * size - py * width, 0.3
+  ], 3));
+  g.setIndex([0, 1, 2]);
+
+  const m = new THREE.Mesh(g, flatMat());
+  m.renderOrder = 10;
+  planes[i].add(m);
 }
 
 /* Datum : triangle à plat + leader + cadre lettré, tout sur le plan */
@@ -141,20 +144,67 @@ export function datum(letter, i, anchor, offset, section) {
   return putLabel(el, i, bu, bv, section);
 }
 
-/* Cote : lignes de rappel + ligne de cote + flèches + texte, sur le plan */
-export function dimensionISO(text, i, p1, p2, off = -30, section) {
+/* ---- Réglages globaux des cotes : à ajuster une fois ---- */
+export const COTE = {
+  GAP: 12,       // écart texte ↔ ligne de cote
+  ARROW: 7,      // longueur des pointes flatArrow
+  ARROW_W: 2,    // demi-largeur des pointes
+};
+
+/* Cote ISO : rappels + ligne de cote + pointes fines + TEXTE libre.
+   opts = {
+     off       : -30,          // distance de la ligne de cote (signé = côté)
+     angle     : 0,            // orientation du texte en degrés (0, 90, -90…)
+     labelUV   : null,         // [u,v] position manuelle absolue du texte
+     labelOff  : null,         // [du,dv] décalage manuel depuis le milieu de la ligne
+     gap       : COTE.GAP,     // écart auto texte ↔ ligne de cote
+     arrow     : COTE.ARROW,   // longueur des pointes
+     arrowW    : COTE.ARROW_W, // demi-largeur des pointes
+     z         : 1,            // élévation du label
+     className : "gdnt-cote",  // style du texte
+     section   : undefined,    // cible cliquable "#fiche=…"
+   }
+   Rétro-compatible : dimensionISO(text, i, p1, p2, off, section) marche encore. */
+export function dimensionISO(text, i, p1, p2, opts = {}, compatSection) {
+  if (typeof opts === "number") opts = { off: opts };              // ancien style d'appel
+  if (compatSection !== undefined && opts.section === undefined) opts.section = compatSection;
+
+  const {
+    off = -30, angle = 0, labelUV = null, labelOff = null,
+    gap = COTE.GAP, arrow = COTE.ARROW, arrowW = COTE.ARROW_W,
+    z = 1, className = "gdnt-cote", section,
+  } = opts;
+
   const [u1, v1] = toUV(i, p1), [u2, v2] = toUV(i, p2);
   const alongU = Math.abs(u2 - u1) >= Math.abs(v2 - v1);
   const s = Math.sign(off) || 1, d = Math.abs(off);
   const A = [u1 + (alongU ? 0 : s) * d, v1 + (alongU ? s : 0) * d];
   const B = [u2 + (alongU ? 0 : s) * d, v2 + (alongU ? s : 0) * d];
-  flatPoly(i, [[u1, v1], A]); flatPoly(i, [[u2, v2], B]); flatPoly(i, [A, B]);
-  flatTri(i, A[0], A[1], B[0] - A[0], B[1] - A[1]);
-  flatTri(i, B[0], B[1], A[0] - B[0], A[1] - B[1]);
+
+  flatPoly(i, [[u1, v1], A]);
+  flatPoly(i, [[u2, v2], B]);
+  flatPoly(i, [A, B]);
+
+  /* Pointes fines (flatArrow) au lieu des triangles pleins flatTri */
+  flatArrow(i, A[0], A[1], B[0] - A[0], B[1] - A[1], arrow, arrowW);
+  flatArrow(i, B[0], B[1], A[0] - B[0], A[1] - B[1], arrow, arrowW);
+
+  /* Position du texte : labelUV (absolu) > labelOff (relatif) > auto (côté de off) */
+  const mu = (A[0] + B[0]) / 2, mv = (A[1] + B[1]) / 2;
+  let lu, lv;
+  if (labelUV)       { [lu, lv] = labelUV; }
+  else if (labelOff) { [lu, lv] = [mu + labelOff[0], mv + labelOff[1]]; }
+  else {             // auto : décalé perpendiculairement, du même côté que off
+    lu = mu + (alongU ? 0 : s) * gap;
+    lv = mv + (alongU ? s : 0) * gap;
+  }
+
   const el = document.createElement("div");
-  el.className = "gdnt-cote"; el.textContent = text;
-  return putLabel(el, i, (A[0] + B[0]) / 2 + (alongU ? 0 : 12 * s),
-                        (A[1] + B[1]) / 2 + (alongU ? 12 * s : 0), section);
+  el.className = className;
+  el.textContent = text;
+  const o = putLabel(el, i, lu, lv, section, z);
+  if (o && angle) o.rotation.z = THREE.MathUtils.degToRad(angle);  // texte pivoté 90°/-90°
+  return o;
 }
 
 /* Cadre ISO multi-cases : symbole | valeur | datums… (1 case par référence)
@@ -165,8 +215,7 @@ export function specificationISO(glyph, label, href, i, anchor, labelUV, bendUV,
   const pts = bendUV ? [[au, av], bendUV, [lu, lv]] : [[au, av], [lu, lv]];
   flatPoly(i, pts);                                  // ligne de rappel : droite ou coudée
   const [tu, tv] = bendUV ? bendUV : [lu, lv];
-  flatTri(i, au, av, tu - au, tv - av);              // flèche orientée sur le 1er segment
-
+  flatArrow(i, au, av, tu - au, tv - av)
   const el = document.createElement("div");
   el.className = "gdnt";
 
@@ -200,13 +249,12 @@ export function buildFTA(getPlane) {
   planes[8] = getPlane(8);   // ← prêt pour Compétences / Le reste
 
   /* ---- S1 EXPÉRIENCES : face droite (+X), 6 annotations cliquables ---- */
-  specificationISO("⌖", ["Alternance Safran","A"], "#fiche=exp:altSafran", 1, [0, 36, 0], [64, 36], [48, 84]);
-  specificationISO("⌖", "I2M polytoCAT",     "#fiche=exp:i2mL3",      1, [0, 36, 0], [64, 36], [48, 84]);
-  specificationISO("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX",  1, [46, -28, -12], [-38, -66]);
-  specificationISO("⌭", "Stage Exoes",       "#fiche=exp:stgExoes",  1, [46, 18, -30], [-28, 78]);
-  dimensionISO("Ø28", 1, [46, 24, -30], [46, -4, -30],  30, "#fiche=exp:stgStirweld");
-  dimensionISO("32",  1, [46, 10, -30], [46, 42, -30], -36, "#fiche=exp:i2mL2");
-
+  specificationISO("⌖", ["Alternance Safran","A"], "#fiche=exp:altSafran", 1, [0, 60, 10], [50, 80], [-10, 80]);
+    specificationISO("⏥", "I2M polytoCAT",     "#fiche=exp:i2mL3",      1, [0, 50, 25], [-80, 50]);
+  specificationISO("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX",   1, [0, -28, 49], [-100, -28]);
+  specificationISO("⌭", "Stage Exoes",       "#fiche=exp:stgExoes",  1, [0, -35, 35], [-95, -80], [-35, -80]);
+  dimensionISO("Stage BE",   1, [0, 43, -42], [0, -43, -42], { off:  20, angle: 90, section: "#fiche=exp:stgStirweld" });
+  dimensionISO("I2M thermo", 1, [0, -35, -1], [0, -35, 25], { off: -35, section: "#fiche=exp:i2mL2" });
    /* ---- S2 FORMATIONS & DIVERS (face · plane 2) : etu · aso · dip · exp ---- */
   // Formations
   specificationISO("⌖", ["Ø0.2","A","B"],  "#fiche=etu:masterGM",   2, [ 30,  30, 20], [  72,  78]);  // Master GM
@@ -215,11 +263,11 @@ export function buildFTA(getPlane) {
   // Bénévolat
   specificationISO("⌖", ["Ø0.25","A","B"], "#fiche=aso:scoutCC",    2, [-30,  30, 20], [ -72,  78]);  // Chef scouts
   dimensionISO("Ø30 H7", 2, [-15, 0, 20], [15, 0, 20], -40, "#fiche=aso:scoutACT");                  // Assistant intendant (alésage Ø30 [1])
-  specificationISO("⏥", "Scouts GSE",      "#fiche=aso:scoutENR",   2, [-45,   0, 20], [-100,   0]);  // Engagement en bref
+  dimensionISO("Intendance", 2, [-15, 0, 20], [15, 0, 20], { off: -40, section: "#fiche=aso:scoutACT" });
   // Certifications
   specificationISO("⌖", "TOEIC C1",        "#fiche=dip:toeic",      2, [ 45,   0, 20], [ 100,   0]);
   specificationISO("⏥", "PIX",             "#fiche=dip:pix",        2, [-30, -30, 20], [ -72, -78]);
-  dimensionISO("Ø28", 2, [23, 24, 20], [23, -4, 20], 30, "#fiche=dip:bia");                         // BIA (sur le contrelamage Ø46 [1])
+  dimensionISO("BIA",        2, [ 23, 24, 20], [23, -4, 20], { off:  30, section: "#fiche=dip:bia" });
   // Freelance & Divers
   specificationISO("⌖", "STIRWELD FSW",    "#fiche=exp:stgStirweld", 2, [  0, -52, 20], [   0, -92]);
   specificationISO("⌖", "I2M thermo",      "#fiche=exp:i2mL2",       2, [ 15,  15, 20], [  76,  40]);
