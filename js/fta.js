@@ -142,7 +142,7 @@ export function datum(letter, i, anchor, offset, section) {
 }
 
 /* Cote : lignes de rappel + ligne de cote + flèches + texte, sur le plan */
-export function cote(text, i, p1, p2, off = -30, section) {
+export function dimensionISO(text, i, p1, p2, off = -30, section) {
   const [u1, v1] = toUV(i, p1), [u2, v2] = toUV(i, p2);
   const alongU = Math.abs(u2 - u1) >= Math.abs(v2 - v1);
   const s = Math.sign(off) || 1, d = Math.abs(off);
@@ -158,7 +158,7 @@ export function cote(text, i, p1, p2, off = -30, section) {
 }
 
 /* Annotation « expérience » : ligne de rappel + flèche + cadre GD&T cliquable → fiche existante */
-export function experienceNote(glyph, label, href, i, anchor, labelUV, scale) {
+export function specificationISO(glyph, label, href, i, anchor, labelUV, scale) {
   const [au, av] = toUV(i, anchor), [lu, lv] = labelUV;
   flatPoly(i, [[au, av], [lu, lv]]);          // ligne de rappel
   flatTri(i, au, av, lu - au, lv - av);       // flèche sur la face
@@ -183,68 +183,68 @@ export function buildFTA(getPlane) {
   planes[8] = getPlane(8);   // ← prêt pour Compétences / Le reste
 
   /* ---- S1 EXPÉRIENCES : face droite (+X), 6 annotations cliquables ---- */
-  experienceNote("⌖", "Alternance Safran", "#fiche=exp:altSafran",  1, [46, 24, -30], [64, 84]);
-  experienceNote("⌖", "I2M polytoCAT",     "#fiche=exp:i2mL3",  1, [46, -4, -30], [64, -84]);
-  experienceNote("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX", 1, [46, -28, -12], [-38, -66]);
-  experienceNote("⌭", "Stage Exoes",       "#fiche=exp:stgExoes",  1, [46, 18, -30], [-28, 78]);
-  cote("Ø28", 1, [46, 24, -30], [46, -4, -30],  30, "#fiche=exp:stgStirweld");
-  cote("32",  1, [46, 10, -30], [46, 42, -30], -36, "#fiche=exp:i2mL2");
+  specificationISO("⌖", "Alternance Safran", "#fiche=exp:altSafran", 1, [46, 24, -30], [64, 84]);
+  specificationISO("⌖", "I2M polytoCAT",     "#fiche=exp:i2mL3",     1, [46, -4, -30], [64, -84]);
+  specificationISO("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX",  1, [46, -28, -12], [-38, -66]);
+  specificationISO("⌭", "Stage Exoes",       "#fiche=exp:stgExoes",  1, [46, 18, -30], [-28, 78]);
+  dimensionISO("Ø28", 1, [46, 24, -30], [46, -4, -30],  30, "#fiche=exp:stgStirweld");
+  dimensionISO("32",  1, [46, 10, -30], [46, 42, -30], -36, "#fiche=exp:i2mL2");
 
   /* ---- S2 FORMATIONS & DIVERS (face) : fiches 4 → 15 ---- */
   // Formations
-  experienceNote("⌖", ["Ø0.2","A","B"], 2, [30, 30, 20],  [72, 78],  "#fiche=4");   // Master GM
-  experienceNote("↗", ["0.05","A","B"], 2, [30, -30, 20], [72, -78], "#fiche=5");   // Licence SPI
-  experienceNote("⌖", "Bac général", "#fiche=6", 2, [0, 45, 20],     [0, 92]);      // Bac
+  specificationISO("⌖", ["Ø0.2","A","B"], 2, [30, 30, 20],  [72, 78],  "#fiche=4");   // Master GM
+  specificationISO("↗", ["0.05","A","B"], 2, [30, -30, 20], [72, -78], "#fiche=5");   // Licence SPI
+  specificationISO("⌖", "Bac général", "#fiche=6", 2, [0, 45, 20],     [0, 92]);      // Bac
   // Bénévolat
-  experienceNote("⌖", ["Ø0.25","A","B"], 2, [-30, 30, 20], [-72, 78], "#fiche=7");  // Chef scouts
-  cote("Ø30 H7", 2, [-15, 0, 20], [15, 0, 20], -40, "#fiche=8");                    // Assistant intendant (alésage Ø30 [1])
-  experienceNote("⏥", "Scouts GSE", "#fiche=9", 2, [-45, 0, 20],     [-100, 0]);    // Engagement en bref
+  specificationISO("⌖", ["Ø0.25","A","B"], 2, [-30, 30, 20], [-72, 78], "#fiche=7");  // Chef scouts
+  dimensionISO("Ø30 H7", 2, [-15, 0, 20], [15, 0, 20], -40, "#fiche=8");                    // Assistant intendant (alésage Ø30 [1])
+  specificationISO("⏥", "Scouts GSE", "#fiche=9", 2, [-45, 0, 20],     [-100, 0]);    // Engagement en bref
   // Certifications
-  experienceNote("⌖", "TOEIC C1", "#fiche=10", 2, [45, 0, 20],       [100, 0]);
-  experienceNote("⏥", "PIX",      "#fiche=11", 2, [-30, -30, 20],    [-72, -78]);
-  cote("Ø28", 2, [23, 24, 20], [23, -4, 20], 30, "#fiche=12");                      // BIA (sur le contrelamage Ø46 [1])
+  specificationISO("⌖", "TOEIC C1", "#fiche=10", 2, [45, 0, 20],       [100, 0]);
+  specificationISO("⏥", "PIX",      "#fiche=11", 2, [-30, -30, 20],    [-72, -78]);
+  dimensionISO("Ø28", 2, [23, 24, 20], [23, -4, 20], 30, "#fiche=12");                      // BIA (sur le contrelamage Ø46 [1])
   // Freelance & Divers
-  experienceNote("⌖", "STIRWELD FSW", "#fiche=14", 2, [0, -52, 20],  [0, -92]);
-  experienceNote("⌖", "I2M thermo",   "#fiche=15", 2, [15, 15, 20],  [76, 40]);
+  specificationISO("⌖", "STIRWELD FSW", "#fiche=14", 2, [0, -52, 20],  [0, -92]);
+  specificationISO("⌖", "I2M thermo",   "#fiche=15", 2, [15, 15, 20],  [76, 40]);
 
     /* ---- S3 PROJETS (dessus · plane 6) : 12 fiches, 2 colonnes ---- */
   // Colonne gauche (u = -x) : projets académiques
-  experienceNote("⌖", "Indus M1",      "#fiche=fac:indusM1",           3, [ 30, 46,  24], [-70,  88]);
-  experienceNote("⏥", "Rétro-conc.",  "#fiche=fac:retroconceptionM1", 3, [ 30, 46,  14], [-70,  63]);
-  experienceNote("⌭", "Tolérancement", "#fiche=fac:tolerancementM2",   3, [ 30, 46,   4], [-70,  38]);
-  experienceNote("⏥", "TP métro",     "#fiche=fac:TPmetroM2",         3, [ 30, 46,  -6], [-70,  13]);
-  experienceNote("⌖", "Design L2",     "#fiche=fac:designL2",          3, [ 30, 46, -16], [-70, -13]);
-  experienceNote("⌭", "Calcul L3",     "#fiche=fac:dimensionnementL3", 3, [ 30, 46, -24], [-70, -38]);
-  experienceNote("⏥", "R2D2",         "#fiche=fac:conceptionL3",      3, [ 12, 46,  24], [-70, -63]);
-  experienceNote("⌖", "Cahier fiches", "#fiche=fac:cahierFiches",      3, [ 12, 46,  14], [-70, -88]);
+  specificationISO("⌖", "Indus M1",      "#fiche=fac:indusM1",           3, [ 30, 46,  24], [-70,  88]);
+  specificationISO("⏥", "Rétro-conc.",  "#fiche=fac:retroconceptionM1", 3, [ 30, 46,  14], [-70,  63]);
+  specificationISO("⌭", "Tolérancement", "#fiche=fac:tolerancementM2",   3, [ 30, 46,   4], [-70,  38]);
+  specificationISO("⏥", "TP métro",     "#fiche=fac:TPmetroM2",         3, [ 30, 46,  -6], [-70,  13]);
+  specificationISO("⌖", "Design L2",     "#fiche=fac:designL2",          3, [ 30, 46, -16], [-70, -13]);
+  specificationISO("⌭", "Calcul L3",     "#fiche=fac:dimensionnementL3", 3, [ 30, 46, -24], [-70, -38]);
+  specificationISO("⏥", "R2D2",         "#fiche=fac:conceptionL3",      3, [ 12, 46,  24], [-70, -63]);
+  specificationISO("⌖", "Cahier fiches", "#fiche=fac:cahierFiches",      3, [ 12, 46,  14], [-70, -88]);
   // Colonne droite : projets perso
-  experienceNote("⌖", "Homelab",   "#fiche=diy:homelab",      3, [-25, 46,  20], [70,  60]);
-  experienceNote("⏥", "Clavier",   "#fiche=diy:clavierAZ",    3, [-25, 46,   7], [70,  20]);
-  experienceNote("⌭", "Obsidian",  "#fiche=diy:obsidianWiki", 3, [-25, 46,  -7], [70, -20]);
-  experienceNote("⌖", "Portfolio", "#fiche=diy:portfolio",    3, [-25, 46, -20], [70, -60]);
+  specificationISO("⌖", "Homelab",   "#fiche=diy:homelab",      3, [-25, 46,  20], [70,  60]);
+  specificationISO("⏥", "Clavier",   "#fiche=diy:clavierAZ",    3, [-25, 46,   7], [70,  20]);
+  specificationISO("⌭", "Obsidian",  "#fiche=diy:obsidianWiki", 3, [-25, 46,  -7], [70, -20]);
+  specificationISO("⌖", "Portfolio", "#fiche=diy:portfolio",    3, [-25, 46, -20], [70, -60]);
 
   /* ---- S4 COMPÉTENCES (arrière · plane 8) : 11 fiches, 2 colonnes ---- */
   // Gauche : mécanique
-  experienceNote("⌖", "Conception",    "#fiche=cmp:conception",     4, [ 30, 24, -20], [-70,  88]);
-  experienceNote("⏥", "Maîtrise dim.", "#fiche=cmp:maitriseDim",    4, [ 15, 42, -20], [-70,  53]);
-  experienceNote("⌭", "Métrologie",    "#fiche=cmp:metrologie",     4, [  0, 46, -20], [-70,  18]);
-  experienceNote("⌖", "Fermeture G.",  "#fiche=cmp:fermetureGeom",  4, [-15, 42, -20], [-70, -18]);
-  experienceNote("⏥", "Usinage",       "#fiche=cmp:usinage",        4, [-30, 24, -20], [-70, -53]);
-  experienceNote("⌭", "Fab. additive", "#fiche=cmp:fabAdditive",    4, [-30,  0, -20], [-70, -88]);
+  specificationISO("⌖", "Conception",    "#fiche=cmp:conception",     4, [ 30, 24, -20], [-70,  88]);
+  specificationISO("⏥", "Maîtrise dim.", "#fiche=cmp:maitriseDim",    4, [ 15, 42, -20], [-70,  53]);
+  specificationISO("⌭", "Métrologie",    "#fiche=cmp:metrologie",     4, [  0, 46, -20], [-70,  18]);
+  specificationISO("⌖", "Fermeture G.",  "#fiche=cmp:fermetureGeom",  4, [-15, 42, -20], [-70, -18]);
+  specificationISO("⏥", "Usinage",       "#fiche=cmp:usinage",        4, [-30, 24, -20], [-70, -53]);
+  specificationISO("⌭", "Fab. additive", "#fiche=cmp:fabAdditive",    4, [-30,  0, -20], [-70, -88]);
   // Droite : numérique
-  experienceNote("⌖", "Win/Linux",   "#fiche=cmp:windowsLinux",  4, [-30, -24, -20], [70,  72]);
-  experienceNote("⏥", "Pack Office", "#fiche=cmp:packOffice",    4, [-15, -42, -20], [70,  36]);
-  experienceNote("⌭", "Prog.",       "#fiche=cmp:programmation", 4, [  0, -46, -20], [70,   0]);
-  experienceNote("⌖", "LLM/IA",      "#fiche=cmp:llmIA",         4, [ 15, -42, -20], [70, -36]);
-  experienceNote("⏥", "Stats",       "#fiche=cmp:statistiques",  4, [ 30, -24, -20], [70, -72]);
+  specificationISO("⌖", "Win/Linux",   "#fiche=cmp:windowsLinux",  4, [-30, -24, -20], [70,  72]);
+  specificationISO("⏥", "Pack Office", "#fiche=cmp:packOffice",    4, [-15, -42, -20], [70,  36]);
+  specificationISO("⌭", "Prog.",       "#fiche=cmp:programmation", 4, [  0, -46, -20], [70,   0]);
+  specificationISO("⌖", "LLM/IA",      "#fiche=cmp:llmIA",         4, [ 15, -42, -20], [70, -36]);
+  specificationISO("⏥", "Stats",       "#fiche=cmp:statistiques",  4, [ 30, -24, -20], [70, -72]);
 
   /* ---- S5 LE RESTE (arrière · plane 7) : 6 fiches ---- */
   // Sports
-  experienceNote("⌖", "Escalade",  "#fiche=spr:escalade",   5, [ 30, 40, -25], [-72,  70]);
-  experienceNote("⏥", "Haltéro",   "#fiche=spr:halter",     5, [ 30, 13, -25], [-72,  23]);
-  experienceNote("⌭", "Vélo",      "#fiche=spr:velo",       5, [ 30,-13, -25], [-72, -23]);
-  experienceNote("⌖", "Randonnée", "#fiche=spr:rando",      5, [ 30,-40, -25], [-72, -70]);
+  specificationISO("⌖", "Escalade",  "#fiche=spr:escalade",   5, [ 30, 40, -25], [-72,  70]);
+  specificationISO("⏥", "Haltéro",   "#fiche=spr:halter",     5, [ 30, 13, -25], [-72,  23]);
+  specificationISO("⌭", "Vélo",      "#fiche=spr:velo",       5, [ 30,-13, -25], [-72, -23]);
+  specificationISO("⌖", "Randonnée", "#fiche=spr:rando",      5, [ 30,-40, -25], [-72, -70]);
   // Divers
-  experienceNote("⏥", "Jeux vidéo", "#fiche=otr:videogames", 5, [-30, 20, -25], [72,  45]);
-  experienceNote("⌖", "Bricolage",  "#fiche=diy:bricolage",  5, [-30,-20, -25], [72, -45]);
+  specificationISO("⏥", "Jeux vidéo", "#fiche=otr:videogames", 5, [-30, 20, -25], [72,  45]);
+  specificationISO("⌖", "Bricolage",  "#fiche=diy:bricolage",  5, [-30,-20, -25], [72, -45]);
 }

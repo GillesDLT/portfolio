@@ -169,9 +169,11 @@ body {
 }
 
 /* ----------- les specifs, je crois ----------- */
+/* le titre de fiche passe SOUS le cadre, plus dedans */
 .gdnt-link {
-  display: block;
-  margin-top: 2px;
+  position: absolute;          /* sort du flux inline-flex du cadre */
+  top: calc(100% + 2px);       /* juste sous la bordure du bas */
+  left: 0;                     /* aligné à gauche comme ton croquis */
   font-size: 10px;
   color: #7fc4ff;
   white-space: nowrap;
