@@ -28,10 +28,11 @@ const DESSUS   = { rx: -90, ry: -180 };  // au-dessus (−180 : chemin de rotati
 const DERRIERE = { rx: 0,   ry: -180 };  // caméra sur −Z
 
 const VIEWS = [
-  DROITE,    // S1 Expériences        → droite
-  DEVANT,    // S2 Formations         → face
-  DESSUS,    // S6 Projets            → dessus
-  DERRIERE,  // S7 Compétences        → arrière
+  DROITE,    // S1 Expériences  → droite
+  DEVANT,    // S2 Formations   → face
+  DESSUS,    // S3 Projets      → dessus
+  DERRIERE,  // S4 Compétences  → arrière
+  DERRIERE,  // S5 le Reste     → arrière (partage la vue avec S4)
 ];
 
 function buildKeys(sections) {

@@ -1,189 +1,52 @@
 {
-    "exp:stgStirweld": {
-      "titre": "Stage d'observation — STIRWELD",
-      "section": 5,
-      "meta": "mai 2022 · Rennes",
-      "contenu": [
-        "Stage d'observation dans une entreprise de soudage-malaxage (FSW), découverte des métiers d'ingénieur soudeur et projeteur.",
-        "Observation des procédés de fabrication, de conception et du travail en environnement industriel."
-      ],
-      "tags": ["Soudage FSW", "Industrie"]
-    },
-    "exp:i2mL2": {
-      "titre": "Stage R&D — Thermodynamique et mécanique des fluides — I2M",
-      "section": 5,
-      "meta": "sept. 2023 – juil. 2024 · Bordeaux · Stage (11 mois)",
-      "contenu": [
-        "Études expérimentales et numériques d'une sphère évoluant dans un matériau à changement de phases.",
-        "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."
-      ],
-      "tags": ["Thermodynamique", "Mécanique des fluides"]
-    },
-  "exp:i2mL3": {
-    "titre": "Stagiaire R&D — Tolérancement et maîtrise dimensionnelle — I2M Bordeaux",
-    "section": 1,
-    "meta": "sept. 2024 – juil. 2025 · Bordeaux · Stage (11 mois)",
-    "contenu": [
-      "Études numériques sur la création de jumeaux numériques pour la surveillance de l'usure et le tolérancement de pièces usinées, sous la tutelle du Pr. D. Teissandier.",
-      "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."
-    ],
-    "tags": ["Simulations", "Jumeaux numériques", "Conception géométrique"]
-  },
-    "exp:frlLaTeX": {
-      "titre": "Expert LaTeX freelance — Fiverr",
-      "section": 5,
-      "meta": "sept. 2024 – aujourd'hui · À distance",
-      "contenu": [
-        "Rédaction, formatage et typographie de documents professionnels sur mesure avec LaTeX.",
-        "Débogage et structuration avancée de documents complexes pour une mise en page fiable, claire et professionnelle.",
-        "Expertise développée sur plusieurs années : rigueur technique, gestion efficace du temps et communication claire."
-      ],
-      "tags": ["LaTeX", "Typographie", "Débogage"]
-    },
-    "exp:stgExoes": {
-    "titre": "Stagiaire bureau d'étude — EXOES",
-    "section": 1,
-    "meta": "mai 2024 – juil. 2024 · Gradignan · Stage (3 mois)",
-    "contenu": [
-      "Stage au sein du bureau d'étude d'EXOES, entreprise spécialisée en électromobilité.",
-      "Amélioration de pièces d'interface pour le système d'immersion des batteries, création de notices de montage, mise en pratique des compétences de CAO.",
-      "Renforcement de la maîtrise des normes techniques et collaboration au sein d'une équipe en environnement industriel."
-    ],
-    "tags": ["CAO", "Rédaction technique", "Gestion de projet"]
-  },
-  "exp:altSafran": {
-    "titre": "Alternant en maîtrise dimensionnelle — Safran Aircraft Engines",
-    "section": 1,
-    "meta": "sept. 2025 – aujourd'hui · Corbeil-Essonnes · Alternance",
-    "contenu": [
-      "Étude approfondie de la norme ISO 10579:2010 relative aux pièces non rigides et à la définition de l'état libre, dans une démarche d'état de l'art sur les pratiques de contrôle dimensionnel.",
-      "Lecture et analyse détaillée de la norme et de ses implications pour la métrologie des pièces non rigides.",
-      "Analyse des méthodes de mise en contrainte utilisées lors du contrôle dimensionnel.",
-      "Rédaction d'un document technique comparant et recensant différents outillages de mise au rond et de redressage.",
-      "Identification et proposition de pistes d'amélioration concernant la définition et la gestion de l'état contraint lors des opérations de contrôle."
-    ],
-    "tags": ["Normes ISO", "Tolérancement géométrique", "Métrologie"]
-  },
-  "4": {
-    "titre": "Master Génie Mécanique — Université de Bordeaux",
-    "section": 2,
-    "meta": "sept. 2025 – août 2027 · Parcours Conception Avancée",
-    "img": "./assets/images/logoUB.png",
-    "contenu": [
-      "CMI MGCE (Cursus Master en Ingénierie Mécanique, Génie Civil et Énergétique), parcours Conception Avancée.",
-      "Formation d'excellence spécialisée en tolérancement et maîtrise dimensionnelle, labellisée par le réseau Figure."
-    ],
-    "tags": ["Conception géométrique", "CAO", "Tolérancement"]
-  },
-  "5": {
-    "titre": "Licence Sciences Pour l'Ingénieur — Université de Bordeaux",
-    "section": 2,
-    "meta": "sept. 2022 – août 2025 · Mention Bien",
-    "contenu": [
-      "Cursus Master en Ingénierie Mécanique Génie Civil et Énergétique (CMI MGCE), spécialité Génie Mécanique, option Simulation."
-    ],
-    "tags": ["Génie mécanique", "CAO", "Simulation"]
-  },
-  "6": {
-    "titre": "Baccalauréat général — Lycée de La Sauque",
-    "section": 2,
-    "meta": "sept. 2019 – août 2022",
-    "contenu": [
-      "Baccalauréat général, spécialités Mathématiques et Physique-Chimie."
-    ],
-    "tags": ["Mathématiques", "Physique"]
-  },
-  "7": {
-    "titre": "Chef des étudiants scouts de Bordeaux",
-    "section": 3,
-    "meta": "sept. 2025 – aujourd'hui · Guides et Scouts d'Europe",
-    "contenu": [
-      "Encadrement et accompagnement d'un groupe de 25 étudiants dans un cadre éducatif et formateur.",
-      "Organisation annuelle des activités et supervision d'événements majeurs : camps itinérants de 10 jours, activités marines de 5 jours.",
-      "Délégation de responsabilités pour développer l'autonomie et l'engagement de chaque membre.",
-      "Prise de parole régulière devant des audiences de 20 personnes : leadership, crédibilité et capacité à inspirer la confiance.",
-      "Coordination logistique et gestion des imprévus."
-    ],
-    "tags": ["Leadership", "Logistique", "Prise de parole"]
-  },
-  "8": {
-    "titre": "Assistant intendant du chef des scouts marins de Bordeaux",
-    "section": 3,
-    "meta": "sept. 2024 – août 2025 · Guides et Scouts d'Europe",
-    "contenu": [
-      "Participation à l'encadrement et à l'organisation d'activités nautiques dans un cadre exigeant et responsabilisant.",
-      "Gestion complète de l'intendance et du budget d'un camp de 35 jeunes pendant 17 jours.",
-      "Développement de compétences en coordination, gestion des ressources et travail en équipe."
-    ],
-    "tags": ["Gestion de budget", "Activités nautiques", "Travail en équipe"]
-  },
-  "9": {
-    "titre": "Engagement associatif — en bref",
-    "section": 3,
-    "meta": "",
-    "contenu": [
-      "Quatre années d'engagement continu chez les Guides et Scouts d'Europe, de l'intendance à la responsabilité d'unité.",
-      "Un apprentissage du management de terrain : planifier, déléguer, improviser, et tenir la logistique d'un camp de plusieurs dizaines de personnes."
-    ],
-    "tags": ["Engagement", "Management"]
-  },
-  "10": {
-    "titre": "TOEIC — 975/990 (C1)",
-    "section": 4,
-    "meta": "nov. 2024 · Université de Bordeaux",
-    "contenu": [
-      "Niveau C1 confirmé en anglais : compréhension orale (C1 : 495/495) et écrite (C1 : 480/495).",
-      "Excellente maîtrise de l'anglais professionnel, notamment dans les contextes techniques, académiques et internationaux."
-    ],
-    "tags": ["Anglais C1"]
-  },
-  "11": {
-    "titre": "PIX — Compétences numériques, niveau avancé",
-    "section": 4,
-    "meta": "oct. 2024 · Université de Bordeaux",
-    "contenu": [
-      "Validation officielle de compétences numériques de niveau avancé.",
-      "Maîtrise des tableurs, outils d'analyse et de visualisation de données.",
-      "Connaissance des enjeux de protection des données, de traçabilité et d'impact environnemental du numérique."
-    ],
-    "tags": ["Numérique", "Data"]
-  },
-  "12": {
-    "titre": "BIA — Brevet d'Initiation à l'Aéronautique",
-    "section": 4,
-    "meta": "2021 · Lycée de La Sauque",
-    "contenu": [
-      "Notions d'aéronautisme, météorologie, navigation, réglementation aérienne et mécanique du vol."
-    ],
-    "tags": ["Aéronautique"]
-  },
-  "16": { "titre": "Projet", "section": 2, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies."], "tags": ["Lorem"] },
-  "17": { "titre": "Projet de rétro-conception", "section": 2, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies."], "tags": ["Lorem"] },
-  "18": { "titre": "Projet de tolérancement", "section": 2, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus luctus."], "tags": ["Lorem"] },
-  "19": { "titre": "Serveur perso et hardware", "section": 2, "meta": "Lorem · Homelab", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
-  "20": { "titre": "Ce site web", "section": 2, "meta": "Lorem · Web", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor dignissim.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "21": { "titre": "Clavier AZ", "section": 2, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
-  "22": { "titre": "Grosse base de données perso et documentations", "section": 2, "meta": "Lorem · Data", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "23": { "titre": "TP de métrologie", "section": 2, "meta": "Lorem · TP", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur."], "tags": ["Lorem"] },
-  "24": { "titre": "TP d'éléments finis", "section": 2, "meta": "Lorem · TP", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus."], "tags": ["Lorem"] },
-  "25": { "titre": "TP de Matlab", "section": 2, "meta": "Lorem · TP", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "26": { "titre": "Projet de design L2", "section": 2, "meta": "Lorem · Licence 2", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
-  "27": { "titre": "Projet de calcul L3", "section": 2, "meta": "Lorem · Licence 3", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "28": { "titre": "Projet conception R2D2", "section": 2, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor dignissim.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
-  "29": { "titre": "Cahier de fiches", "section": 2, "meta": "Lorem · Documentation", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus luctus urna."], "tags": ["Lorem"] },
-  "30": { "titre": "Conception", "section": 3, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "31": { "titre": "Maîtrise dimensionnelle", "section": 3, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus luctus."], "tags": ["Lorem"] },
-  "32": { "titre": "Usinage", "section": 3, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur."], "tags": ["Lorem"] },
-  "33": { "titre": "Fabrication additive", "section": 3, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "34": { "titre": "Fermeture géométrique", "section": 3, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
-  "35": { "titre": "Windows/Linux", "section": 3, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
-  "36": { "titre": "Pack Office", "section": 3, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "37": { "titre": "Programmation", "section": 3, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus."], "tags": ["Lorem"] },
-  "38": { "titre": "LLM/IA", "section": 3, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur."], "tags": ["Lorem"] },
-  "39": { "titre": "Métrologie", "section": 3, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "40": { "titre": "Statistiques", "section": 3, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
-  "41": { "titre": "Jeu vidéo", "section": 4, "meta": "Lorem · Divers", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "42": { "titre": "Scoutisme", "section": 4, "meta": "Lorem · Divers", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
-  "43": { "titre": "Bricolage", "section": 4, "meta": "Lorem · Divers", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "44": { "titre": "Sport", "section": 4, "meta": "Lorem · Divers", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] }
+  "exp:stgStirweld": { "titre": "Stage d'observation — STIRWELD", "section": 1, "meta": "mai 2022 · Rennes", "contenu": ["Stage d'observation dans une entreprise de soudage-malaxage (FSW), découverte des métiers d'ingénieur soudeur et projeteur.", "Observation des procédés de fabrication, de conception et du travail en environnement industriel."], "tags": ["Soudage FSW", "Industrie"] },
+  "exp:i2mL2": { "titre": "Stage R&D — Thermodynamique et mécanique des fluides — I2M", "section": 1, "meta": "sept. 2023 – juil. 2024 · Bordeaux · Stage (11 mois)", "contenu": ["Études expérimentales et numériques d'une sphère évoluant dans un matériau à changement de phases.", "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."], "tags": ["Thermodynamique", "Mécanique des fluides"] },
+  "exp:stgExoes": { "titre": "Stagiaire bureau d'étude — EXOES", "section": 1, "meta": "mai 2024 – juil. 2024 · Gradignan · Stage (3 mois)", "contenu": ["Stage au sein du bureau d'étude d'EXOES, entreprise spécialisée en électromobilité.", "Amélioration de pièces d'interface pour le système d'immersion des batteries, création de notices de montage, mise en pratique des compétences de CAO.", "Renforcement de la maîtrise des normes techniques et collaboration au sein d'une équipe en environnement industriel."], "tags": ["CAO", "Rédaction technique", "Gestion de projet"] },
+  "exp:i2mL3": { "titre": "Stagiaire R&D — Tolérancement et maîtrise dimensionnelle — I2M Bordeaux", "section": 1, "meta": "sept. 2024 – juil. 2025 · Bordeaux · Stage (11 mois)", "contenu": ["Études numériques sur la création de jumeaux numériques pour la surveillance de l'usure et le tolérancement de pièces usinées, sous la tutelle du Pr. D. Teissandier.", "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."], "tags": ["Simulations", "Jumeaux numériques", "Conception géométrique"] },
+  "exp:frlLaTeX": { "titre": "Expert LaTeX freelance — Fiverr", "section": 1, "meta": "sept. 2024 – aujourd'hui · À distance", "contenu": ["Rédaction, formatage et typographie de documents professionnels sur mesure avec LaTeX.", "Débogage et structuration avancée de documents complexes pour une mise en page fiable, claire et professionnelle.", "Expertise développée sur plusieurs années : rigueur technique, gestion efficace du temps et communication claire."], "tags": ["LaTeX", "Typographie", "Débogage"] },
+  "exp:altSafran": { "titre": "Alternant en maîtrise dimensionnelle — Safran Aircraft Engines", "section": 1, "meta": "sept. 2025 – aujourd'hui · Corbeil-Essonnes · Alternance", "contenu": ["Étude approfondie de la norme ISO 10579:2010 relative aux pièces non rigides et à la définition de l'état libre, dans une démarche d'état de l'art sur les pratiques de contrôle dimensionnel.", "Lecture et analyse détaillée de la norme et de ses implications pour la métrologie des pièces non rigides.", "Analyse des méthodes de mise en contrainte utilisées lors du contrôle dimensionnel.", "Rédaction d'un document technique comparant et recensant différents outillages de mise au rond et de redressage.", "Identification et proposition de pistes d'amélioration concernant la définition et la gestion de l'état contraint lors des opérations de contrôle."], "tags": ["Normes ISO", "Tolérancement géométrique", "Métrologie"] },
+
+  "etu:lycee": { "titre": "Baccalauréat général — Lycée de La Sauque", "section": 2, "meta": "sept. 2019 – août 2022", "contenu": ["Baccalauréat général, spécialités Mathématiques et Physique-Chimie."], "tags": ["Mathématiques", "Physique"] },
+  "etu:licenceSPI": { "titre": "Licence Sciences Pour l'Ingénieur — Université de Bordeaux", "section": 2, "meta": "sept. 2022 – août 2025 · Mention Bien", "contenu": ["Cursus Master en Ingénierie Mécanique Génie Civil et Énergétique (CMI MGCE), spécialité Génie Mécanique, option Simulation."], "tags": ["Génie mécanique", "CAO", "Simulation"] },
+  "etu:masterGM": { "titre": "Master Génie Mécanique — Université de Bordeaux", "section": 2, "meta": "sept. 2025 – août 2027 · Parcours Conception Avancée", "img": "./assets/images/logoUB.png", "contenu": ["CMI MGCE (Cursus Master en Ingénierie Mécanique, Génie Civil et Énergétique), parcours Conception Avancée.", "Formation d'excellence spécialisée en tolérancement et maîtrise dimensionnelle, labellisée par le réseau Figure."], "tags": ["Conception géométrique", "CAO", "Tolérancement"] },
+  "etu:CMI": { "titre": "CMI MGCE — Cursus Master en Ingénierie", "section": 2, "meta": "Université de Bordeaux · Réseau Figure", "contenu": ["Cycle CMI MGCE (Cursus Master en Ingénierie Mécanique, Génie Civil et Énergétique), labellisé par le réseau Figure.", "TODO : compléter (sélections, enseignements renforcés, stages spécifiques…)."], "tags": ["CMI", "Réseau Figure", "Conception géométrique"] },
+  "aso:scoutACT": { "titre": "Assistant intendant du chef des scouts marins de Bordeaux", "section": 2, "meta": "sept. 2024 – août 2025 · Guides et Scouts d'Europe", "contenu": ["Participation à l'encadrement et à l'organisation d'activités nautiques dans un cadre exigeant et responsabilisant.", "Gestion complète de l'intendance et du budget d'un camp de 35 jeunes pendant 17 jours.", "Développement de compétences en coordination, gestion des ressources et travail en équipe."], "tags": ["Gestion de budget", "Activités nautiques", "Travail en équipe"] },
+  "aso:scoutCC": { "titre": "Chef des étudiants scouts de Bordeaux", "section": 2, "meta": "sept. 2025 – aujourd'hui · Guides et Scouts d'Europe", "contenu": ["Encadrement et accompagnement d'un groupe de 25 étudiants dans un cadre éducatif et formateur.", "Organisation annuelle des activités et supervision d'événements majeurs : camps itinérants de 10 jours, activités marines de 5 jours.", "Délégation de responsabilités pour développer l'autonomie et l'engagement de chaque membre.", "Prise de parole régulière devant des audiences de 20 personnes : leadership, crédibilité et capacité à inspirer la confiance.", "Coordination logistique et gestion des imprévus."], "tags": ["Leadership", "Logistique", "Prise de parole"] },
+  "aso:scoutENR": { "titre": "Engagement associatif — en bref", "section": 2, "meta": "", "contenu": ["Quatre années d'engagement continu chez les Guides et Scouts d'Europe, de l'intendance à la responsabilité d'unité.", "Un apprentissage du management de terrain : planifier, déléguer, improviser, et tenir la logistique d'un camp de plusieurs dizaines de personnes."], "tags": ["Engagement", "Management"] },
+  "dip:bia": { "titre": "BIA — Brevet d'Initiation à l'Aéronautique", "section": 2, "meta": "2021 · Lycée de La Sauque", "contenu": ["Notions d'aéronautisme, météorologie, navigation, réglementation aérienne et mécanique du vol."], "tags": ["Aéronautique"] },
+  "dip:permisB": { "titre": "Permis B", "section": 2, "meta": "TODO · Année", "contenu": ["TODO : année d'obtention, conduite accompagnée…"], "tags": ["Permis"] },
+  "dip:pix": { "titre": "PIX — Compétences numériques, niveau avancé", "section": 2, "meta": "oct. 2024 · Université de Bordeaux", "contenu": ["Validation officielle de compétences numériques de niveau avancé.", "Maîtrise des tableurs, outils d'analyse et de visualisation de données.", "Connaissance des enjeux de protection des données, de traçabilité et d'impact environnemental du numérique."], "tags": ["Numérique", "Data"] },
+  "dip:toeic": { "titre": "TOEIC — 975/990 (C1)", "section": 2, "meta": "nov. 2024 · Université de Bordeaux", "contenu": ["Niveau C1 confirmé en anglais : compréhension orale (C1 : 495/495) et écrite (C1 : 480/495).", "Excellente maîtrise de l'anglais professionnel, notamment dans les contextes techniques, académiques et internationaux."], "tags": ["Anglais C1"] },
+
+  "fac:indusM1": { "titre": "Projet", "section": 3, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies."], "tags": ["Lorem"] },
+  "fac:retroconceptionM1": { "titre": "Projet de rétro-conception", "section": 3, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies."], "tags": ["Lorem"] },
+  "fac:tolerancementM2": { "titre": "Projet de tolérancement", "section": 3, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus luctus."], "tags": ["Lorem"] },
+  "fac:TPmetroM2": { "titre": "TP de métrologie", "section": 3, "meta": "Lorem · TP", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
+  "fac:designL2": { "titre": "Projet de design L2", "section": 3, "meta": "Lorem · Licence 2", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
+  "fac:dimensionnementL3": { "titre": "Projet de calcul L3", "section": 3, "meta": "Lorem · Licence 3", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
+  "fac:conceptionL3": { "titre": "Projet conception R2D2", "section": 3, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor dignissim.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
+  "fac:cahierFiches": { "titre": "Cahier de fiches", "section": 3, "meta": "Lorem · Documentation", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus luctus urna."], "tags": ["Lorem"] },
+  "diy:homelab": { "titre": "Serveur perso et hardware", "section": 3, "meta": "Lorem · Homelab", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
+  "diy:clavierAZ": { "titre": "Clavier AZ", "section": 3, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
+  "diy:obsidianWiki": { "titre": "Grosse base de données perso et documentations", "section": 3, "meta": "Lorem · Data", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
+  "diy:portfolio": { "titre": "Ce site web", "section": 3, "meta": "Lorem · Web", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor dignissim.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
+
+  "cmp:conception": { "titre": "Conception", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
+  "cmp:maitriseDim": { "titre": "Maîtrise dimensionnelle", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus luctus."], "tags": ["Lorem"] },
+  "cmp:usinage": { "titre": "Usinage", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur."], "tags": ["Lorem"] },
+  "cmp:fabAdditive": { "titre": "Fabrication additive", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
+  "cmp:fermetureGeom": { "titre": "Fermeture géométrique", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
+  "cmp:windowsLinux": { "titre": "Windows/Linux", "section": 4, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
+  "cmp:packOffice": { "titre": "Pack Office", "section": 4, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
+  "cmp:programmation": { "titre": "Programmation", "section": 4, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus."], "tags": ["Lorem"] },
+  "cmp:llmIA": { "titre": "LLM/IA", "section": 4, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur."], "tags": ["Lorem"] },
+  "cmp:metrologie": { "titre": "Métrologie", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
+  "cmp:statistiques": { "titre": "Statistiques", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
+
+  "spr:escalade": { "titre": "Escalade", "section": 5, "meta": "TODO · Sport", "contenu": ["TODO : pratique (bloc/voie ?), fréquence, niveau, club…"], "tags": ["Sport", "Escalade"] },
+  "spr:halter": { "titre": "Haltérophilie / musculation", "section": 5, "meta": "TODO · Sport", "contenu": ["TODO : pratique, fréquence, objectifs…"], "tags": ["Sport", "Musculation"] },
+  "spr:velo": { "titre": "Vélo", "section": 5, "meta": "TODO · Sport", "contenu": ["TODO : type (route/VTT/gravel ?), pratique…"], "tags": ["Sport", "Vélo"] },
+  "spr:rando": { "titre": "Randonnée", "section": 5, "meta": "TODO · Sport", "contenu": ["TODO : type de sorties, fréquence…"], "tags": ["Sport", "Randonnée"] },
+  "otr:videogames": { "titre": "Jeu vidéo", "section": 5, "meta": "Lorem · Divers", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
+  "diy:bricolage": { "titre": "Bricolage", "section": 5, "meta": "Lorem · Divers", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] }
 }
