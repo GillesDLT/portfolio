@@ -9,12 +9,12 @@ const R = 420;
 
 export function initCAD(container, canvas, annoEl) {
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x14171c);
-  scene.fog = new THREE.Fog(0x14171c, 700, 1600);
+  scene.background = null;
+  scene.fog = new THREE.Fog(0x48688c, 700, 1600);
 
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 2000);
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setClearColor(0x000000, 0);  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -33,8 +33,10 @@ export function initCAD(container, canvas, annoEl) {
   key.shadow.mapSize.set(2048, 2048);
   scene.add(key);
 
-  const grid = new THREE.GridHelper(1200, 48, 0x2a3038, 0x1d2229);
+  const grid = new THREE.GridHelper(1200, 48, 0x27476e, 0xb9d0e6);  // navy lines, light-blue subdivisions
   grid.position.y = -0.5;
+  grid.material.transparent = true;
+  grid.material.opacity = 0.35;                                     // subtle, "technical drawing" feel
   scene.add(grid);
   const sol = new THREE.Mesh(
     new THREE.PlaneGeometry(1200, 1200),
@@ -165,6 +167,9 @@ const TARGET = new THREE.Vector3(0, 25, 0);   // la caméra orbite autour du poi
     renderer.render(scene, camera);
     css3d.render(scene, camera);
   })();
+    function setFog(hex) {
+       scene.fog.color.set(hex);
+    }
 
-    return { setPose, setSection, setSections, resetOrbit };
+    return { setPose, setSection, setSections, resetOrbit, setFog };
 }

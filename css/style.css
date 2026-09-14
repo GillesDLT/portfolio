@@ -68,6 +68,9 @@ body {
   overflow: hidden;                 /* rien ne dépasse ni ne pousse */
   display: grid; place-items: center;
 }
+.stage::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+}
 .scene { position: relative; width: var(--cube); height: var(--cube); perspective: 1100px; }
 
 /* Grille de sol (plan XY) */

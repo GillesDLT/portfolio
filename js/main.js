@@ -21,6 +21,8 @@ let currentP = 0;
 const lerp = (a, b, t) => a + (b - a) * t;
 const rad = (d) => (d * Math.PI) / 180;
 
+
+
 /* Une vue par section, dans l'ordre de data/sections.json (plus de cycle) */
 const DROITE   = { rx: 0,   ry: -90  };  // caméra sur +X
 const DEVANT   = { rx: 0,   ry: 0    };  // caméra sur +Z
@@ -213,6 +215,8 @@ function sectionWeights(q) {
   }
   return w;
 }
+
+/* Background */
 
 /* ---- Cube ---- */
 function apply(p) {

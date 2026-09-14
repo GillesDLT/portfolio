@@ -253,8 +253,8 @@ export function buildFTA(getPlane) {
     specificationISO("⏥", "I2M polytoCAT",     "#fiche=exp:i2mL3",      1, [0, 50, 25], [-80, 50]);
   specificationISO("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX",   1, [0, -28, 49], [-100, -28]);
   specificationISO("⌭", "Stage Exoes",       "#fiche=exp:stgExoes",  1, [0, -35, 35], [-95, -80], [-35, -80]);
-  dimensionISO("Stage BE",   1, [0, 43, -42], [0, -43, -42], { off:  20, angle: 90, section: "#fiche=exp:stgStirweld" });
-  dimensionISO("I2M thermo", 1, [0, -35, -1], [0, -35, 25], { off: -35, section: "#fiche=exp:i2mL2" });
+  dimensionISO("Stage BE",   1, [0, 43, -42], [0, -43, -42], { off:  35, angle: 90, section: "#fiche=exp:stgStirweld" });
+  dimensionISO("I2M thermo", 1, [0, -45, -1], [0, -45, 25], { off: -30, section: "#fiche=exp:i2mL2" });
    /* ---- S2 FORMATIONS & DIVERS (face · plane 2) : etu · aso · dip · exp ---- */
   // Formations
   specificationISO("⌖", ["Ø0.2","A","B"],  "#fiche=etu:masterGM",   2, [ 30,  30, 20], [  72,  78]);  // Master GM
