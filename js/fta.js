@@ -73,14 +73,16 @@ const planes = [null, null, null, null];
 function toUV(i, [x, y, z]) {
   return i === 1 ? [-z, y]     // S1 droite
        : i === 2 ? [x, y]      // S2 face
-       : i === 3 ? [-x, z]     // S3 dessus
-       : i === 4 ? [-x, y]     // S4 arrière
+       : i === 3 ? [-x, z]     // S3 Projets (dessus)
+       : i === 4 ? [-x, y]     // S4 Compétences (arrière)
+       : i === 5 ? [-x, y]     // S5 le Reste (arrière)
        : [x, y];
 }
 
 const LABEL_SCALE = 0.5; // px CSS → unités monde ; à régler une fois
 
 function putLabel(el, i, u, v, section, z = 1, scale = LABEL_SCALE) {
+    if (!planes[i]) return null;
   const o = new CSS3DObject(el);
   o.position.set(u, v, z);
   o.scale.setScalar(scale);
@@ -90,13 +92,15 @@ function putLabel(el, i, u, v, section, z = 1, scale = LABEL_SCALE) {
 }
 
 function flatPoly(i, pts, z = 0.2) {
+  if (!planes[i]) { console.warn(`fta: plane ${i} absent — annotation ignorée`); return; }
   const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(
     pts.map(([u, v]) => new THREE.Vector3(u, v, z))), lineMat());
   l.renderOrder = 10;
   planes[i].add(l);
 }
 
-function flatTri(i, u, v, du, dv, w = 7, h = 8) { // flèche/triangle À PLAT
+function flatTri(i, u, v, du, dv, w = 7, h = 8) {
+  if (!planes[i]) return;
   const len = Math.hypot(du, dv) || 1;
   const dx = du / len, dy = dv / len;
   const bx = u - dx * h, by = v - dy * h, px = -dy * w / 2, py = dx * w / 2;
@@ -188,11 +192,11 @@ export function buildFTA(getPlane) {
 
   /* ---- S2 FORMATIONS & DIVERS (face) : fiches 4 → 15 ---- */
   // Formations
-  toleranceFrame("⌖", ["Ø0.2","A","B"], 2, [30, 30, 20],  [72, 78],  "#fiche=4");   // Master GM
-  toleranceFrame("↗", ["0.05","A","B"], 2, [30, -30, 20], [72, -78], "#fiche=5");   // Licence SPI
+  experienceNote("⌖", ["Ø0.2","A","B"], 2, [30, 30, 20],  [72, 78],  "#fiche=4");   // Master GM
+  experienceNote("↗", ["0.05","A","B"], 2, [30, -30, 20], [72, -78], "#fiche=5");   // Licence SPI
   experienceNote("⌖", "Bac général", "#fiche=6", 2, [0, 45, 20],     [0, 92]);      // Bac
   // Bénévolat
-  toleranceFrame("⌖", ["Ø0.25","A","B"], 2, [-30, 30, 20], [-72, 78], "#fiche=7");  // Chef scouts
+  experienceNote("⌖", ["Ø0.25","A","B"], 2, [-30, 30, 20], [-72, 78], "#fiche=7");  // Chef scouts
   cote("Ø30 H7", 2, [-15, 0, 20], [15, 0, 20], -40, "#fiche=8");                    // Assistant intendant (alésage Ø30 [1])
   experienceNote("⏥", "Scouts GSE", "#fiche=9", 2, [-45, 0, 20],     [-100, 0]);    // Engagement en bref
   // Certifications
@@ -202,4 +206,45 @@ export function buildFTA(getPlane) {
   // Freelance & Divers
   experienceNote("⌖", "STIRWELD FSW", "#fiche=14", 2, [0, -52, 20],  [0, -92]);
   experienceNote("⌖", "I2M thermo",   "#fiche=15", 2, [15, 15, 20],  [76, 40]);
+
+    /* ---- S3 PROJETS (dessus · plane 6) : 12 fiches, 2 colonnes ---- */
+  // Colonne gauche (u = -x) : projets académiques
+  experienceNote("⌖", "Indus M1",      "#fiche=fac:indusM1",           3, [ 30, 46,  24], [-70,  88]);
+  experienceNote("⏥", "Rétro-conc.",  "#fiche=fac:retroconceptionM1", 3, [ 30, 46,  14], [-70,  63]);
+  experienceNote("⌭", "Tolérancement", "#fiche=fac:tolerancementM2",   3, [ 30, 46,   4], [-70,  38]);
+  experienceNote("⏥", "TP métro",     "#fiche=fac:TPmetroM2",         3, [ 30, 46,  -6], [-70,  13]);
+  experienceNote("⌖", "Design L2",     "#fiche=fac:designL2",          3, [ 30, 46, -16], [-70, -13]);
+  experienceNote("⌭", "Calcul L3",     "#fiche=fac:dimensionnementL3", 3, [ 30, 46, -24], [-70, -38]);
+  experienceNote("⏥", "R2D2",         "#fiche=fac:conceptionL3",      3, [ 12, 46,  24], [-70, -63]);
+  experienceNote("⌖", "Cahier fiches", "#fiche=fac:cahierFiches",      3, [ 12, 46,  14], [-70, -88]);
+  // Colonne droite : projets perso
+  experienceNote("⌖", "Homelab",   "#fiche=diy:homelab",      3, [-25, 46,  20], [70,  60]);
+  experienceNote("⏥", "Clavier",   "#fiche=diy:clavierAZ",    3, [-25, 46,   7], [70,  20]);
+  experienceNote("⌭", "Obsidian",  "#fiche=diy:obsidianWiki", 3, [-25, 46,  -7], [70, -20]);
+  experienceNote("⌖", "Portfolio", "#fiche=diy:portfolio",    3, [-25, 46, -20], [70, -60]);
+
+  /* ---- S4 COMPÉTENCES (arrière · plane 8) : 11 fiches, 2 colonnes ---- */
+  // Gauche : mécanique
+  experienceNote("⌖", "Conception",    "#fiche=cmp:conception",     4, [ 30, 24, -20], [-70,  88]);
+  experienceNote("⏥", "Maîtrise dim.", "#fiche=cmp:maitriseDim",    4, [ 15, 42, -20], [-70,  53]);
+  experienceNote("⌭", "Métrologie",    "#fiche=cmp:metrologie",     4, [  0, 46, -20], [-70,  18]);
+  experienceNote("⌖", "Fermeture G.",  "#fiche=cmp:fermetureGeom",  4, [-15, 42, -20], [-70, -18]);
+  experienceNote("⏥", "Usinage",       "#fiche=cmp:usinage",        4, [-30, 24, -20], [-70, -53]);
+  experienceNote("⌭", "Fab. additive", "#fiche=cmp:fabAdditive",    4, [-30,  0, -20], [-70, -88]);
+  // Droite : numérique
+  experienceNote("⌖", "Win/Linux",   "#fiche=cmp:windowsLinux",  4, [-30, -24, -20], [70,  72]);
+  experienceNote("⏥", "Pack Office", "#fiche=cmp:packOffice",    4, [-15, -42, -20], [70,  36]);
+  experienceNote("⌭", "Prog.",       "#fiche=cmp:programmation", 4, [  0, -46, -20], [70,   0]);
+  experienceNote("⌖", "LLM/IA",      "#fiche=cmp:llmIA",         4, [ 15, -42, -20], [70, -36]);
+  experienceNote("⏥", "Stats",       "#fiche=cmp:statistiques",  4, [ 30, -24, -20], [70, -72]);
+
+  /* ---- S5 LE RESTE (arrière · plane 7) : 6 fiches ---- */
+  // Sports
+  experienceNote("⌖", "Escalade",  "#fiche=spr:escalade",   5, [ 30, 40, -25], [-72,  70]);
+  experienceNote("⏥", "Haltéro",   "#fiche=spr:halter",     5, [ 30, 13, -25], [-72,  23]);
+  experienceNote("⌭", "Vélo",      "#fiche=spr:velo",       5, [ 30,-13, -25], [-72, -23]);
+  experienceNote("⌖", "Randonnée", "#fiche=spr:rando",      5, [ 30,-40, -25], [-72, -70]);
+  // Divers
+  experienceNote("⏥", "Jeux vidéo", "#fiche=otr:videogames", 5, [-30, 20, -25], [72,  45]);
+  experienceNote("⌖", "Bricolage",  "#fiche=diy:bricolage",  5, [-30,-20, -25], [72, -45]);
 }

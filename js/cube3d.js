@@ -48,12 +48,13 @@ export function initCAD(container, canvas, annoEl) {
   modele.add(buildPart());
   scene.add(modele);
 
-  const annoPlanes = [null, null, null, null, null];
+  const annoPlanes = [null, null, null, null, null, null];   // indices 0..5
   const PLANE_ROT = {
-    1: [0,  Math.PI / 2, 0],        // S1 Expériences            : droite  (+X)
-    2: [0,  0,           0],        // S2 Formations & divers    : face    (+Z)
-    3: [-Math.PI / 2, 0, Math.PI],  // S3 Projets                : dessus
-    4: [0,  Math.PI,     0],        // S4 Compétences & le reste : arrière (−Z)
+    1: [0,  Math.PI / 2,  0],        // S1 Expériences : droite  (+X)
+    2: [0,  0,            0],        // S2 Formations  : face    (+Z)
+    3: [-Math.PI / 2, 0,  Math.PI],  // S3 Projets     : dessus
+    4: [0,  Math.PI,      0],        // S4 Compétences : arrière (−Z)
+    5: [0,  Math.PI,      0],        // S5 le Reste    : arrière (−Z)
   };
   function getAnnoPlane(i) {
     if (!PLANE_ROT[i]) return null;      // section sans plan (ex. ISO)

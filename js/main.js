@@ -47,11 +47,11 @@ function buildKeys(sections) {
 /* ---- Trièdre façon Blender ---- */
 const SVG_NS = "http://www.w3.org/2000/svg";
 const AXES = [
-  { v: [1, 0, 0],  label: "X", cls: "x" },   // rouge  → droite
-  { v: [0, 0, 1],  label: "Y", cls: "y" },   // verte  → profondeur
+  { v: [0, 0, 1],  label: "X", cls: "x" },   // rouge  → droite
+  { v: [1, 0, 0],  label: "Y", cls: "y" },   // verte  → profondeur
   { v: [0, -1, 0], label: "Z", cls: "z" },   // bleue  → haut
-  { v: [-1, 0, 0], label: null, cls: "x" },
-  { v: [0, 0, -1], label: null, cls: "y" },
+  { v: [0, 0, -1], label: null, cls: "x" },
+  { v: [-1, 0, 0], label: null, cls: "y" },
   { v: [0, 1, 0],  label: null, cls: "z" },
 ];
 
