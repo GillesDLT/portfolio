@@ -34,6 +34,15 @@ async function ficheTitle(href) {
   return data?.[decodeURIComponent(m[1])]?.titre ?? null;
 }
 
+async function ficheMeta(href) {
+  const m = String(href).match(/fiche=([^&]+)/);
+  if (!m) return null;
+  const data = await loadTextes();
+  const meta = data?.[decodeURIComponent(m[1])]?.meta ?? "";
+  /* Ne garder que la date : tout avant le premier " · " */
+  return meta.split(" · ")[0] || null;
+}
+
 /* titre tronqué pour le sous-libellé : "Alternant en maîtrise …" */
 const shortTitle = (s, n = 28) =>
   s.length > n
@@ -52,14 +61,23 @@ function makeClickable(el, target) {
     sectionTitle(target).then((t) => { sub.textContent = `→ ${t}`; });
     el.addEventListener("click", () =>
       window.dispatchEvent(new CustomEvent("goto-section", { detail: { index: target } })));
-  } else {
+      } else {
     sub.textContent = "→ …";
     ficheTitle(target).then((t) => {
-      sub.textContent = t ? `→ ${shortTitle(t)}` : "→ ouvrir la fiche";   // ex. « → Alternant en maîtrise … »
-      if (t) el.title = t;                                                // titre complet au survol
+      sub.textContent = t ? `→ ${shortTitle(t)}` : "→ ouvrir la fiche";
+      if (t) el.title = t;
+    });
+    /* Date/méta affichée AU-DESSUS du cadre de spécification */
+    ficheMeta(target).then((m) => {
+      if (m) {
+        const date = document.createElement("div");
+        date.className = "gdnt-date";
+        date.textContent = m;
+        el.append(date);
+      }
     });
     el.addEventListener("click", (e) => {
-      if (e.ctrlKey || e.metaKey) { window.open(target, "_blank"); return; }  // Ctrl+clic → nouvel onglet sur #fiche=N
+      if (e.ctrlKey || e.metaKey) { window.open(target, "_blank"); return; }
       window.dispatchEvent(new CustomEvent("open-fiche", { detail: { href: target } }));
     });
   }
@@ -209,7 +227,7 @@ export function dimensionISO(text, i, p1, p2, opts = {}, compatSection) {
 
 /* Cadre ISO multi-cases : symbole | valeur | datums… (1 case par référence)
    Leader : anchor (3D, flèche) → bendUV (coude, UV plan, optionnel) → labelUV (cadre) */
-export function specificationISO(glyph, label, href, i, anchor, labelUV, bendUV, scale) {
+export function specificationISO(glyph, label, href, i, anchor, labelUV, bendUV, scale, important) {
   const [au, av] = toUV(i, anchor), [lu, lv] = labelUV;
 
   const pts = bendUV ? [[au, av], bendUV, [lu, lv]] : [[au, av], [lu, lv]];
@@ -217,7 +235,8 @@ export function specificationISO(glyph, label, href, i, anchor, labelUV, bendUV,
   const [tu, tv] = bendUV ? bendUV : [lu, lv];
   flatArrow(i, au, av, tu - au, tv - av)
   const el = document.createElement("div");
-  el.className = "gdnt";
+  el.className = important ? "gdnt gdnt--important" : "gdnt";
+
 
   const frame = document.createElement("div");
   frame.className = "gdnt-frame";
@@ -249,7 +268,7 @@ export function buildFTA(getPlane) {
   planes[8] = getPlane(8);   // ← prêt pour Compétences / Le reste
 
   /* ---- S1 EXPÉRIENCES : face droite (+X), 6 annotations cliquables ---- */
-  specificationISO("⌖", ["Alternance Safran","A"], "#fiche=exp:altSafran", 1, [0, 60, 10], [50, 80], [-10, 80]);
+    specificationISO("⌖", ["Alternance Safran","A"], "#fiche=exp:altSafran", 1, [0, 60, 10], [50, 80], [-10, 80], undefined, true);
     specificationISO("⏥", "I2M polytoCAT",     "#fiche=exp:i2mL3",      1, [0, 50, 25], [-80, 50]);
   specificationISO("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX",   1, [0, -28, 49], [-100, -28]);
   specificationISO("⌭", "Stage Exoes",       "#fiche=exp:stgExoes",  1, [0, -35, 35], [-95, -80], [-35, -80]);

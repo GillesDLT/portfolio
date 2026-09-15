@@ -5,7 +5,14 @@
   display: inline-flex; align-items: stretch;
   border: 1.5px solid #e8edf2; background: rgba(10,13,17,.88);
   font: 600 11px monospace; color: #e8edf2; white-space: nowrap;
+  position: relative;
 }
+
+/* ---- Specs importantes : rouge ---- */
+.gdnt--important { border-color: #ff5252 !important; color: #ff5252 !important; }
+.gdnt--important .gdnt-sym { color: #ff5252 !important; }
+.gdnt--important .gdnt-cell { border-left-color: #ff5252 !important; color: #ff5252 !important; }
+
 .gdnt-sym { padding: 3px 7px; color: #58a6ff; font-size: 14px; }
 .gdnt-cell { padding: 3px 7px; border-left: 1.5px solid #e8edf2; }
 .gdnt-datum {

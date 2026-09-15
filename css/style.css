@@ -135,7 +135,7 @@ body {
 .contacts a span { font-size: 12px; }
 
 /* ---------- Trièdre + libellé de vue ---------- */
-.viewlabel { position: absolute; top: 58px; right: 26px; font: 700 13px var(--mono); letter-spacing: .22em; color: var(--warn); }
+.viewlabel { position: absolute; top: 50px; left: 26px; font: 700 20.5px var(--mono); letter-spacing: .22em; color: var(--warn); z-index:15; }
 .triad { position: absolute; top: 96px; right: 24px; width: 104px; height: 104px; } /* ↓ sous le libellé (était 54px) */
 .triad line { stroke-width: 2; stroke-linecap: round; }
 .triad .ax-x { stroke: var(--ax-x); }
@@ -176,9 +176,23 @@ body {
 .gdnt {
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;              /* le cadre garde sa largeur de contenu */
-  color: #dfe7ee;                       /* même teinte que lignes/cotes three.js */
+  align-items: flex-start;
+  color: #dfe7ee;
   font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;
+  position: relative;                   /* pour positionner .gdnt-date et .gdnt-link */
+}
+
+/* ---- Specs importantes (rouge) ---- */
+.gdnt--important { color: #ff5252; }
+.gdnt--important .gdnt-frame { border-color: #ff5252; }
+.gdnt--important .gdnt-cell + .gdnt-cell { border-left-color: #ff5252; }
+.gdnt--important .gdnt-sym { color: #ff5252; }
+.gdnt--important .gdnt-frame {
+  animation: pulse-important 2.5s ease-in-out infinite;
+}
+@keyframes pulse-important {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
+  50%      { box-shadow: 0 0 10px 2px rgba(255, 82, 82, .35); }
 }
 
 /* Le cadre à cases proprement dit */
@@ -202,6 +216,19 @@ body {
   color: #7fc4ff;
   white-space: nowrap;
   text-shadow: 0 0 4px rgba(0, 0, 0, .8);  /* lisible hors du cadre */
+}
+
+/* Date/méta affichée AU-DESSUS du cadre de specif */
+.gdnt-date {
+  position: absolute;
+  bottom: calc(100% + 3px);
+  left: 0;
+  font-size: 9px;
+  color: #8a93a0;
+  white-space: nowrap;
+  text-shadow: 0 0 4px rgba(0, 0, 0, .8);
+  font-family: var(--mono);
+  letter-spacing: .02em;
 }
 
 .gdnt:hover, .gdnt-datum:hover, .gdnt-cote:hover { filter: brightness(1.4); }
@@ -268,4 +295,65 @@ body {
 .ficheNewTab { color: var(--accent); text-decoration: none; font-size: 12px; }
 .ficheNewTab:hover { text-decoration: underline; }
 html.fiche-lock { overflow: hidden; }
-@media (max-width: 800px) { #ficheOverlay { inset: 0; padding: 12px; } }
+/* ---------- Intro panel (vue ISO / grille visible) ---------- */
+#introPanel {
+  position: absolute;
+  top: 86px;                            /* sous le titre (viewlabel à top: 50px, ~36px de haut) */
+  left: 26px;
+  z-index: 15;
+  width: min(440px, calc(100vw - var(--tree-w) - 52px));
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+  display: flex;
+  gap: 16px;
+  padding: 18px;
+  background: rgba(23, 26, 31, .88);
+  border: 1px solid var(--line-hi);
+  border-radius: 14px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
+  transition: opacity .35s ease, transform .35s ease;
+  pointer-events: auto;
+}
+.intro-photo { flex: none; }
+.intro-photo img {
+  width: 110px; height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid var(--line-hi);
+}
+.intro-content { flex: 1; min-width: 0; }
+.intro-content h2 { font-size: 18px; margin: 0 0 10px; color: var(--ink); }
+.intro-accroche { font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0 0 12px; }
+.intro-site { font-size: 12px; line-height: 1.5; color: var(--muted); margin: 0 0 12px; }
+.intro-hint {
+  font-size: 11px; color: var(--warn);
+  letter-spacing: .12em; margin: 0;
+  animation: pulse-hint 2s ease-in-out infinite;
+}
+@keyframes pulse-hint {
+  0%, 100% { opacity: .55; }
+  50%      { opacity: 1; }
+}
+
+/* ---------- Légende des specs ---------- */
+#legend {
+  position: absolute;
+  bottom: 40px; left: 26px;
+  z-index: 15;
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 10px 14px;
+  background: rgba(23, 26, 31, .88);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 11px; color: var(--muted);
+}
+.legend-item { display: flex; align-items: center; gap: 8px; }
+.legend-dot { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid; }
+.legend-dot--normal { border-color: #dfe7ee; }
+.legend-dot--important { border-color: #ff5252; background: rgba(255, 82, 82, .15); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 800px) {
+  #introPanel { left: 12px; right: 12px; width: auto; top: 50px; max-height: 38vh; }
+  #legend { bottom: 36px; left: 12px; }
+}

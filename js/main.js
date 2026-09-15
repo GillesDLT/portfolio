@@ -183,6 +183,27 @@ addEventListener("keydown", (e) => {
 overlay.querySelector(".ficheClose").addEventListener("click", closeFiche);
 overlay.addEventListener("click", (e) => { if (e.target === overlay) closeFiche(); });   // clic sur le voile, hors de la fiche
 
+/* ---- Intro panel : présentation sur la vue ISO (grille visible) ---- */
+const introPanel = document.createElement("div");
+introPanel.id = "introPanel";
+introPanel.innerHTML = `
+  <div class="intro-photo"><img src="assets/photogilles.jpeg" alt="Gilles"></div>
+  <div class="intro-content">
+    <h2 class="intro-name"></h2>
+    <p class="intro-accroche"></p>
+    <p class="intro-site">Ce site présente mon parcours sous la forme d'une pièce CAO : chaque face du cube est une section de mon CV. Naviguez avec la molette ou les flèches ←/→ pour explorer les spécifications cliquables.</p>
+    <p class="intro-hint">↓ Faites défiler pour explorer</p>
+  </div>`;
+document.querySelector(".stage").append(introPanel);
+
+/* ---- Légende des couleurs de specs ---- */
+const legend = document.createElement("div");
+legend.id = "legend";
+legend.innerHTML = `
+  <div class="legend-item"><span class="legend-dot legend-dot--normal"></span> Spécification</div>
+  <div class="legend-item"><span class="legend-dot legend-dot--important"></span> Spécification importante</div>`;
+document.querySelector(".stage").append(legend);
+
 /* un seul handler pour TOUS les liens #fiche= (arbre + cartes du panneau S2-S5) ;
    Ctrl/Meta+clic est laissé au navigateur → nouvel onglet natif */
 addEventListener("click", (e) => {
@@ -235,7 +256,13 @@ function apply(p) {
   else cadEl.style.transform = `scale(${zoom})`;   // fallback CSS si cube3d n'a pas setZoom
   const k = Math.min(Math.max(q / 0.4, 0), 1);   // fondu sur 0 → 0.4
   const gridW = 1 - k * k * (3 - 2 * k);         // smoothstep
-  cad.setGridFade(gridW);
+    cad.setGridFade(gridW);
+      /* Intro panel : visible quand la grille est visible (ISO), masqué au scroll */
+  introPanel.style.opacity = gridW;
+  introPanel.style.pointerEvents = gridW > 0.5 ? "auto" : "none";
+  introPanel.style.transform = `translateY(${(1 - gridW) * -16}px)`;
+  /* Légende : reste visible, s'estompe légèrement hors ISO */
+  legend.style.opacity = (0.5 + 0.5 * gridW).toFixed(2);
   updateTriad(rx, ry);
   const w = sectionWeights(q);
   cad.setSections(w);
@@ -295,6 +322,9 @@ async function init() {
       <a href="mailto:${profil.mail}">${ICONS.mail}<span>${profil.mail}</span></a>
       <a href="${profil.linkedin}" target="_blank" rel="noopener">${ICONS.linkedin}<span>LinkedIn</span></a>
       <a href="${profil.github}"  target="_blank" rel="noopener">${ICONS.github}<span>GitHub</span></a>`;
+    /* Remplir l'intro panel avec les données du profil */
+    introPanel.querySelector(".intro-name").textContent = profil.nom;
+    introPanel.querySelector(".intro-accroche").textContent = profil.accroche;
 
     buildTree(tree, data, textes, scrollToPhase);
 
