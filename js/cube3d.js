@@ -170,6 +170,12 @@ const TARGET = new THREE.Vector3(0, 25, 0);   // la caméra orbite autour du poi
     function setFog(hex) {
        scene.fog.color.set(hex);
     }
+    function setGridFade(w) {
+      w = Math.max(0, Math.min(1, w));
+      grid.visible = w > 0.01;
+      grid.material.opacity = 0.35 * w;   // opacité "technical drawing" d'origine
+      sol.material.opacity = 0.28 * w;    // (option) l'ombre au sol suit la grille
+    }
 
-    return { setPose, setSection, setSections, resetOrbit, setFog };
+    return { setPose, setSection, setSections, resetOrbit, setFog, setGridFade };
 }

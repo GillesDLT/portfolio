@@ -233,6 +233,9 @@ function apply(p) {
   cad.setPose(rx, ry);
   if (cad.setZoom) cad.setZoom(zoom);
   else cadEl.style.transform = `scale(${zoom})`;   // fallback CSS si cube3d n'a pas setZoom
+  const k = Math.min(Math.max(q / 0.4, 0), 1);   // fondu sur 0 → 0.4
+  const gridW = 1 - k * k * (3 - 2 * k);         // smoothstep
+  cad.setGridFade(gridW);
   updateTriad(rx, ry);
   const w = sectionWeights(q);
   cad.setSections(w);

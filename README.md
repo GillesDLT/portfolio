@@ -6,9 +6,9 @@ visionneuse 3D animée.
 
 Cette interface reprends une pièce que j'ai usiné en 2026. 
 Les spécifications ISO de la pièce non aucun sens pour l'instant.
-![Preview for now](screenshots/V4.3a.png)
+![Preview for now](screenshots/V4.6a.png)
 
-![Preview for now](screenshots/V4.5.png)
+![Preview for now](screenshots/V4.6b.png)
 
 ## Lancer en local
 
