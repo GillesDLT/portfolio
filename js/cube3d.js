@@ -119,20 +119,6 @@ buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
     ry = ryIn;
   }
 
-  let drag = null;
-  canvas.addEventListener("pointerdown", (e) => {
-    drag = { x: e.clientX, y: e.clientY };
-    canvas.setPointerCapture(e.pointerId);
-  });
-  canvas.addEventListener("pointermove", (e) => {
-    if (!drag) return;
-    azOff += (e.clientX - drag.x) * 0.4;
-    elOff = Math.max(-40, Math.min(60, elOff + (e.clientY - drag.y) * 0.3));
-    drag = { x: e.clientX, y: e.clientY };
-  });
-  canvas.addEventListener("pointerup", () => { drag = null; });
-  canvas.addEventListener("dblclick", () => { azOff = 0; elOff = 0; });
-
   let vw = 2, vh = 2;
   function resize() {
     const r = canvas.getBoundingClientRect();
@@ -144,9 +130,7 @@ buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
   addEventListener("resize", resize);
   resize();
 
-const TARGET = new THREE.Vector3(0, 25, 0);   // la caméra orbite autour du point visé
-
-  function resetOrbit() { azOff = 0; elOff = 0; }
+  const TARGET = new THREE.Vector3(0, 25, 0);   // la caméra orbite autour du point visé
 
   (function tick() {
     requestAnimationFrame(tick);
@@ -177,5 +161,5 @@ const TARGET = new THREE.Vector3(0, 25, 0);   // la caméra orbite autour du poi
       sol.material.opacity = 0.28 * w;    // (option) l'ombre au sol suit la grille
     }
 
-    return { setPose, setSection, setSections, resetOrbit, setFog, setGridFade };
+    return { setPose, setSection, setSections, setFog, setGridFade };
 }

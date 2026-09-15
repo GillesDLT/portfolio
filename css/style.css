@@ -12,7 +12,6 @@
 }
 * { box-sizing: border-box; }
 html {
-  scroll-snap-type: y proximity;
   background: var(--bg);          /* le canvas est peint en sombre, même en overscroll */
   overscroll-behavior: none;      /* coupe l'élastique haut/bas */
 }
@@ -49,7 +48,7 @@ body {
 .contacts + .toolbar__file { margin-left: 14px; }
 .contacts a { display: flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; }
 .contacts a:hover { color: var(--accent); }
-.contacts svg { calc(14px * var(--ui)); height: calc(14px * var(--ui)); flex: none; fill: currentColor; }
+.contacts svg {height: calc(14px * var(--ui)); flex: none; fill: currentColor; }
 .contacts a span { font-size: calc(12px * var(--ui)); }
 
 /* ---------- Arbre façon FeatureManager ---------- */

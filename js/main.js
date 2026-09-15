@@ -291,7 +291,6 @@ function onScroll() {
 
 function scrollToPhase(i) {
   if (overlay.classList.contains("is-open")) return;
-  cad.resetOrbit?.();                 // annule l'orbite manuelle → pose exacte
   const m = document.documentElement.scrollHeight - window.innerHeight;
   window.scrollTo({ top: (i / (labels.length - 1)) * m, behavior: "smooth" });
 }

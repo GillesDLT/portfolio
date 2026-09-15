@@ -30,7 +30,7 @@
 #cad3d {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
-  display: block; cursor: grab; z-index: 0;
+  display: block; cursor: default; touch-action: pan-y; z-index: 0;
 }
 #cad-annos { position: absolute; inset: 0; pointer-events: none; }
 
