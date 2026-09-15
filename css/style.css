@@ -1,5 +1,6 @@
 :root {
-  --tree-w: 280px;
+  --ui: 1.1;                        /* ← facteur d'échelle global de l'UI */
+  --tree-w: calc(280px * var(--ui)); /* l'arbre s'élargit aussi (280 → 308px) */
   --cube: min(340px, 58vmin);
   --bg: #17191d; --bg-hi: #23262b;
   --panel: #1c1f24; --panel-hi: #22262c;
@@ -24,33 +25,44 @@ body {
 
 /* ---------- Barre d'outils ---------- */
 .toolbar {
-  position: absolute; inset: 0 0 auto 0; height: 42px; z-index: 20;
-  display: flex; align-items: center; gap: 16px; padding: 0 14px;
+  position: absolute; inset: 0 0 auto 0; height: calc(42px * var(--ui)); z-index: 20;
+  display: flex; align-items: center; gap: 16px; padding: 0 calc(14px * var(--ui));
   background: var(--panel); border-bottom: 1px solid var(--line);
-}
+}sucks
 .toolbar__logo { font-weight: 700; letter-spacing: .04em; }
 .toolbar__logo b { color: var(--accent); }
 .toolbar__views { display: flex; gap: 6px; margin-left: 8px; }
 .toolbar__views button {
-  font: 600 12px var(--mono); letter-spacing: .08em;
-  padding: 5px 12px; color: var(--muted); cursor: pointer;
+  font: 600 calc(12px * var(--ui)) var(--mono); letter-spacing: .08em;
+  padding: calc(5px * var(--ui)) calc(12px * var(--ui)); color: var(--muted); cursor: pointer;
   background: transparent; border: 1px solid var(--line); border-radius: 6px;
 }
 .toolbar__views button:hover { color: var(--ink); border-color: var(--line-hi); }
 .toolbar__views button.is-active { color: var(--warn); border-color: var(--warn); background: rgba(240,136,62,.08); }
-.toolbar__file { margin-left: auto; color: var(--muted); font-size: 12px; }
+.toolbar__file { margin-left: auto; color: var(--muted); font-size: calc(12px * var(--ui)); }
+
+/* ---------- Contacts ---------- */
+.contacts {
+  margin-left: auto;              /* pousse contacts + fichier à droite */
+  display: flex; align-items: center; gap: 14px;
+}
+.contacts + .toolbar__file { margin-left: 14px; }
+.contacts a { display: flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; }
+.contacts a:hover { color: var(--accent); }
+.contacts svg { calc(14px * var(--ui)); height: calc(14px * var(--ui)); flex: none; fill: currentColor; }
+.contacts a span { font-size: calc(12px * var(--ui)); }
 
 /* ---------- Arbre façon FeatureManager ---------- */
 .tree {
   position: fixed; inset: 0 auto 0 0; width: var(--tree-w);
-  padding: 56px 12px 40px; overflow: auto; z-index: 10;
+  padding: calc(42px * var(--ui) + 18px) calc(12px * var(--ui)) calc(40px * var(--ui)); overflow: auto; z-index: 10;
   background: var(--panel); border-right: 1px solid var(--line);
-  font-size: 13px;
+  font-size: calc(13px * var(--ui));
 }
 .tree::before {
   content: "ARBRE DE CONCEPTION";
   display: block; margin-bottom: 10px;
-  font: 700 10px var(--mono); letter-spacing: .18em; color: var(--muted);
+  font: 700 calc(10px * var(--ui)) var(--mono); letter-spacing: .18em; color: var(--muted);
 }
 .tree a { display: block; padding: 4px 8px; border-radius: 6px; color: var(--muted); text-decoration: none; cursor: pointer; }
 .tree a:hover { color: var(--ink); background: var(--panel-hi); }
@@ -123,17 +135,6 @@ body {
 .face--s5     { transform: rotateY(-90deg) translateZ(calc(var(--cube) / 2)); }
 .face--bottom { transform: rotateX(-90deg) translateZ(calc(var(--cube) / 2)); }
 
-/* ---------- Contacts ---------- */
-.contacts {
-  margin-left: auto;              /* pousse contacts + fichier à droite */
-  display: flex; align-items: center; gap: 14px;
-}
-.contacts + .toolbar__file { margin-left: 14px; }
-.contacts a { display: flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; }
-.contacts a:hover { color: var(--accent); }
-.contacts svg { width: 14px; height: 14px; flex: none; fill: currentColor; }
-.contacts a span { font-size: 12px; }
-
 /* ---------- Trièdre + libellé de vue ---------- */
 .viewlabel { position: absolute; top: 50px; left: 26px; font: 700 20.5px var(--mono); letter-spacing: .22em; color: var(--warn); z-index:15; }
 .triad { position: absolute; top: 96px; right: 24px; width: 104px; height: 104px; } /* ↓ sous le libellé (était 54px) */
@@ -154,10 +155,10 @@ body {
 
 /* ---------- Barre d'état ---------- */
 .statusbar {
-  position: absolute; inset: auto 0 0 0; height: 26px; z-index: 20;
+  position: absolute; inset: auto 0 0 0; height: calc(26px * var(--ui)); z-index: 20;
   display: flex; align-items: center; gap: 24px; padding: 0 14px;
   background: var(--panel); border-top: 1px solid var(--line);
-  font-size: 11px; color: var(--muted);
+  font-size: calc(11px * var(--ui)); color: var(--muted);
 }
 .statusbar #sbPhase { color: var(--warn); letter-spacing: .1em; }
 .statusbar #sbRot { margin-left: auto; }
