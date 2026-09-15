@@ -1,5 +1,5 @@
 :root {
-  --ui: 1.1;                        /* ← facteur d'échelle global de l'UI */
+  --ui: 1.2;                        /* ← facteur d'échelle global de l'UI */
   --tree-w: calc(280px * var(--ui)); /* l'arbre s'élargit aussi (280 → 308px) */
   --cube: min(340px, 58vmin);
   --bg: #17191d; --bg-hi: #23262b;

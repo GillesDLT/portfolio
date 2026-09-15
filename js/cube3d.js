@@ -150,8 +150,8 @@ const TARGET = new THREE.Vector3(0, 25, 0);   // la caméra orbite autour du poi
 
   (function tick() {
     requestAnimationFrame(tick);
-    const az = -ry + azOff;
-    const el = Math.min(88, Math.max(0, -rx + elOff));   // min 0 → vues de face exactes
+    const az = -ry;
+    const el = Math.min(88, Math.max(0, -rx));
     camera.position.set(
       TARGET.x + R * Math.cos(rad(el)) * Math.sin(rad(az)),
       TARGET.y + R * Math.sin(rad(el)),
