@@ -9,13 +9,30 @@ export function buildTree(treeEl, data, textes, onSection) {
   const ul = document.createElement("ul");
   data.sections.forEach((s, i) => {
     const li = document.createElement("li");
+
+    /* tête de section : caret (déplier/replier) + lien (scroller) */
+    const head = document.createElement("div");
+    head.className = "tree__head";
+
+    const caret = document.createElement("button");
+    caret.className = "tree__caret";
+    caret.setAttribute("aria-expanded", "true");
+    caret.textContent = "▸";
+    caret.addEventListener("click", () => {
+      const open = li.classList.toggle("is-collapsed") === false;
+      caret.setAttribute("aria-expanded", String(open));
+    });
+
     const a = document.createElement("a");
     a.dataset.phase = String(i + 1);
     a.textContent = s.titre;
     a.href = "#";
     a.addEventListener("click", (e) => { e.preventDefault(); onSection(i + 1); });
-    li.append(a);
 
+    head.append(caret, a);
+    li.append(head);              // ← remplace l'ancien li.append(a)
+
+    /* sous-arbre : les fiches de la section */
     const sub = document.createElement("ul");
     if (s.inline) {
       for (const item of s.items || []) {

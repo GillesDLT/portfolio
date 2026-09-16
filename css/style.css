@@ -39,6 +39,12 @@ body {
 .toolbar__views button:hover { color: var(--ink); border-color: var(--line-hi); }
 .toolbar__views button.is-active { color: var(--warn); border-color: var(--warn); background: rgba(240,136,62,.08); }
 .toolbar__file { margin-left: auto; color: var(--muted); font-size: calc(12px * var(--ui)); }
+.toolbar__menu {
+  display: none; flex-direction: column; gap: 4px;
+  margin-left: 4px; padding: 9px 7px;
+  background: transparent; border: 0; cursor: pointer;
+}
+.toolbar__menu span { display: block; width: 20px; height: 2px; background: var(--ink); border-radius: 1px; }
 
 /* ---------- Contacts ---------- */
 .contacts {
@@ -354,6 +360,20 @@ html.fiche-lock { overflow: hidden; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 800px) {
-  #introPanel { left: 12px; right: 12px; width: auto; top: 50px; max-height: 38vh; }
-  #legend { bottom: 36px; left: 12px; }
+  .triad, .toolbar__views, .toolbar__file, #sbRot { display: none; }
+  .stage { margin-left: 0; }
+
+  /* top bar = Gilles + 3 icônes + hamburger */
+  .contacts a span { display: none; }        /* icônes seules, plus de texte */
+  .contacts svg { width: 18px; height: 18px; }
+  .toolbar__menu { display: inline-flex; }
+
+  /* l'arbre devient un tiroir */
+  .tree {
+    width: min(320px, 88vw);
+    transform: translateX(-105%);
+    transition: transform .25s ease;
+    box-shadow: 8px 0 24px rgba(0,0,0,.4);
+  }
+  .tree.is-open { transform: none; }
 }

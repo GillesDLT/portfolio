@@ -289,8 +289,20 @@ function onScroll() {
   if (m > 0) targetP = (window.scrollY / m) * (labels.length - 1);
 }
 
+/* ---- Arbre mobile : tiroir (déclaré UNE fois, hors des fonctions) ---- */
+const menuBtn = document.getElementById("menuBtn");
+function closeTreeDrawer() {
+  tree.classList.remove("is-open");
+  menuBtn?.setAttribute("aria-expanded", "false");
+}
+menuBtn?.addEventListener("click", () => {
+  const open = tree.classList.toggle("is-open");
+  menuBtn.setAttribute("aria-expanded", String(open));
+});
+
 function scrollToPhase(i) {
   if (overlay.classList.contains("is-open")) return;
+  closeTreeDrawer();                      // referme le tiroir après un saut
   const m = document.documentElement.scrollHeight - window.innerHeight;
   window.scrollTo({ top: (i / (labels.length - 1)) * m, behavior: "smooth" });
 }
