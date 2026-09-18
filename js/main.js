@@ -290,7 +290,19 @@ function onScroll() {
 }
 
 /* ---- Arbre mobile : tiroir (déclaré UNE fois, hors des fonctions) ---- */
-const menuBtn = document.getElementById("menuBtn");
+const toolbar = document.querySelector(".toolbar");
+let menuBtn = document.getElementById("menuBtn");   // let, pas const : on peut le créer
+if (!menuBtn && toolbar) {
+  menuBtn = document.createElement("button");
+  menuBtn.className = "toolbar__menu";
+  menuBtn.id = "menuBtn";
+  menuBtn.type = "button";
+  menuBtn.setAttribute("aria-label", "Afficher l'arbre");
+  menuBtn.setAttribute("aria-expanded", "false");
+  menuBtn.innerHTML = "<span></span><span></span><span></span>";   // les 3 barres
+  toolbar.querySelector(".toolbar__logo")?.after(menuBtn);          // juste après ⌖ Gilles
+}
+
 function closeTreeDrawer() {
   tree.classList.remove("is-open");
   menuBtn?.setAttribute("aria-expanded", "false");
@@ -298,6 +310,12 @@ function closeTreeDrawer() {
 menuBtn?.addEventListener("click", () => {
   const open = tree.classList.toggle("is-open");
   menuBtn.setAttribute("aria-expanded", String(open));
+});
+
+document.addEventListener("click", (e) => {
+  if (!tree.classList.contains("is-open")) return;
+  if (e.target.closest("#tree") || e.target.closest("#menuBtn")) return;
+  closeTreeDrawer();
 });
 
 function scrollToPhase(i) {

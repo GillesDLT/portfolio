@@ -27,40 +27,24 @@ function nodeLi({ label, icon, phase, expandable, onActivate }) {
   li.classList.add("is-open");
   const { row, caret, a } = makeRow({ label, icon, phase, expandable });
 
-  a.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (onActivate) onActivate();
-    else if (expandable) toggle();          // sous-section : le clic sélectionne/déplie
-  });
-
   function toggle() {
     li.classList.toggle("is-open");
     caret.setAttribute("aria-expanded", String(li.classList.contains("is-open")));
   }
+
+  a.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (onActivate) onActivate();
+    else if (expandable) toggle();
+  });
+
   if (expandable) {
     caret.addEventListener("click", (e) => { e.stopPropagation(); toggle(); });
-    row.addEventListener("dblclick", toggle);   // comme CATIA : dbl-clic = déplier
+    row.addEventListener("dblclick", toggle);   // comme CATIA
   }
 
   li.append(row);
   return { li, toggle };
-}
-
-export function buildTree(treeEl, data, textes, onSection) {
-  treeEl.innerHTML = "";
-
-  /* Racine = le "Produit" */
-  const root = nodeLi({
-    label: data.home?.titre ?? "Home", icon: "⌂", phase: 0,
-    onActivate: () => onSection(0),
-  });
-  root.li.querySelector(".tree__row").classList.add("tree__row--root");
-  treeEl.append(root.li);
-
-  /* Sections + sous-sections (récursif) */
-  const ul = document.createElement("ul");
-  data.sections.forEach((s, i) => ul.append(sectionLi(s, i + 1, textes, onSection)));
-  treeEl.append(ul);
 }
 
 function sectionLi(s, phase, textes, onSection) {
@@ -73,18 +57,14 @@ function sectionLi(s, phase, textes, onSection) {
     label: s.titre, icon: "▣", phase, expandable: hasKids,
     onActivate: () => onSection(phase),
   });
-
   if (!hasKids) return node.li;
 
   const sub = document.createElement("ul");
-  sousSections.forEach((ss) =>
-    sub.append(sectionLi(ss, null, textes, onSection)));   // sous-section : pas de phase de scroll
+  sousSections.forEach((ss) => sub.append(sectionLi(ss, null, textes, onSection)));
   for (const id of fiches) {
-    const f = nodeLi({
-      label: textes?.[String(id)]?.titre ?? `Texte ${id}`, icon: "◦",
-      expandable: false,
-    });
-    f.li.querySelector("a").href = `#fiche=${id}`;         // garde le lien vers la fiche
+    const f = nodeLi({ label: textes?.[String(id)]?.titre ?? `Texte ${id}`,
+                       icon: "◦", expandable: false });
+    f.li.querySelector("a").href = `#fiche=${id}`;   // garde l'ouverture des fiches
     sub.append(f.li);
   }
   for (const item of items) {
@@ -96,10 +76,27 @@ function sectionLi(s, phase, textes, onSection) {
   return node.li;
 }
 
+export function buildTree(treeEl, data, textes, onSection) {
+  treeEl.innerHTML = "";
+
+  /* Racine = le "Produit" ; les sections pendillent dessous (arbre CATIA) */
+  const root = nodeLi({
+    label: data.home?.titre ?? "Home", icon: "⌂", phase: 0,
+    expandable: true, onActivate: () => onSection(0),
+  });
+  root.li.querySelector(".tree__row").classList.add("tree__row--root");
+
+  const ul = document.createElement("ul");
+  data.sections.forEach((s, i) => ul.append(sectionLi(s, i + 1, textes, onSection)));
+  root.li.append(ul);
+
+  treeEl.append(root.li);
+}
+
 export function setActive(phase) {
   document.querySelectorAll("#tree .tree__row").forEach((r) =>
     r.classList.toggle("is-active", r.dataset.phase === String(phase)));
-  /* "reveal in tree" : déplie tous les ancêtres de la section active */
+  /* "reveal in tree" : déplie les ancêtres de la section active */
   document.querySelectorAll("#tree .tree__row.is-active").forEach((r) => {
     for (let p = r.parentElement; p && p.closest("#tree"); p = p.parentElement)
       if (p.tagName === "LI") p.classList.add("is-open");
