@@ -3,7 +3,14 @@
   "sections": [
     { "titre": "Expériences", "textes": ["exp:stgStirweld", "exp:i2mL2", "exp:stgExoes", "exp:i2mL3", "exp:frlLaTeX", "exp:altSafran"] },
     { "titre": "Formations, Diplômes et Associatif", "textes": ["etu:lycee", "etu:licenceSPI", "etu:masterGM", "etu:CMI", "aso:scoutACT", "aso:scoutCC", "aso:scoutENR", "dip:bia", "dip:permisB", "dip:pix", "dip:toeic"] },
-    { "titre": "Projets", "textes": ["fac:indusM1", "fac:retroconceptionM1", "fac:tolerancementM2", "fac:TPmetroM2", "fac:designL2", "fac:dimensionnementL3", "fac:conceptionL3", "fac:cahierFiches", "diy:homelab", "diy:clavierAZ", "diy:obsidianWiki", "diy:portfolio"] },
+    {
+      "titre": "Projets",
+      "sections": [
+        { "titre": "Homelab",   "textes": ["diy:homelab"] },
+        { "titre": "Web",       "textes": ["diy:portfolio", "diy:obsidianWiki"] }
+      ],
+      "textes": ["diy:clavierAZ"]
+    },
     { "titre": "Compétences", "textes": ["cmp:conception", "cmp:maitriseDim", "cmp:usinage", "cmp:fabAdditive", "cmp:fermetureGeom", "cmp:windowsLinux", "cmp:packOffice", "cmp:programmation", "cmp:llmIA", "cmp:metrologie", "cmp:statistiques"] },
     { "titre": "le Reste", "textes": ["spr:escalade", "spr:halter", "spr:velo", "spr:rando", "otr:videogames", "diy:bricolage"] }
   ]

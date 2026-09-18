@@ -1,64 +1,107 @@
-export function buildTree(treeEl, data, textes, onSection) {
-  const root = document.createElement("a");
-  root.className = "tree__root";
-  root.dataset.phase = "0";
-  root.textContent = data.home?.titre ?? "Home";
-  root.href = "#";
-  root.addEventListener("click", (e) => { e.preventDefault(); onSection(0); });
+/* tree.js — Arbre de conception façon CATIA (Feature Manager) */
 
-  const ul = document.createElement("ul");
-  data.sections.forEach((s, i) => {
-    const li = document.createElement("li");
+function makeRow({ label, phase = null, icon = "◦", expandable = false }) {
+  const row = document.createElement("div");
+  row.className = "tree__row";
+  if (phase != null) row.dataset.phase = String(phase);
 
-    /* tête de section : caret (déplier/replier) + lien (scroller) */
-    const head = document.createElement("div");
-    head.className = "tree__head";
+  const caret = document.createElement("button");
+  caret.type = "button";
+  caret.className = "tree__caret" + (expandable ? "" : " is-leaf");
+  if (expandable) caret.setAttribute("aria-expanded", "true");
 
-    const caret = document.createElement("button");
-    caret.className = "tree__caret";
-    caret.setAttribute("aria-expanded", "true");
-    caret.textContent = "▸";
-    caret.addEventListener("click", () => {
-      const open = li.classList.toggle("is-collapsed") === false;
-      caret.setAttribute("aria-expanded", String(open));
-    });
+  const ic = document.createElement("span");
+  ic.className = "tree__icon";
+  ic.textContent = icon;
 
-    const a = document.createElement("a");
-    a.dataset.phase = String(i + 1);
-    a.textContent = s.titre;
-    a.href = "#";
-    a.addEventListener("click", (e) => { e.preventDefault(); onSection(i + 1); });
+  const a = document.createElement("a");
+  a.href = "#";
+  a.textContent = label;
 
-    head.append(caret, a);
-    li.append(head);              // ← remplace l'ancien li.append(a)
+  row.append(caret, ic, a);
+  return { row, caret, a };
+}
 
-    /* sous-arbre : les fiches de la section */
-    const sub = document.createElement("ul");
-    if (s.inline) {
-      for (const item of s.items || []) {
-        const li2 = document.createElement("li");
-        li2.className = "tree__plain";
-        li2.textContent = item;
-        sub.append(li2);
-      }
-    } else {
-      for (const id of s.textes || []) {
-        const li2 = document.createElement("li");
-        const a2 = document.createElement("a");
-        a2.href = `#fiche=${id}`;
-        a2.textContent = textes?.[String(id)]?.titre ?? `Texte ${id}`;
-        li2.append(a2);
-        sub.append(li2);
-      }
-    }
-    li.append(sub);
-    ul.append(li);
+function nodeLi({ label, icon, phase, expandable, onActivate }) {
+  const li = document.createElement("li");
+  li.classList.add("is-open");
+  const { row, caret, a } = makeRow({ label, icon, phase, expandable });
+
+  a.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (onActivate) onActivate();
+    else if (expandable) toggle();          // sous-section : le clic sélectionne/déplie
   });
-  treeEl.append(root, ul);
+
+  function toggle() {
+    li.classList.toggle("is-open");
+    caret.setAttribute("aria-expanded", String(li.classList.contains("is-open")));
+  }
+  if (expandable) {
+    caret.addEventListener("click", (e) => { e.stopPropagation(); toggle(); });
+    row.addEventListener("dblclick", toggle);   // comme CATIA : dbl-clic = déplier
+  }
+
+  li.append(row);
+  return { li, toggle };
+}
+
+export function buildTree(treeEl, data, textes, onSection) {
+  treeEl.innerHTML = "";
+
+  /* Racine = le "Produit" */
+  const root = nodeLi({
+    label: data.home?.titre ?? "Home", icon: "⌂", phase: 0,
+    onActivate: () => onSection(0),
+  });
+  root.li.querySelector(".tree__row").classList.add("tree__row--root");
+  treeEl.append(root.li);
+
+  /* Sections + sous-sections (récursif) */
+  const ul = document.createElement("ul");
+  data.sections.forEach((s, i) => ul.append(sectionLi(s, i + 1, textes, onSection)));
+  treeEl.append(ul);
+}
+
+function sectionLi(s, phase, textes, onSection) {
+  const sousSections = s.sections || [];
+  const fiches = s.inline ? [] : (s.textes || []);
+  const items  = s.inline ? (s.items || []) : [];
+  const hasKids = sousSections.length + fiches.length + items.length > 0;
+
+  const node = nodeLi({
+    label: s.titre, icon: "▣", phase, expandable: hasKids,
+    onActivate: () => onSection(phase),
+  });
+
+  if (!hasKids) return node.li;
+
+  const sub = document.createElement("ul");
+  sousSections.forEach((ss) =>
+    sub.append(sectionLi(ss, null, textes, onSection)));   // sous-section : pas de phase de scroll
+  for (const id of fiches) {
+    const f = nodeLi({
+      label: textes?.[String(id)]?.titre ?? `Texte ${id}`, icon: "◦",
+      expandable: false,
+    });
+    f.li.querySelector("a").href = `#fiche=${id}`;         // garde le lien vers la fiche
+    sub.append(f.li);
+  }
+  for (const item of items) {
+    const p = nodeLi({ label: item, icon: "◦", expandable: false });
+    p.li.querySelector(".tree__row").classList.add("tree__row--plain");
+    sub.append(p.li);
+  }
+  node.li.append(sub);
+  return node.li;
 }
 
 export function setActive(phase) {
-  document.querySelectorAll("#tree a").forEach((a) =>
-    a.classList.toggle("is-active", a.dataset.phase === String(phase))
-  );
+  document.querySelectorAll("#tree .tree__row").forEach((r) =>
+    r.classList.toggle("is-active", r.dataset.phase === String(phase)));
+  /* "reveal in tree" : déplie tous les ancêtres de la section active */
+  document.querySelectorAll("#tree .tree__row.is-active").forEach((r) => {
+    for (let p = r.parentElement; p && p.closest("#tree"); p = p.parentElement)
+      if (p.tagName === "LI") p.classList.add("is-open");
+  });
 }

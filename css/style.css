@@ -57,26 +57,53 @@ body {
 .contacts svg {height: calc(14px * var(--ui)); flex: none; fill: currentColor; }
 .contacts a span { font-size: calc(12px * var(--ui)); }
 
-/* ---------- Arbre façon FeatureManager ---------- */
+/* ---------- Arbre façon Feature Manager (CATIA) ---------- */
 .tree {
   position: fixed; inset: 0 auto 0 0; width: var(--tree-w);
-  padding: calc(42px * var(--ui) + 18px) calc(12px * var(--ui)) calc(40px * var(--ui)); overflow: auto; z-index: 10;
+  padding: calc(42px * var(--ui) + 14px) calc(10px * var(--ui)) calc(40px * var(--ui));
+  overflow: auto; z-index: 10;
   background: var(--panel); border-right: 1px solid var(--line);
-  font-size: calc(13px * var(--ui));
+  font: 500 calc(12px * var(--ui))/1.6 var(--mono);
+  color: var(--muted); user-select: none;
 }
 .tree::before {
   content: "ARBRE DE CONCEPTION";
-  display: block; margin-bottom: 10px;
+  display: block; margin-bottom: 8px;
   font: 700 calc(10px * var(--ui)) var(--mono); letter-spacing: .18em; color: var(--muted);
 }
-.tree a { display: block; padding: 4px 8px; border-radius: 6px; color: var(--muted); text-decoration: none; cursor: pointer; }
-.tree a:hover { color: var(--ink); background: var(--panel-hi); }
-.tree a.is-active { color: var(--warn); background: rgba(240,136,62,.08); }
-.tree .tree__root { font-weight: 700; color: var(--ink); }
-.tree .tree__root::before { content: "⌂  "; color: var(--muted); }
-.tree > ul > li > a::before { content: "▸  "; color: var(--muted); }
-.tree ul ul a::before { content: "◦  "; color: var(--line-hi); }
-.tree ul { list-style: none; margin: 4px 0; padding-left: 16px; border-left: 1px solid var(--line); }
+
+.tree ul { list-style: none; margin: 0; padding: 0; }
+.tree ul ul {                              /* guides d'indentation pointillés */
+  margin-left: 12px; padding-left: 8px;
+  border-left: 1px dotted var(--line-hi);
+}
+
+.tree__row {
+  display: flex; align-items: center; gap: 4px;   /* ← soigne le caret empilé */
+  min-height: 22px; padding: 0 4px;
+  border-radius: 3px; cursor: pointer; white-space: nowrap;
+}
+.tree__row:hover { background: var(--panel-hi); color: var(--ink); }
+.tree__row.is-active { color: var(--warn); background: rgba(240,136,62,.10); }
+
+.tree__caret {
+  flex: none; width: 14px; height: 14px; display: grid; place-items: center;
+  background: none; border: 0; padding: 0; color: var(--muted); cursor: pointer;
+}
+.tree__caret::before { content: "▸"; font-size: 9px; line-height: 1; transition: transform .12s; }
+li.is-open > .tree__row .tree__caret::before { transform: rotate(90deg); }
+.tree__caret.is-leaf { visibility: hidden; }        /* feuilles alignées quand même */
+
+.tree__icon { flex: none; width: 14px; text-align: center; }
+.tree__row--root .tree__icon { color: var(--accent); }
+.tree__row.is-active .tree__icon { color: var(--warn); }
+.tree__row a { color: inherit; text-decoration: none; overflow: hidden; text-overflow: ellipsis; }
+.tree__row--plain { color: #8a93a0; cursor: default; }
+
+.tree li:not(.is-open) > ul { display: none; }      /* ← le repliage, enfin effectif */
+
+.tree::-webkit-scrollbar { width: 8px; }
+.tree::-webkit-scrollbar-thumb { background: var(--line-hi); border-radius: 4px;}
 
 /* ---------- Viewport ---------- */
 .stage {
