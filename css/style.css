@@ -11,6 +11,7 @@
   --sym: "Segoe UI Symbol", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;  /* symboles ISO */
   --ax-x: #ff5c57; --ax-y: #9dcf3f; --ax-z: #5b8bff;
   /* sections (icônes SVG) */
+  --teal: #5bc0be; --cyan: #6fffe9;
   --sec1: #ffa657; --sec2: #4da3ff; --sec3: #42c76f; --sec4: #c793ff; --sec5: #3fc6d8;
   /* fiches, par préfixe (symboles ISO 1101) */
   --p-exp: #ffa657; --p-etu: #4da3ff; --p-aso: #42c76f; --p-dip: #c793ff;
@@ -65,67 +66,80 @@ body {
 .contacts a span { font-size: calc(12px * var(--ui)); }
 
 /* ---------- Arbre façon Feature Manager (CATIA) ---------- */
+/* ---------- Arbre façon Feature Manager, habillage "idea-tree" (navy/cyan) ---------- */
 .tree {
   position: fixed; inset: 0 auto 0 0; width: var(--tree-w);
-  padding: calc(42px * var(--ui) + 14px) calc(10px * var(--ui)) calc(40px * var(--ui));
-  overflow: auto; z-index: 10;
-  background: linear-gradient(180deg, var(--panel) 0%, #10131a 100%);
-  border-right: 1px solid var(--line-hi);
+  padding: calc(42px * var(--ui) + 14px) calc(8px * var(--ui)) calc(40px * var(--ui)) calc(10px * var(--ui));
+  overflow: auto; z-index: 10; user-select: none;
+  background:
+    radial-gradient(120% 60% at 0% 0%, rgba(27, 43, 84, .35), transparent 60%),
+    linear-gradient(180deg, #0b132b 0%, #0d1730 100%);
+  border-right: 1px solid rgba(111, 255, 233, .18);
   font: 500 calc(12px * var(--ui))/1.7 var(--mono);
-  color: #b9c4d0; user-select: none;
+  color: #b8c7e6;
 }
 .tree::before {
   content: "◧ ARBRE DE CONCEPTION";
-  display: block; margin-bottom: 10px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--line);
-  font: 700 calc(10px * var(--ui)) var(--mono); letter-spacing: .18em; color: #8fa0b3;
+  display: block; margin: 0 4px 10px; padding-bottom: 8px;
+  border-bottom: 1px solid rgba(111, 255, 233, .18);
+  font: 700 calc(10px * var(--ui)) var(--mono); letter-spacing: .18em; color: var(--cyan);
 }
 .tree ul { list-style: none; margin: 0; padding: 0; }
 
-/* Connecteurs : traits continus fins (façon NX/Fusion), plus lisibles que les pointillés */
+/* Connecteurs discrets bleu nuit */
 .tree li { position: relative; }
 .tree li > ul { position: relative; margin-left: 13px; }
 .tree li > ul::before {
-  content: ""; position: absolute; left: 0; top: 0; bottom: 12px;
-  border-left: 1px solid #2e3540;
+  content: ""; position: absolute; left: 0; top: 0; bottom: 13px;
+  border-left: 1px solid rgba(91, 140, 190, .25);
 }
 .tree li > ul > li > .tree__row { position: relative; padding-left: 19px; }
 .tree li > ul > li > .tree__row::before {
   content: ""; position: absolute; left: 0; top: 50%; width: 13px;
-  border-top: 1px solid #2e3540;
+  border-top: 1px solid rgba(91, 140, 190, .25);
 }
 
+/* Rangées "pilules" arrondies (façon idea-tree) */
 .tree__row {
-  display: flex; align-items: center; gap: 6px;
-  min-height: 24px; padding: 0 6px;
-  border-radius: 4px; cursor: pointer; white-space: nowrap;
-  transition: background .12s, color .12s;
+  display: flex; align-items: center; gap: 7px;
+  min-height: 26px; padding: 2px 8px;
+  border-radius: 8px; cursor: pointer; white-space: nowrap;
+  transition: background .15s ease, color .15s ease, box-shadow .15s ease;
 }
-.tree__row:hover { background: var(--panel-hi); color: var(--ink); }
+.tree__row:hover { background: rgba(58, 80, 107, .4); color: #eaf2ff; }
 .tree__row.is-active {
-  color: var(--ink);
-  background: rgba(255, 166, 87, .12);
-  box-shadow: inset 2px 0 0 var(--warn);          /* barre d'accent, sélection CAO */
+  background: rgba(91, 192, 190, .22);          /* fond teal à la sélection */
+  box-shadow: inset 3px 0 0 var(--cyan);        /* barre gauche 3px cyan */
+  color: #eaf2ff;
 }
 
 .tree__caret {
   flex: none; width: 14px; height: 14px; display: grid; place-items: center;
-  background: none; border: 0; padding: 0; color: #77828f; cursor: pointer;
+  background: none; border: 0; padding: 0; color: var(--teal); cursor: pointer;
 }
-.tree__caret::before { content: "▸"; font-size: 9px; line-height: 1; transition: transform .15s; }
+.tree__caret::before { content: "▸"; font-size: 9px; line-height: 1; transition: transform .2s ease; }
 li.is-open > .tree__row .tree__caret::before { transform: rotate(90deg); }
 .tree__caret.is-leaf { visibility: hidden; }
 
-/* Icônes : SVG colorés (sections) + glyphes ISO (fiches) */
-.tree__icon { flex: none; width: 15px; height: 15px; display: grid; place-items: center; }
+/* Icônes : pictos SVG (sections) + glyphes ISO (fiches) */
+.tree__icon { flex: none; width: 16px; height: 16px; display: grid; place-items: center; }
 .tree__ico {
   width: 14px; height: 14px; display: block;
   fill: none; stroke: currentColor; stroke-width: 1.4;
   stroke-linecap: round; stroke-linejoin: round;
-  color: #7d8894;                                  /* neutre : sous-sections */
+  color: #7ea8c9;
 }
 .tree__sym { font-style: normal; font-family: var(--sym); font-size: 11px; line-height: 1; }
 
+/* Pastille compteur (façon .node-count d'idea-tree) */
+.tree__count {
+  margin-left: auto; flex: none;
+  padding: 1px 7px; border-radius: 10px;
+  font-size: 10px; letter-spacing: .04em;
+  background: rgba(91, 192, 190, .18); color: var(--cyan);
+}
+
+/* Couleurs par section / préfixe (inchangées) */
 .tree__row--root .tree__ico { color: var(--accent); }
 .tree__row[data-phase="1"] .tree__ico { color: var(--sec1); }
 .tree__row[data-phase="2"] .tree__ico { color: var(--sec2); }
@@ -139,17 +153,22 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(90deg); }
 .pre-cmp { color: var(--p-cmp); }  .pre-spr { color: var(--p-spr); }
 .pre-otr { color: var(--p-otr); }
 
-/* Racine + sections de niveau 1 : libellé plus fort */
-.tree__row[data-phase] a { font-weight: 700; letter-spacing: .02em; color: #dbe3ec; }
-.tree__row[data-phase]:hover a { color: var(--ink); }
+/* Racine = "header" idea-tree + libellés niveau 1 renforcés */
+.tree__row--root { background: rgba(58, 80, 107, .25); margin-bottom: 4px; }
+.tree__row--root:hover { background: rgba(58, 80, 107, .45); }
+.tree__row--root > a { text-transform: uppercase; }
+.tree__row[data-phase] a { font-weight: 700; letter-spacing: .02em; color: #dfe9ff; }
+.tree__row[data-phase]:hover a { color: #eaf2ff; }
 
-.tree__row a { color: inherit; text-decoration: none; overflow: hidden; text-overflow: ellipsis; }
-.tree__row--plain { color: #7e8894; cursor: default; }
+.tree__row a { color: inherit; text-decoration: none; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.tree__row--plain { color: rgba(184, 199, 230, .55); cursor: default; }
 
 .tree li:not(.is-open) > ul { display: none; }
-.tree::-webkit-scrollbar { width: 8px; }
-.tree::-webkit-scrollbar-thumb { background: #333b46; border-radius: 4px; }
-.tree::-webkit-scrollbar-thumb:hover { background: var(--line-hi); }
+
+/* Scrollbar fine cyan, comme idea-tree */
+.tree::-webkit-scrollbar { width: 6px; }
+.tree::-webkit-scrollbar-thumb { background: rgba(91, 192, 190, .5); border-radius: 3px; }
+.tree::-webkit-scrollbar-thumb:hover { background: rgba(111, 255, 233, .5); }
 
 /* ---------- Viewport ---------- */
 .stage {
@@ -382,13 +401,15 @@ html.tree-lock { overflow: hidden; }
 .ficheNewTab { color: var(--accent); text-decoration: none; font-size: 12px; }
 .ficheNewTab:hover { text-decoration: underline; }
 html.fiche-lock { overflow: hidden; }
+
 /* ---------- Intro panel (vue ISO / grille visible) ---------- */
 #introPanel {
   position: absolute;
   top: 86px;                            /* sous le titre (viewlabel à top: 50px, ~36px de haut) */
   left: 26px;
   z-index: 15;
-  width: min(440px, calc(100vw - var(--tree-w) - 52px));
+  width: auto;
+  max-width: calc(100vh - 160px);;
   max-height: calc(100vh - 160px);
   overflow: auto;
   display: flex;
@@ -401,12 +422,13 @@ html.fiche-lock { overflow: hidden; }
   transition: opacity .35s ease, transform .35s ease;
   pointer-events: auto;
 }
-.intro-photo { flex: none; }
-.intro-photo img {
-  width: 110px; height: 110px;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 2px solid var(--line-hi);
+.intro-photo img { width: 96px; height: 96px; }
+.intro-photo--ph {
+  width: 96px; height: 96px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: rgba(91, 192, 190, .15);
+  border: 2px solid rgba(111, 255, 233, .35);
+  font: 700 34px var(--mono); color: var(--cyan);
 }
 .intro-content { flex: 1; min-width: 0; }
 .intro-content h2 { font-size: 18px; margin: 0 0 10px; color: var(--ink); }

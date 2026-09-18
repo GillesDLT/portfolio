@@ -196,6 +196,12 @@ introPanel.innerHTML = `
   </div>`;
 document.querySelector(".stage").append(introPanel);
 
+const introImg = introPanel.querySelector(".intro-photo img");
+introImg?.addEventListener("error", () => {
+  introImg.replaceWith(Object.assign(document.createElement("div"),
+    { className: "intro-photo--ph", textContent: "G" }));
+});
+
 /* ---- Légende des couleurs de specs ---- */
 const legend = document.createElement("div");
 legend.id = "legend";
@@ -302,19 +308,22 @@ if (!menuBtn && toolbar) {
   menuBtn.type = "button";
   menuBtn.setAttribute("aria-label", "Afficher l'arbre");
   menuBtn.setAttribute("aria-expanded", "false");
-  menuBtn.innerHTML = "<span></span><span></span><span></span>";   // les 3 barres
-  toolbar.querySelector(".toolbar__logo")?.after(menuBtn);          // juste après ⌖ Gilles
+  menuBtn.innerHTML = "<span></span><span></span><span></span>";
+  toolbar.querySelector(".toolbar__logo")?.after(menuBtn);
 }
 
-function closeTreeDrawer() {
-  tree.classList.remove("is-open");
-  menuBtn?.setAttribute("aria-expanded", "false");
+function setTreeDrawer(open) {
+  tree.classList.toggle("is-open", open);
+  treeScrim.classList.toggle("is-open", open);
+  document.documentElement.classList.toggle("tree-lock", open);
+  menuBtn?.setAttribute("aria-expanded", String(open));
 }
-menuBtn?.addEventListener("click", () => {
-  const open = tree.classList.toggle("is-open");
-  menuBtn.setAttribute("aria-expanded", String(open));
-});
+function closeTreeDrawer() { setTreeDrawer(false); }
 
+menuBtn?.addEventListener("click", () =>
+  setTreeDrawer(!tree.classList.contains("is-open")));
+
+/* clic hors du tiroir (ou sur le voile) → fermeture */
 document.addEventListener("click", (e) => {
   if (!tree.classList.contains("is-open")) return;
   if (e.target.closest("#tree") || e.target.closest("#menuBtn")) return;

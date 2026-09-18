@@ -1,4 +1,5 @@
-/* Sprite SVG injecté une fois : pictos façon barre d'outils CAO */
+/* tree.js — Arbre de conception façon CATIA, habillage "idea-tree" (navy/cyan) */
+
 const SPRITE = `
 <svg id="treeSprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
      style="position:absolute;width:0;height:0;overflow:hidden">
@@ -28,15 +29,18 @@ const SPRITE = `
   </symbol>
 </svg>`;
 
-/* Picto par section (1-based = ordre de sections.json) ;
-   symbole ISO 1101 par préfixe de fiche (couleur : classes .pre-* dans style.css) */
 const SEC_ICON = { 1: "ti-gear", 2: "ti-cap", 3: "ti-wrench", 4: "ti-rule", 5: "ti-star" };
 const PREFIX_SYM = { exp: "⌖", etu: "∠", aso: "⊥", dip: "Ø", fac: "⏥", diy: "⌭", cmp: "◎", spr: "⌒", otr: "±" };
 
 const ico = (id) => `<svg class="tree__ico" aria-hidden="true"><use href="#${id}"></use></svg>`;
 const sym = (pre) => `<i class="tree__sym pre-${PREFIX_SYM[pre] ? pre : "otr"}">${PREFIX_SYM[pre] ?? "•"}</i>`;
 
-function makeRow({ label, phase = null, iconHtml = "", expandable = false }) {
+/* nb de fiches/items d'une section, sous-sections comprises */
+const countFiches = (s) =>
+  s.inline ? (s.items?.length ?? 0)
+           : (s.textes?.length ?? 0) + (s.sections ?? []).reduce((n, ss) => n + countFiches(ss), 0);
+
+function makeRow({ label, phase = null, iconHtml = "", expandable = false, count = 0 }) {
   const row = document.createElement("div");
   row.className = "tree__row";
   if (phase != null) row.dataset.phase = String(phase);
@@ -55,13 +59,19 @@ function makeRow({ label, phase = null, iconHtml = "", expandable = false }) {
   a.textContent = label;
 
   row.append(caret, ic, a);
+  if (count > 0) {
+    const pill = document.createElement("span");
+    pill.className = "tree__count";
+    pill.textContent = String(count);
+    row.append(pill);
+  }
   return { row, caret, a };
 }
 
-function nodeLi({ label, iconHtml, phase, expandable, onActivate }) {
+function nodeLi({ label, iconHtml, phase, expandable, onActivate, count = 0 }) {
   const li = document.createElement("li");
   li.classList.add("is-open");
-  const { row, caret, a } = makeRow({ label, iconHtml, phase, expandable });
+  const { row, caret, a } = makeRow({ label, iconHtml, phase, expandable, count });
 
   function toggle() {
     li.classList.toggle("is-open");
@@ -91,8 +101,9 @@ function sectionLi(s, phase, textes, onSection) {
 
   const node = nodeLi({
     label: s.titre,
-    iconHtml: ico(SEC_ICON[phase] ?? "ti-box"),   // section niveau 1 → picto ; sous-section → boîte neutre
+    iconHtml: ico(SEC_ICON[phase] ?? "ti-box"),
     phase, expandable: hasKids,
+    count: countFiches(s),
     onActivate: () => onSection(phase),
   });
   if (!hasKids) return node.li;
@@ -100,10 +111,10 @@ function sectionLi(s, phase, textes, onSection) {
   const sub = document.createElement("ul");
   sousSections.forEach((ss) => sub.append(sectionLi(ss, null, textes, onSection)));
   for (const id of fiches) {
-    const pre = String(id).split(":")[0];         // "exp:stgExoes" → "exp"
+    const pre = String(id).split(":")[0];
     const f = nodeLi({ label: textes?.[String(id)]?.titre ?? `Texte ${id}`,
                        iconHtml: sym(pre), expandable: false });
-    f.li.querySelector("a").href = `#fiche=${id}`;   // garde l'ouverture des fiches
+    f.li.querySelector("a").href = `#fiche=${id}`;
     sub.append(f.li);
   }
   for (const item of items) {
