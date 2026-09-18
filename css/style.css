@@ -1,15 +1,22 @@
 :root {
-  --ui: 1.2;                        /* ← facteur d'échelle global de l'UI */
-  --tree-w: calc(280px * var(--ui)); /* l'arbre s'élargit aussi (280 → 308px) */
+  --ui: 1.2;
+  --tree-w: calc(280px * var(--ui));
   --cube: min(340px, 58vmin);
-  --bg: #17191d; --bg-hi: #23262b;
-  --panel: #1c1f24; --panel-hi: #22262c;
-  --line: #2b2f36; --line-hi: #3a3f47;
-  --ink: #d5dbe2; --muted: #7d8590;
-  --accent: #58a6ff; --warn: #f0883e;
+  --bg: #0e1014; --bg-hi: #181b21;
+  --panel: #13161b; --panel-hi: #1e232b;
+  --line: #272d36; --line-hi: #3a424e;
+  --ink: #e9eff6; --muted: #939eab;
+  --accent: #4da3ff; --warn: #ffa657;
   --mono: ui-monospace, "JetBrains Mono", "Cascadia Code", Consolas, monospace;
-  --ax-x: #e9564f; --ax-y: #9dcf3f; --ax-z: #5586f5;
+  --sym: "Segoe UI Symbol", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;  /* symboles ISO */
+  --ax-x: #ff5c57; --ax-y: #9dcf3f; --ax-z: #5b8bff;
+  /* sections (icônes SVG) */
+  --sec1: #ffa657; --sec2: #4da3ff; --sec3: #42c76f; --sec4: #c793ff; --sec5: #3fc6d8;
+  /* fiches, par préfixe (symboles ISO 1101) */
+  --p-exp: #ffa657; --p-etu: #4da3ff; --p-aso: #42c76f; --p-dip: #c793ff;
+  --p-fac: #3fc6d8; --p-diy: #e3b341; --p-cmp: #f778ba; --p-spr: #79c0ff; --p-otr: #97a1ad;
 }
+
 * { box-sizing: border-box; }
 html {
   background: var(--bg);          /* le canvas est peint en sombre, même en overscroll */
@@ -62,59 +69,87 @@ body {
   position: fixed; inset: 0 auto 0 0; width: var(--tree-w);
   padding: calc(42px * var(--ui) + 14px) calc(10px * var(--ui)) calc(40px * var(--ui));
   overflow: auto; z-index: 10;
-  background: var(--panel); border-right: 1px solid var(--line);
-  font: 500 calc(12px * var(--ui))/1.6 var(--mono);
-  color: var(--muted); user-select: none;
+  background: linear-gradient(180deg, var(--panel) 0%, #10131a 100%);
+  border-right: 1px solid var(--line-hi);
+  font: 500 calc(12px * var(--ui))/1.7 var(--mono);
+  color: #b9c4d0; user-select: none;
 }
 .tree::before {
-  content: "ARBRE DE CONCEPTION";
-  display: block; margin-bottom: 8px;
-  font: 700 calc(10px * var(--ui)) var(--mono); letter-spacing: .18em; color: var(--muted);
+  content: "◧ ARBRE DE CONCEPTION";
+  display: block; margin-bottom: 10px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  font: 700 calc(10px * var(--ui)) var(--mono); letter-spacing: .18em; color: #8fa0b3;
 }
 .tree ul { list-style: none; margin: 0; padding: 0; }
 
-/* ---- Connecteurs │ ├ └ ---- */
+/* Connecteurs : traits continus fins (façon NX/Fusion), plus lisibles que les pointillés */
 .tree li { position: relative; }
-.tree li > ul { position: relative; margin-left: 12px; }
-.tree li > ul::before {                    /* trait vertical, s'arrête au dernier coude */
-  content: ""; position: absolute;
-  left: 0; top: 0; bottom: 11px;           /* 11px = moitié d'une ligne de 22px */
-  border-left: 1px dotted var(--line-hi);  /* CATIA = pointillés ; mets "solid" sinon */
+.tree li > ul { position: relative; margin-left: 13px; }
+.tree li > ul::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 12px;
+  border-left: 1px solid #2e3540;
 }
-.tree li > ul > li > .tree__row { position: relative; padding-left: 18px; }
-.tree li > ul > li > .tree__row::before {  /* coude horizontal ├── ou └── */
-  content: ""; position: absolute;
-  left: 0; top: 50%; width: 12px;
-  border-top: 1px dotted var(--line-hi);
+.tree li > ul > li > .tree__row { position: relative; padding-left: 19px; }
+.tree li > ul > li > .tree__row::before {
+  content: ""; position: absolute; left: 0; top: 50%; width: 13px;
+  border-top: 1px solid #2e3540;
 }
 
-/* ---- Lignes ---- */
 .tree__row {
-  display: flex; align-items: center; gap: 4px;
-  min-height: 22px; padding: 0 4px;
-  border-radius: 3px; cursor: pointer; white-space: nowrap;
+  display: flex; align-items: center; gap: 6px;
+  min-height: 24px; padding: 0 6px;
+  border-radius: 4px; cursor: pointer; white-space: nowrap;
+  transition: background .12s, color .12s;
 }
 .tree__row:hover { background: var(--panel-hi); color: var(--ink); }
-.tree__row.is-active { color: var(--warn); background: rgba(240,136,62,.10); }
+.tree__row.is-active {
+  color: var(--ink);
+  background: rgba(255, 166, 87, .12);
+  box-shadow: inset 2px 0 0 var(--warn);          /* barre d'accent, sélection CAO */
+}
 
 .tree__caret {
   flex: none; width: 14px; height: 14px; display: grid; place-items: center;
-  background: none; border: 0; padding: 0; color: var(--muted); cursor: pointer;
+  background: none; border: 0; padding: 0; color: #77828f; cursor: pointer;
 }
-.tree__caret::before { content: "▸"; font-size: 9px; line-height: 1; transition: transform .12s; }
+.tree__caret::before { content: "▸"; font-size: 9px; line-height: 1; transition: transform .15s; }
 li.is-open > .tree__row .tree__caret::before { transform: rotate(90deg); }
-.tree__caret.is-leaf { visibility: hidden; }         /* feuilles alignées quand même */
+.tree__caret.is-leaf { visibility: hidden; }
 
-.tree__icon { flex: none; width: 14px; text-align: center; }
-.tree__row--root .tree__icon { color: var(--accent); }
-.tree__row.is-active .tree__icon { color: var(--warn); }
+/* Icônes : SVG colorés (sections) + glyphes ISO (fiches) */
+.tree__icon { flex: none; width: 15px; height: 15px; display: grid; place-items: center; }
+.tree__ico {
+  width: 14px; height: 14px; display: block;
+  fill: none; stroke: currentColor; stroke-width: 1.4;
+  stroke-linecap: round; stroke-linejoin: round;
+  color: #7d8894;                                  /* neutre : sous-sections */
+}
+.tree__sym { font-style: normal; font-family: var(--sym); font-size: 11px; line-height: 1; }
+
+.tree__row--root .tree__ico { color: var(--accent); }
+.tree__row[data-phase="1"] .tree__ico { color: var(--sec1); }
+.tree__row[data-phase="2"] .tree__ico { color: var(--sec2); }
+.tree__row[data-phase="3"] .tree__ico { color: var(--sec3); }
+.tree__row[data-phase="4"] .tree__ico { color: var(--sec4); }
+.tree__row[data-phase="5"] .tree__ico { color: var(--sec5); }
+
+.pre-exp { color: var(--p-exp); }  .pre-etu { color: var(--p-etu); }
+.pre-aso { color: var(--p-aso); }  .pre-dip { color: var(--p-dip); }
+.pre-fac { color: var(--p-fac); }  .pre-diy { color: var(--p-diy); }
+.pre-cmp { color: var(--p-cmp); }  .pre-spr { color: var(--p-spr); }
+.pre-otr { color: var(--p-otr); }
+
+/* Racine + sections de niveau 1 : libellé plus fort */
+.tree__row[data-phase] a { font-weight: 700; letter-spacing: .02em; color: #dbe3ec; }
+.tree__row[data-phase]:hover a { color: var(--ink); }
+
 .tree__row a { color: inherit; text-decoration: none; overflow: hidden; text-overflow: ellipsis; }
-.tree__row--plain { color: #8a93a0; cursor: default; }
+.tree__row--plain { color: #7e8894; cursor: default; }
 
-.tree li:not(.is-open) > ul { display: none; }       /* le repliage, enfin effectif */
-
+.tree li:not(.is-open) > ul { display: none; }
 .tree::-webkit-scrollbar { width: 8px; }
-.tree::-webkit-scrollbar-thumb { background: var(--line-hi); border-radius: 4px;}
+.tree::-webkit-scrollbar-thumb { background: #333b46; border-radius: 4px; }
+.tree::-webkit-scrollbar-thumb:hover { background: var(--line-hi); }
 
 /* ---------- Viewport ---------- */
 .stage {
@@ -209,11 +244,19 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(90deg); }
 
 .scroll-space > .snap { height: 100vh; scroll-snap-align: start; }
 
-@media (max-width: 800px) {
-  .tree, .triad, .toolbar__file, #sbRot { display: none; }
-  .stage { margin-left: 0; }
-  .toolbar__views { overflow-x: auto; }
+/* ---------- Tiroir mobile ---------- */
+#treeScrim {
+  position: fixed; inset: 0; z-index: 9;
+  background: rgba(4, 6, 10, .6); backdrop-filter: blur(2px);
+  opacity: 0; pointer-events: none; transition: opacity .25s ease;
 }
+#treeScrim.is-open { opacity: 1; pointer-events: auto; }
+html.tree-lock { overflow: hidden; }
+
+.toolbar__menu span { transition: transform .25s ease, opacity .2s ease; }
+.toolbar__menu[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.toolbar__menu[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.toolbar__menu[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
 /* ----------- Cadres de spécification ISO ----------- */
 
@@ -401,17 +444,20 @@ html.fiche-lock { overflow: hidden; }
   .triad, .toolbar__views, .toolbar__file, #sbRot { display: none; }
   .stage { margin-left: 0; }
 
-  /* top bar = Gilles + 3 icônes + hamburger */
-  .contacts a span { display: none; }        /* icônes seules, plus de texte */
+  .contacts a span { display: none; }
   .contacts svg { width: 18px; height: 18px; }
   .toolbar__menu { display: inline-flex; }
 
-  /* l'arbre devient un tiroir */
   .tree {
-    width: min(320px, 88vw);
+    display: block;                                /* ceinture + bretelles vs ligne 213 */
+    width: min(320px, 86vw);
     transform: translateX(-105%);
-    transition: transform .25s ease;
-    box-shadow: 8px 0 24px rgba(0,0,0,.4);
+    transition: transform .28s cubic-bezier(.22, 1, .36, 1);
+    box-shadow: 14px 0 34px rgba(0, 0, 0, .55);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 40px * var(--ui));
   }
   .tree.is-open { transform: none; }
+
+  #ficheOverlay { inset: 0; }                      /* fiche plein écran, plus de bande morte */
+  #introPanel { width: calc(100vw - 52px); }
 }

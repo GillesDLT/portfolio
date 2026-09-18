@@ -210,6 +210,7 @@ addEventListener("click", (e) => {
   const a = e.target.closest('a[href^="#fiche="]');
   if (!a || e.ctrlKey || e.metaKey) return;
   e.preventDefault();
+  closeTreeDrawer();                       // referme le tiroir mobile
   openFiche(a.getAttribute("href"));
 });
 addEventListener("open-fiche", (e) => openFiche(e.detail.href));
@@ -291,7 +292,9 @@ function onScroll() {
 
 /* ---- Arbre mobile : tiroir (déclaré UNE fois, hors des fonctions) ---- */
 const toolbar = document.querySelector(".toolbar");
-let menuBtn = document.getElementById("menuBtn");   // let, pas const : on peut le créer
+const treeScrim = document.getElementById("treeScrim")
+  ?? Object.assign(document.body.appendChild(document.createElement("div")), { id: "treeScrim" });
+let menuBtn = document.getElementById("menuBtn");
 if (!menuBtn && toolbar) {
   menuBtn = document.createElement("button");
   menuBtn.className = "toolbar__menu";
