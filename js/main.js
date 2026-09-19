@@ -282,6 +282,7 @@ function apply(p) {
   sbRot.textContent = `RX ${rx >= 0 ? "+" : "−"}${Math.abs(rx).toFixed(1)}°  RY ${ry >= 0 ? "+" : "−"}${Math.abs(ry).toFixed(1)}°  Z ×${zoom.toFixed(2)}`;
   setActive(cur);
   [...viewButtons.children].forEach((btn, k) => btn.classList.toggle("is-active", k === cur));
+  viewButtons.style.setProperty("--seg", cur);   // pouce blanc du segmented control (CSS : translateX)
 }
 
 function frame() {

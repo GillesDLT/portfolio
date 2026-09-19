@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { CSS3DObject } from "three/addons/renderers/CSS3DRenderer.js";
 
-const lineMat = () => new THREE.LineBasicMaterial({ color: 0xdfe7ee, transparent: true, opacity: 0.85, depthTest: false });
-const flatMat = () => new THREE.MeshBasicMaterial({ color: 0xdfe7ee, side: THREE.DoubleSide, depthTest: false });
+const lineMat = () => new THREE.LineBasicMaterial({ color: 0x27476e, transparent: true, opacity: 0.9, depthTest: false });
+const flatMat = () => new THREE.MeshBasicMaterial({ color: 0x27476e, side: THREE.DoubleSide, depthTest: false });
 
 /* ---- Specs cliquables → navigation vers la section ---- */
 let sectionsCache = null;

@@ -18,6 +18,7 @@ export function initCAD(container, canvas, annoEl) {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.15;
 
   const css3d = new CSS3DRenderer({ element: annoEl });
   css3d.domElement.style.position = "absolute";
@@ -26,7 +27,7 @@ export function initCAD(container, canvas, annoEl) {
 
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.add(new THREE.HemisphereLight(0x8899aa, 0x22262c, 0.5));
+  scene.add(new THREE.HemisphereLight(0xdfeaf7, 0x48688c, 0.7));
   const key = new THREE.DirectionalLight(0xffffff, 1.6);
   key.position.set(180, 260, 200);
   key.castShadow = true;
@@ -36,11 +37,11 @@ export function initCAD(container, canvas, annoEl) {
   const grid = new THREE.GridHelper(1200, 48, 0x27476e, 0xb9d0e6);  // navy lines, light-blue subdivisions
   grid.position.y = -0.5;
   grid.material.transparent = true;
-  grid.material.opacity = 0.35;                                     // subtle, "technical drawing" feel
+  grid.material.opacity = 0.45;                                     // subtle, "technical drawing" feel
   scene.add(grid);
   const sol = new THREE.Mesh(
     new THREE.PlaneGeometry(1200, 1200),
-    new THREE.ShadowMaterial({ opacity: 0.28 })
+    new THREE.ShadowMaterial({ opacity: 0.18 })
   );
   sol.rotation.x = -Math.PI / 2;
   sol.receiveShadow = true;
@@ -142,7 +143,7 @@ buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
       TARGET.z + R * Math.cos(rad(el)) * Math.cos(rad(az))
     );
     camera.lookAt(TARGET);
-    const half = 150;
+    const half = 134;
     camera.left = -half * (vw / vh);
     camera.right = -camera.left;
     camera.top = half;
@@ -157,8 +158,8 @@ buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
     function setGridFade(w) {
       w = Math.max(0, Math.min(1, w));
       grid.visible = w > 0.01;
-      grid.material.opacity = 0.35 * w;   // opacité "technical drawing" d'origine
-      sol.material.opacity = 0.28 * w;    // (option) l'ombre au sol suit la grille
+      grid.material.opacity = 0.45 * w;   // opacité "technical drawing" d'origine
+      sol.material.opacity = 0.18 * w;    // (option) l'ombre au sol suit la grille
     }
 
     return { setPose, setSection, setSections, setFog, setGridFade };

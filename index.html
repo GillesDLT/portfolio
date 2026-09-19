@@ -1,52 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gilles — Portfolio</title>
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/main.css">
-
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gilles — Portfolio</title>
+  <link rel="stylesheet" href="css/main.css">
+  <!-- NOTE : le KB ne conserve pas les balises de ton index.html actuel.
+       Si ton importmap diffère, garde l'exactement tienne (contrainte 7). -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
   }
-}
-</script>
+  </script>
 </head>
 <body>
 
-<main class="stage" id="stage">
+  <!-- Scène 3D plein écran — conteneur = .stage (passé à initCAD) -->
+  <div class="stage">
+    <canvas id="cad3d"></canvas>
+    <div id="cad-annos"></div>
+  </div>
 
+  <!-- Pilote de scroll : hauteur posée par main.js (nb de vues × 100vh) -->
+  <div id="scrollSpace" aria-hidden="true"></div>
+
+  <!-- Barre supérieure : 3 zones en chips -->
   <header class="toolbar">
-    <button id="menuBtn" class="toolbar__menu" aria-label="Arbre de conception" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <span class="toolbar__logo">⌖ Gilles</span>
-    <nav class="toolbar__views" id="viewButtons"></nav>
-    <div class="contacts mono" id="contacts"></div>
-    <span class="toolbar__file mono">accueil.htm</span>
+    <div class="brand">
+      <span class="toolbar__logo">⌖ <b>Gilles</b></span>
+      <span class="toolbar__file">accueil.htm</span>
+      <button class="toolbar__menu" id="menuBtn" type="button"
+              aria-label="Afficher l'arbre" aria-expanded="false" aria-controls="tree">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div class="toolbar__center">
+      <span id="hudPath" class="hud-chip">ISO</span>
+      <nav id="viewButtons" class="toolbar__views" aria-label="Vues"></nav>
+    </div>
+
+    <div class="toolbar__right">
+      <span class="search-chip" aria-hidden="true">Recherche <span class="search-chip__kbd">⌘K</span></span>
+      <div id="contacts" class="contacts"></div>
+    </div>
   </header>
 
-  <canvas id="cad3d"></canvas>
-  <div id="cad-annos"></div>
+  <!-- Voile du tiroir arbre (mobile) — était créé par JS, désormais dans le HTML -->
+  <div id="treeScrim"></div>
 
-  <div class="viewlabel mono" id="hudPath">ISO</div>
-  <svg class="triad" id="triadSvg" viewBox="0 0 100 100" aria-hidden="true"></svg>
+  <!-- Arbre de conception : rempli par tree.js (buildTree) -->
+  <aside id="tree" class="tree" aria-label="Arbre de conception"></aside>
 
-  <footer class="statusbar mono">
-    <span id="sbPhase">ISO</span>
-    <span id="sbRot">RX +0.0°&nbsp; RY +0.0°</span>
-    <span>←/→ : vues · molette : rotation</span>
+  <!-- Trièdre XYZ dans sa tuile verre -->
+  <div class="triad" aria-hidden="true">
+    <svg id="triadSvg" viewBox="0 0 100 100"></svg>
+  </div>
+
+  <!-- Barre d'état -->
+  <footer class="statusbar">
+    <div class="statusbar__pill">
+      <span id="sbPhase" class="sb-view">ISO</span>
+      <span class="sb-sep" aria-hidden="true"></span>
+      <span id="sbRot" class="mono">RX +0.0°  RY +0.0°</span>
+      <span class="sb-hint">←/→ : vues · molette : rotation</span>
+    </div>
   </footer>
 
-</main>
+  <!-- Créés dynamiquement (styling dans main.css, non modifiés) :
+       #ficheOverlay + #introPanel + #legend par main.js,
+       #treeSprite par tree.js -->
 
-<nav class="tree" id="tree" aria-label="Arbre de conception"></nav>
-<div class="scroll-space" id="scrollSpace"></div>
-
-<script type="module" src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
