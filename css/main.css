@@ -13,8 +13,8 @@
 
   /* encre */
   --ink: #1d1d1f;
-  --ink-2: rgba(50, 55, 68, .68);
-  --ink-3: rgba(50, 55, 68, .42);
+  --ink-1: #e8edf5;   /* principal */
+  --ink-2: #9aa7ba;   /* secondaire */
 
   /* accent */
   --accent: #0a84ff;

@@ -10,7 +10,8 @@ const R = 420;
 export function initCAD(container, canvas, annoEl) {
   const scene = new THREE.Scene();
   scene.background = null;
-  scene.fog = new THREE.Fog(0x48688c, 700, 1600);
+  scene.fog = new THREE.Fog(0x0b0e14, 900, 1900);              // fog douce, fond graphite
+
 
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 2000);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
@@ -27,17 +28,23 @@ export function initCAD(container, canvas, annoEl) {
 
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.add(new THREE.HemisphereLight(0xdfeaf7, 0x48688c, 0.7));
-  const key = new THREE.DirectionalLight(0xffffff, 1.6);
+  scene.environmentIntensity = 0.35;          // three r163+ ; sinon laisser et baisser les lights
+  scene.add(new THREE.HemisphereLight(0x2c3a52, 0x0b0e14, 0.55));
+  const key = new THREE.DirectionalLight(0xffffff, 1.9);   // key un peu plus forte pour compenser l'ambiance sombre
   key.position.set(180, 260, 200);
   key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048);
-  scene.add(key);
+  const rim = new THREE.DirectionalLight(0x7fb0ff, 0.8);   // rim bleu clair, sépare le modèle du fond
+  rim.position.set(-220, 140, -180);
+  scene.add(rim);
+  // fill très faible
+  const fill = new THREE.DirectionalLight(0xdfeaf7, 0.25);
+  fill.position.set(-100, 80, 220);
+  scene.add(fill);
 
-  const grid = new THREE.GridHelper(1200, 48, 0x27476e, 0xb9d0e6);  // navy lines, light-blue subdivisions
+  const grid = new THREE.GridHelper(1200, 48, 0x27476e, 0x1a2334);  // navy lines, light-blue subdivisions
   grid.position.y = -0.5;
   grid.material.transparent = true;
-  grid.material.opacity = 0.45;                                     // subtle, "technical drawing" feel
+  grid.material.opacity = 0.30;                                     // subtle, "technical drawing" feel
   scene.add(grid);
   const sol = new THREE.Mesh(
     new THREE.PlaneGeometry(1200, 1200),
