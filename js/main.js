@@ -297,6 +297,28 @@ function onScroll() {
   if (m > 0) targetP = (window.scrollY / m) * (labels.length - 1);
 }
 
+const secTitle = document.getElementById("secTitle");
+/* Titre de section : suit la phase active via l'arbre (source de vérité déjà câblée) */
+let secTitles = null;
+fetch("data/sections.json").then(r => r.json()).then(d => {
+  const arr = Array.isArray(d) ? d : d.sections;
+  secTitles = ["Accueil", ...arr.map(s => s.titre)];
+  const row = document.querySelector("#tree .tree__row.is-active");
+  if (row) applyTitle(parseInt(row.dataset.phase, 10));   // rattrape l'état courant
+});
+function applyTitle(i) {
+  const el = document.getElementById("secTitle");
+  if (!el || !secTitles) return;
+  const t = secTitles[i] ?? "";
+  if (el.textContent === t) return;
+  el.dataset.text = t;              // pour le ::before (liseré chrome)
+  el.textContent = t;
+}
+new MutationObserver(() => {
+  const row = document.querySelector("#tree .tree__row.is-active");
+  if (row) applyTitle(parseInt(row.dataset.phase, 10));
+}).observe(document.getElementById("tree"), { subtree: true, attributes: true, attributeFilter: ["class"] });
+
 /* ---- Arbre mobile : tiroir (déclaré UNE fois, hors des fonctions) ---- */
 const toolbar = document.querySelector(".toolbar");
 const treeScrim = document.getElementById("treeScrim")

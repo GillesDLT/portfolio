@@ -6,6 +6,7 @@
 
 /* ---------- 1. Design tokens ---------- */
 :root {
+  --ui: 1.1;
   /* dégradé de page — graphite, pas de noir pur */
   --bg-1: #0d1220;
   --bg-2: #0b0e14;
@@ -36,6 +37,7 @@
   --radius-panel: 18px;
   --radius-ctl: 12px;
   --radius-pill: 999px;
+  --bar-h: 44px;
 
   /* élévation — ombres profondes sombres */
   --shadow-panel: 0 2px 6px rgba(0,0,0,.45), 0 12px 32px rgba(0,0,0,.50), 0 32px 80px rgba(0,0,0,.55);
@@ -146,7 +148,7 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 .toolbar__menu {
   display: none;
   width: 42px; height: 42px; padding: 0;
-  border: 1px solid var(--hairline); border-radius: var(--radius-ctl);
+  border: 1px solid var(--hairrelativeline); border-radius: var(--radius-ctl);
   background: var(--glass-strong); color: var(--ink);
   box-shadow: var(--shadow-panel), inset 0 1px 0 var(--hairline-light);
   cursor: pointer;
@@ -159,8 +161,8 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 .hud-chip { display: none; }
 
 .toolbar__center {
-  display: inline-flex; align-items: center; gap: 10px;
-  animation: panel-in .25s var(--ease-out) .06s both;
+  position: absolute; left: 50%;
+  transform: translateX(-50%);
 }
 
 .toolbar__views {
@@ -196,23 +198,12 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
   animation: panel-in .25s var(--ease-out) .12s both;
 }
 .search-chip {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 12px 17px; border-radius: var(--radius-pill);
-  background: var(--sheen), var(--glass);
-  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
-  border: 1px solid var(--hairline);
-  box-shadow: var(--shadow-panel), inset 0 1px 0 var(--hairline-light);
-  font-size: 12px; color: var(--ink-3); user-select: none;
-}
-.search-chip__kbd {
-  font: 600 10px var(--font-mono);
-  padding: 2px 6px; border-radius: 6px;
-  background: rgba(255, 255, 255, .08); color: var(--ink-2);
+  display: none;
 }
 
 .contacts { display: inline-flex; gap: 6px; }
 .contacts a {
-  width: 46px; height: 46px; display: grid; place-items: center;
+  width: 46px; height: var(--bar-h); align-items: center; display: grid; place-items: center;
   border-radius: var(--radius-pill);
   background: var(--glass);
   backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
@@ -230,6 +221,22 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 .contacts a span {
   position: absolute; width: 1px; height: 1px; margin: -1px;
   clip-path: inset(50%); overflow: hidden; white-space: nowrap;
+}
+
+/* ---------- Titre de section, style "lock screen" ---------- */
+.sec-title {
+  position: fixed;
+  top: calc(42px * var(--ui) + 40px);  /* juste sous la top bar (elle fait 42px * --ui) */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  pointer-events: none;
+  background: none; border: 0; padding: 0;
+  font: 700 clamp(25px, 2.6vw, 37px)/1 var(--font-ui);  /* ~30 % plus petit */
+  letter-spacing: .04em;
+  color: rgba(233, 238, 245, .55);     /* translucide — règle le goût entre .45 et .65 */
+  text-shadow: none;                   /* plus de relief / effet 3D */
+  animation: sec-in .25s var(--ease-out) both;
 }
 
 /* ---------- 5. Arbre — sidebar la plus dense, +10 % de largeur,
@@ -354,7 +361,7 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .45));
   animation: panel-in .25s var(--ease-out) .16s both;
 }
-#triadSvg { display: block; width: 97px; height: 97px; }   /* 84 × 1.15 */
+#triadSvg { display: block; width: 110px; height: 110px; }
 #triadSvg line { stroke-width: 2; stroke-linecap: round; }
 #triadSvg .center { fill: var(--ink-3); }
 .ax-x { stroke: #ff6157; }        /* axes ré-étalonnés pour fond sombre */
@@ -552,9 +559,9 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 }
 
 /* ---------- 12. Entrée des panneaux ---------- */
-@keyframes panel-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: none; }
+@keyframes sec-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%); }
 }
 
 /* ---------- 13. Responsive ---------- */
@@ -568,6 +575,7 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   #tree {
     top: 76px; bottom: 14px;
     width: min(320px, 86vw);
+    font-size: 1.1em;
     transform: translateX(calc(-100% - 14px));
     transition: transform .28s var(--ease-out);
     box-shadow: 14px 0 34px rgba(0, 0, 0, .55);
