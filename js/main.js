@@ -163,6 +163,19 @@ async function openFiche(hrefOrId) {
     cont.append(img);
   }
   for (const par of t.contenu || []) { const p = document.createElement("p"); p.textContent = par; cont.append(p); }
+  if (t.imgs?.length) {
+    const wrap = document.createElement("div");
+    wrap.className = "ficheImgs";
+    for (const src of t.imgs) {
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = "";
+      img.className = "ficheImg";
+      img.onerror = () => img.remove(); // même logique que t.img : image absente → pas de cadre vide
+      wrap.append(img);
+    }
+    cont.append(wrap);
+  }
   const tags = overlay.querySelector(".ficheTags");
   tags.replaceChildren();
   for (const tag of t.tags || []) { const sp = document.createElement("span"); sp.textContent = tag; tags.append(sp); }
@@ -187,7 +200,7 @@ overlay.addEventListener("click", (e) => { if (e.target === overlay) closeFiche(
 const introPanel = document.createElement("div");
 introPanel.id = "introPanel";
 introPanel.innerHTML = `
-  <div class="intro-photo"><img src="assets/photogilles.jpeg" alt="Gilles"></div>
+  <div class="intro-photo"><img src="assets/images/photogilles.jpeg" alt="Gilles"></div>
   <div class="intro-content">
     <h2 class="intro-name"></h2>
     <p class="intro-accroche"></p>

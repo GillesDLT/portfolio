@@ -384,6 +384,16 @@ html.tree-lock { overflow: hidden; }
   background: #fff;            /* fond clair : les logos sombres sur PNG transparent sinon disparaissent */
   border-radius: 6px;
 }
+.ficheImgs .ficheImg {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: none;
+  height: 180px;
+  max-height: none;
+  object-fit: cover;
+  margin: 0;
+}
+
 .ficheTags { margin: 16px 0 0; }
 .ficheTags span { font-size: 13px; padding: 3px 10px; }
 .fiche header {

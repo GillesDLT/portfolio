@@ -1,5 +1,20 @@
 {
-  "exp:stgStirweld": { "titre": "Stage d'observation — STIRWELD", "section": 1, "meta": "mai 2022 · Rennes", "contenu": ["Stage d'observation dans une entreprise de soudage-malaxage (FSW), découverte des métiers d'ingénieur soudeur et projeteur.", "Observation des procédés de fabrication, de conception et du travail en environnement industriel."], "tags": ["Soudage FSW", "Industrie"] },
+  "exp:stgStirweld": {
+    "titre": "Stage d'observation — Stirweld",
+    "section": 1,
+    "meta": "08/2025 · Rennes, Bretagne, Fr",
+    "img": "assets/images/stirweld.jpg",
+    "contenu": [
+      "Stage d'observation d'une semaine dans une entreprise spécialisée en soudage-malaxage (Friction Stir Welding).",
+      "Observation des procédés de conception d'outillages et de soudage.",
+      "Découverte du principe de thèse CIFRE et de la R&D en environnement industriel.",
+      "Premier contact avec l'ingénierie avant l'entrée en licence.",
+      "Découverte des métiers d'ingénieur soudeur et projeteur",
+      "Lecture et achat du Guide du dessinateur industriel de A. Chevalier et du Guide des sciences et technologies industrielles (J.-L. Fanchon.)"
+    ],
+    "imgs": ["assets/images/book-fanchon.jpg", "assets/images/book-GDI.jpg"],
+    "tags": ["soudage", "usinage"]
+  },
   "exp:i2mL2": { "titre": "Stage R&D — Thermodynamique et mécanique des fluides — I2M", "section": 1, "meta": "sept. 2023 – juil. 2024 · Bordeaux · Stage (11 mois)", "contenu": ["Études expérimentales et numériques d'une sphère évoluant dans un matériau à changement de phases.", "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."], "tags": ["Thermodynamique", "Mécanique des fluides"] },
   "exp:stgExoes": { "titre": "Stagiaire bureau d'étude — EXOES", "section": 1, "meta": "mai 2024 – juil. 2024 · Gradignan · Stage (3 mois)", "contenu": ["Stage au sein du bureau d'étude d'EXOES, entreprise spécialisée en électromobilité.", "Amélioration de pièces d'interface pour le système d'immersion des batteries, création de notices de montage, mise en pratique des compétences de CAO.", "Renforcement de la maîtrise des normes techniques et collaboration au sein d'une équipe en environnement industriel."], "tags": ["CAO", "Rédaction technique", "Gestion de projet"] },
   "exp:i2mL3": { "titre": "Stagiaire R&D — Tolérancement et maîtrise dimensionnelle — I2M Bordeaux", "section": 1, "meta": "sept. 2024 – juil. 2025 · Bordeaux · Stage (11 mois)", "contenu": ["Études numériques sur la création de jumeaux numériques pour la surveillance de l'usure et le tolérancement de pièces usinées, sous la tutelle du Pr. D. Teissandier.", "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."], "tags": ["Simulations", "Jumeaux numériques", "Conception géométrique"] },
