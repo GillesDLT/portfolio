@@ -326,6 +326,9 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   background: rgba(77,141,255,.22); border-color: rgba(77,141,255,.5); color: var(--ink);
 }
 
+.tree__row--imp a,
+.tree__row--imp .tree__sym { color: var(--important); font-weight: 650; }
+
 .tree::-webkit-scrollbar { width: 10px; }
 .tree::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, .16); border-radius: var(--radius-pill);
@@ -335,7 +338,7 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 #treeScrim {
   position: fixed; inset: 0; z-index: 35;
   background: rgba(3, 6, 12, .55);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   opacity: 0; visibility: hidden;
   transition: opacity .25s var(--ease-out), visibility 0s linear .25s;
 }
@@ -364,7 +367,7 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 .tip--neg.ax-x { fill: rgba(10,14,22,.92); stroke: #ff6157; }  /* négatifs = sombres */
 .tip--neg.ax-y { fill: rgba(10,14,22,.92); stroke: #30d158; }
 .tip--neg.ax-z { fill: rgba(10,14,22,.92); stroke: var(--accent); }
-.axlabel { font: 600 11px var(--font-ui); fill: var(--ink-2); text-anchor: middle; dominant-baseline: middle; }
+.axlabel { font: 600 11px var(--font-ui); fill: var(--ink-2); text-anchor: middle; dominant-baseline: middle; fill: #14171b;}
 
 /* Variante optionnelle "Apple" — activée par GIZMO_STYLE='apple' dans le JS
    (le JS ajoute la classe .triad--apple et rend des anneaux fins) */
@@ -531,19 +534,21 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   color: var(--spec-ink);
   box-shadow: 0 1px 3px rgba(0, 0, 0, .45);
 }
+.gnt-link-fix {}
 .gdnt-link {
-  font: 600 11px var(--font-ui); color: var(--accent-hover);
-  background: rgba(255, 255, 255, .08);
-  border: 1px solid var(--hairline); border-radius: 2px;
-  padding: 2px 9px; cursor: pointer;
-  transition: background-color 180ms var(--ease);
+  align-self: flex-start;          /* collé à gauche */
+  font: 600 10px var(--font-ui);   /* plus petit (était 11px) */
+  color: var(--accent-hover);      /* couleur conservée */
+  background: none; border: 0; padding: 0;
+  cursor: pointer;
 }
-.gdnt-link:hover { background: rgba(255, 255, 255, .16); }
+.gdnt-link:hover { text-decoration: underline; text-underline-offset: 3px;  }
 .gdnt-date {
   order: -1;
-  font: 500 10px var(--font-mono); color: var(--ink-2);
-  background: rgba(10, 16, 26, .80); border: 1px solid var(--hairline);
-  border-radius: 2px; padding: 1px 6px;
+  align-self: flex-start;          /* calée à droite du cadre */
+  font: 500 10px var(--font-mono);
+  color: var(--ink-2);
+  background: none; border: 0; padding: 0;
 }
 
 /* ---------- 12. Entrée des panneaux ---------- */
@@ -553,7 +558,7 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 }
 
 /* ---------- 13. Responsive ---------- */
-@media (max-width: 1100px) {
+@media (max-width: 850px) {
   .toolbar__menu {
     display: inline-flex; flex-direction: column;
     justify-content: center; align-items: center; gap: 3px;
@@ -567,7 +572,7 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
     transition: transform .28s var(--ease-out);
     box-shadow: 14px 0 34px rgba(0, 0, 0, .55);
   }
-  .tree.is-open { transform: none; }
+  #tree.is-open { transform: none; }
   #introPanel { left: 14px; right: 14px; bottom: 76px; width: auto; }
 }
 @media (max-width: 640px) {

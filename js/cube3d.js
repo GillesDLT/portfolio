@@ -138,7 +138,7 @@ buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
   addEventListener("resize", resize);
   resize();
 
-  const TARGET = new THREE.Vector3(0, 25, 0);   // la caméra orbite autour du point visé
+  const TARGET = new THREE.Vector3(0, 10, 0);   // la caméra orbite autour du point visé
 
   (function tick() {
     requestAnimationFrame(tick);
@@ -150,7 +150,7 @@ buildFTA(getAnnoPlane);   // au lieu de buildFTA(scene)
       TARGET.z + R * Math.cos(rad(el)) * Math.cos(rad(az))
     );
     camera.lookAt(TARGET);
-    const half = 134;
+    const half = 149;
     camera.left = -half * (vw / vh);
     camera.right = -camera.left;
     camera.top = half;

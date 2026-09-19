@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { CSS3DObject } from "three/addons/renderers/CSS3DRenderer.js";
 
-const lineMat = () => new THREE.LineBasicMaterial({ color: 0x27476e, transparent: true, opacity: 0.9, depthTest: false });
-const flatMat = () => new THREE.MeshBasicMaterial({ color: 0x27476e, side: THREE.DoubleSide, depthTest: false });
+const lineMat = () => new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, depthTest: false });
+const flatMat = () => new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, depthTest: false });
 
 /* ---- Specs cliquables → navigation vers la section ---- */
 let sectionsCache = null;
@@ -257,6 +257,8 @@ export function specificationISO(glyph, label, href, i, anchor, labelUV, bendUV,
   return putLabel(el, i, lu, lv, href, 1, scale);
 }
 
+export const IMPORTANT_FICHES = new Set(["exp:altSafran"]);
+
 export function buildFTA(getPlane) {
   planes[1] = getPlane(1);
   planes[2] = getPlane(2);
@@ -268,8 +270,8 @@ export function buildFTA(getPlane) {
   planes[8] = getPlane(8);   // ← prêt pour Compétences / Le reste
 
   /* ---- S1 EXPÉRIENCES : face droite (+X), 6 annotations cliquables ---- */
-    specificationISO("⌖", ["Alternance Safran","A"], "#fiche=exp:altSafran", 1, [0, 60, 10], [50, 80], [-10, 80], undefined, true);
-    specificationISO("⏥", "I2M polytoCAT",     "#fiche=exp:i2mL3",      1, [0, 50, 25], [-80, 50]);
+  specificationISO("⌖", ["Alternance Safran","A"], "#fiche=exp:altSafran", 1, [0, 60, 10], [50, 80], [-10, 80], undefined, true);
+  specificationISO("⏥", "I2M polytoCAT",     "#fiche=exp:i2mL3",      1, [0, 50, 25], [-80, 50]);
   specificationISO("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX",   1, [0, -28, 49], [-100, -28]);
   specificationISO("⌭", "Stage Exoes",       "#fiche=exp:stgExoes",  1, [0, -35, 35], [-95, -80], [-35, -80]);
   dimensionISO("Stage BE",   1, [0, 43, -42], [0, -43, -42], { off:  35, angle: 90, section: "#fiche=exp:stgStirweld" });

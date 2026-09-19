@@ -1,4 +1,5 @@
 /* tree.js — Arbre de conception façon CATIA, habillage "idea-tree" (navy/cyan) */
+import { IMPORTANT_FICHES } from "./fta.js";
 
 const SPRITE = `
 <svg id="treeSprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
@@ -115,6 +116,8 @@ function sectionLi(s, phase, textes, onSection) {
     const f = nodeLi({ label: textes?.[String(id)]?.titre ?? `Texte ${id}`,
                        iconHtml: sym(pre), expandable: false });
     f.li.querySelector("a").href = `#fiche=${id}`;
+    if (IMPORTANT_FICHES.has(String(id)))
+      f.li.querySelector(".tree__row").classList.add("tree__row--imp");
     sub.append(f.li);
   }
   for (const item of items) {

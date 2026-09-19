@@ -97,6 +97,7 @@ export function buildPart() {
   // Trou latéral Ø16 traversant, contrelamage Ø28 côté droit
   part.add(...holeMouth(14, 46, 10, -30, 1, 0, 0, 8));
   part.add(...holeMouth(8, -46, 10, -30, -1, 0, 0));   // sortie
+  part.scale.setScalar(1);
 
   return part;
 }
