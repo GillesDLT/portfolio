@@ -1,41 +1,45 @@
 /* =============================================================
-   main.css — "Liquid Glass CAD" · thème clair, contraste renforcé
-   v2 : fond plus profond, verre plus dense, arbre lisible
+   main.css — "Liquid Glass CAD" · THÈME SOMBRE frosted glass
+   v3 : graphite profond, verre translucide hiérarchisé,
+        annotations FTA nettes (blueprint), trièdre sans conteneur
    ============================================================= */
 
 /* ---------- 1. Design tokens ---------- */
 :root {
-  /* dégradé de page — descendu plus sombre qu'en v1 pour donner
-     de la profondeur au verre (le haut reste clair) */
-  --bg-1: #e8f0fa;
-  --bg-2: #b6cee8;
-  --bg-3: #3f6089;
+  /* dégradé de page — graphite, pas de noir pur */
+  --bg-1: #0d1220;
+  --bg-2: #0b0e14;
+  --bg-3: #070a0f;
 
-  /* encre */
-  --ink: #1d1d1f;
+  /* encre — claire sur sombre, WCAG AA */
+  --ink: #e8edf5;
   --ink-1: #e8edf5;   /* principal */
   --ink-2: #9aa7ba;   /* secondaire */
+  --ink-3: #67778f;   /* tertiaire (était référencé mais jamais défini) */
 
-  /* accent */
-  --accent: #0a84ff;
-  --accent-hover: #0071e3;
-  --accent-soft: rgba(10, 132, 255, .14);
+  /* accent — bleu remonté pour le dark */
+  --accent: #4d8dff;
+  --accent-hover: #6ba3ff;          /* hover = plus clair en dark */
+  --accent-soft: rgba(77, 141, 255, .16);
 
-  /* verre — alphas remontés : les panneaux doivent se détacher du ciel */
-  --glass: rgba(255, 255, 255, .66);
-  --glass-strong: rgba(255, 255, 255, .84);
-  --sheen: linear-gradient(180deg, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 32%);
-  --hairline: rgba(15, 30, 55, .13);
-  --hairline-light: rgba(255, 255, 255, .75);
+  /* verre — 3 niveaux d'opacité : sidebar la plus dense, chips les plus
+     légères (hiérarchie de profondeur) */
+  --glass-deep: rgba(11, 15, 23, .86);    /* sidebar / arbre */
+  --glass-strong: rgba(15, 20, 31, .78);  /* panneaux : brand, statusbar, fiche */
+  --glass: rgba(20, 27, 40, .52);         /* chips : search, contacts */
+  --glass-veil: rgba(5, 8, 14, .55);      /* voile overlay fiche */
+  --sheen: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, 0) 32%);
+  --hairline: rgba(255, 255, 255, .10);
+  --hairline-light: rgba(255, 255, 255, .18);
 
   /* rayons */
   --radius-panel: 18px;
   --radius-ctl: 12px;
   --radius-pill: 999px;
 
-  /* élévation — ombres profondes comme l'ancien thème sombre, inversées */
-  --shadow-panel: 0 2px 6px rgba(16,24,40,.08), 0 12px 32px rgba(16,24,40,.16), 0 32px 80px rgba(16,24,40,.18);
-  --shadow-thumb: 0 1px 3px rgba(16,24,40,.20), 0 1px 1px rgba(16,24,40,.12);
+  /* élévation — ombres profondes sombres */
+  --shadow-panel: 0 2px 6px rgba(0,0,0,.45), 0 12px 32px rgba(0,0,0,.50), 0 32px 80px rgba(0,0,0,.55);
+  --shadow-thumb: 0 1px 3px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06);
 
   --blur: saturate(180%) blur(22px);
   --blur-veil: saturate(160%) blur(16px);
@@ -48,10 +52,10 @@
   --ease: cubic-bezier(.2, .7, .3, 1);
   --ease-out: cubic-bezier(.22, 1, .36, 1);
 
-  /* annotations FTA */
-  --spec: #27476e;
-  --spec-ink: #1d3a5f;
-  --important: #d92b2b;
+  /* annotations FTA — bleu plan technique remonté pour fond sombre */
+  --spec: #7fb3ff;
+  --spec-ink: #cfe0f7;
+  --important: #ff6b6b;
 }
 
 /* ---------- 2. Base ---------- */
@@ -60,7 +64,7 @@
 html {
   background: var(--bg-2);
   overscroll-behavior: none;
-  color-scheme: light;
+  color-scheme: dark;
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
@@ -71,12 +75,11 @@ body {
   -webkit-font-smoothing: antialiased;
   background: linear-gradient(180deg,
     var(--bg-1) 0%,
-    var(--bg-2) 42%,
-    var(--bg-3) 78%,
-    #33506f 100%) fixed;
+    var(--bg-2) 45%,
+    var(--bg-3) 100%) fixed;
 }
 
-::selection { background: rgba(10, 132, 255, .22); }
+::selection { background: rgba(77, 141, 255, .35); }
 button { font-family: var(--font-ui); }
 html.fiche-lock, html.tree-lock { overflow: hidden; }
 
@@ -86,22 +89,23 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 }
 .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 
-/* ---------- 3. Scène 3D ---------- */
+/* ---------- 3. Scène 3D (halos CSS ; fog/grid/lumières = js/main.js) ---------- */
 .stage { position: fixed; inset: 0; z-index: 0; }
 
 .stage::before {
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  /* halo central plus dense + noyau serré + blobs colorés : la pièce "flotte" */
+  /* halos nocturnes : clé bleue douce derrière la pièce, plus rien de "jour" */
   background:
-    radial-gradient(700px 480px at 50% 34%, rgba(255,255,255,.75), rgba(255,255,255,0) 70%),
-    radial-gradient(1250px 820px at 50% 34%, rgba(255,255,255,.5), rgba(255,255,255,0) 62%),
-    radial-gradient(620px 620px at 80% 16%, rgba(10,132,255,.16), rgba(10,132,255,0) 70%),
-    radial-gradient(760px 760px at 8% 88%, rgba(35,60,92,.30), rgba(35,60,92,0) 70%),
-    radial-gradient(500px 500px at 92% 78%, rgba(90,170,215,.12), rgba(90,170,215,0) 70%);
+    radial-gradient(700px 480px at 50% 34%, rgba(120,160,230,.10), rgba(0,0,0,0) 70%),
+    radial-gradient(1250px 820px at 50% 34%, rgba(70,110,180,.07), rgba(0,0,0,0) 62%),
+    radial-gradient(620px 620px at 80% 16%, rgba(77,141,255,.10), rgba(0,0,0,0) 70%),
+    radial-gradient(760px 760px at 8% 88%, rgba(40,70,110,.16), rgba(0,0,0,0) 70%),
+    radial-gradient(500px 500px at 92% 78%, rgba(90,170,215,.06), rgba(0,0,0,0) 70%);
 }
 .stage::after {
   content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: radial-gradient(125% 125% at 50% 44%, rgba(0,0,0,0) 55%, rgba(19,36,58,.32) 100%);
+  /* vignettage sombre pour asseoir le modèle */
+  background: radial-gradient(125% 125% at 50% 44%, rgba(0,0,0,0) 55%, rgba(0,0,0,.50) 100%);
 }
 
 #cad3d {
@@ -114,7 +118,7 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 
 #scrollSpace { position: relative; width: 0; pointer-events: none; }
 
-/* ---------- 4. Barre supérieure ---------- */
+/* ---------- 4. Barre supérieure (+~30 % de hauteur) ---------- */
 .toolbar {
   position: fixed; top: 14px; left: 14px; right: 14px; z-index: 30;
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -125,7 +129,7 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 
 .brand {
   display: inline-flex; align-items: center; gap: 10px;
-  padding: 4px 6px 4px 14px;
+  padding: 8px 10px 8px 16px;
   background: var(--sheen), var(--glass-strong);
   backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
   border: 1px solid var(--hairline); border-radius: var(--radius-pill);
@@ -134,16 +138,14 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 }
 .toolbar__logo { font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
 .toolbar__logo b { color: var(--accent-hover); }
-.toolbar__file {
-  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
-  font-size: 11px; color: var(--ink-2);
-  padding: 3px 9px; border-radius: var(--radius-pill);
-  background: rgba(15, 30, 55, .08);
-}
+
+/* label de fichier supprimé (comme hud-chip : masqué en CSS,
+   le markup <span class="toolbar__file"> peut être retiré ensuite) */
+.toolbar__file { display: none; }
 
 .toolbar__menu {
   display: none;
-  width: 38px; height: 38px; padding: 0;
+  width: 42px; height: 42px; padding: 0;
   border: 1px solid var(--hairline); border-radius: var(--radius-ctl);
   background: var(--glass-strong); color: var(--ink);
   box-shadow: var(--shadow-panel), inset 0 1px 0 var(--hairline-light);
@@ -151,10 +153,9 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
   transition: background-color 180ms var(--ease);
 }
 .toolbar__menu span { display: block; width: 16px; height: 1.5px; background: currentColor; border-radius: 1px; }
-.toolbar__menu:hover { background: #fff; }
+.toolbar__menu:hover { background: rgba(255, 255, 255, .10); }
 
-/* le chip HUD doublonne avec le segmented control → masqué,
-   le nom de vue reste visible dans la barre d'état */
+/* le chip HUD doublonne avec le segmented control → masqué */
 .hud-chip { display: none; }
 
 .toolbar__center {
@@ -164,23 +165,23 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 
 .toolbar__views {
   --seg-w: 48px; --seg-step: 50px;
-  position: relative; display: flex; gap: 2px; padding: 3px;
+  position: relative; display: flex; gap: 2px; padding: 4px;
   background: var(--sheen), var(--glass-strong);
   backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
   border: 1px solid var(--hairline); border-radius: var(--radius-pill);
   box-shadow: var(--shadow-panel), inset 0 1px 0 var(--hairline-light);
 }
 .toolbar__views::before {
-  content: ""; position: absolute; top: 3px; bottom: 3px; left: 3px;
+  content: ""; position: absolute; top: 4px; bottom: 4px; left: 4px;
   width: var(--seg-w); border-radius: var(--radius-pill);
-  background: #fff;
-  box-shadow: var(--shadow-thumb);
+  background: rgba(255, 255, 255, .12);
+  box-shadow: var(--shadow-thumb), inset 0 1px 0 var(--hairline-light);
   transform: translateX(calc(var(--seg, 0) * var(--seg-step)));
   transition: transform 200ms var(--ease);
 }
 .toolbar__views button {
   position: relative; z-index: 1;
-  width: var(--seg-w); height: 32px; padding: 0;
+  width: var(--seg-w); height: 42px; padding: 0;
   border: 0; background: transparent; border-radius: var(--radius-pill);
   font: 600 12px/1 var(--font-ui); color: var(--ink-2);
   cursor: pointer; white-space: nowrap;
@@ -188,7 +189,7 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 }
 .toolbar__views button:hover { background: var(--accent-soft); color: var(--ink); transform: translateY(-1px); }
 .toolbar__views button:active { transform: scale(.98); }
-.toolbar__views button.is-active { color: var(--ink); }
+.toolbar__views button.is-active { color: var(--ink); text-shadow: 0 0 14px rgba(77,141,255,.45); }
 
 .toolbar__right {
   display: inline-flex; align-items: center; gap: 8px;
@@ -196,7 +197,7 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 }
 .search-chip {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 9px 13px; border-radius: var(--radius-pill);
+  padding: 12px 17px; border-radius: var(--radius-pill);
   background: var(--sheen), var(--glass);
   backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
   border: 1px solid var(--hairline);
@@ -206,41 +207,48 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 .search-chip__kbd {
   font: 600 10px var(--font-mono);
   padding: 2px 6px; border-radius: 6px;
-  background: rgba(15, 30, 55, .09); color: var(--ink-2);
+  background: rgba(255, 255, 255, .08); color: var(--ink-2);
 }
 
 .contacts { display: inline-flex; gap: 6px; }
 .contacts a {
-  width: 38px; height: 38px; display: grid; place-items: center;
+  width: 46px; height: 46px; display: grid; place-items: center;
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, .72);
+  background: var(--glass);
   backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
   border: 1px solid var(--hairline);
   box-shadow: var(--shadow-panel), inset 0 1px 0 var(--hairline-light);
   color: var(--ink); text-decoration: none;
   transition: background-color 180ms var(--ease), transform 180ms var(--ease);
 }
-.contacts a:hover { background: #fff; color: var(--accent-hover); transform: translateY(-1px); }
+.contacts a:hover {
+  background: rgba(255, 255, 255, .10); color: var(--accent-hover);
+  transform: translateY(-1px);
+}
 .contacts a:active { transform: scale(.98); }
-.contacts svg { width: 18px; height: 18px; fill: currentColor; }
+.contacts svg { width: 20px; height: 20px; fill: currentColor; }
 .contacts a span {
   position: absolute; width: 1px; height: 1px; margin: -1px;
   clip-path: inset(50%); overflow: hidden; white-space: nowrap;
 }
 
-/* ---------- 5. Arbre (sous la chip marque — plus de chevauchement) ---------- */
+/* ---------- 5. Arbre — sidebar la plus dense, +10 % de largeur,
+   plus de dégradés blancs aux bords ---------- */
 .tree {
-  position: fixed; top: 64px; left: 14px; bottom: 96px; z-index: 40;
-  width: min(290px, 86vw);
+  position: fixed; top: 76px; left: 14px; bottom: 96px; z-index: 40;
+  width: min(320px, 86vw);                        /* 290px → 320px (+10 %) */
   padding: 10px 8px 14px;
   overflow: auto; overscroll-behavior: contain;
-  background: var(--sheen), var(--glass);
+  background: var(--sheen), var(--glass-deep);
   backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
   border: 1px solid var(--hairline); border-radius: var(--radius-panel);
-  box-shadow: var(--shadow-panel), inset 0 1px 0 var(--hairline-light);
+  /* profondeur : ombre portée + translucide interne stratifiée */
+  box-shadow: var(--shadow-panel),
+              inset 0 1px 0 var(--hairline-light),
+              inset 0 -1px 0 rgba(0, 0, 0, .45),
+              inset 0 0 60px rgba(0, 0, 0, .25);
   font-size: 13px; color: var(--ink);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 22px, #000 calc(100% - 26px), transparent 100%);
-          mask-image: linear-gradient(180deg, transparent 0, #000 22px, #000 calc(100% - 26px), transparent 100%);
+  /* fades top/bottom supprimés (plus de mask-image) */
 }
 .tree ul { margin: 0; padding: 0; list-style: none; }
 .tree li ul { margin-left: 18px; padding-left: 4px; border-left: 1px solid var(--hairline); }
@@ -250,9 +258,12 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
   display: flex; align-items: center; gap: 5px;
   min-height: 34px; padding: 0 8px 0 4px;
   border-radius: 10px; cursor: pointer;
-  transition: background-color 180ms var(--ease);
+  transition: background-color 180ms var(--ease), box-shadow 180ms var(--ease);
 }
-.tree__row:hover { background: var(--accent-soft); }
+.tree__row:hover {
+  background: rgba(255, 255, 255, .055);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
 .tree__row--root { font-weight: 650; }
 .tree__row--root .tree__icon { color: var(--accent-hover); }
 .tree__row--plain { color: var(--ink-2); }
@@ -271,7 +282,7 @@ html.fiche-lock, html.tree-lock { overflow: hidden; }
 }
 li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 .tree__caret.is-leaf { visibility: hidden; }
-.tree__caret:hover { background: rgba(15, 30, 55, .07); }
+.tree__caret:hover { background: rgba(255, 255, 255, .08); }
 
 .tree__icon { flex: 0 0 20px; display: grid; place-items: center; color: var(--spec); }
 .tree__ico {
@@ -298,59 +309,71 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   margin-left: auto; flex: none;
   font: 600 10px var(--font-mono); font-variant-numeric: tabular-nums;
   color: var(--ink-2); padding: 2px 8px;
-  background: rgba(15, 30, 55, .08); border: 1px solid var(--hairline);
+  background: rgba(255, 255, 255, .07); border: 1px solid var(--hairline);
   border-radius: var(--radius-pill);
 }
 
-.tree__row.is-active { background: var(--accent-hover); color: #fff; }
-.tree__row.is-active a { color: #fff; }
+/* sélection : lueur d'accent, pas de flat highlight */
+.tree__row.is-active {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px rgba(77,141,255,.45), 0 0 16px rgba(77,141,255,.18);
+  color: var(--ink);
+}
+.tree__row.is-active a { color: var(--ink); }
 .tree__row.is-active .tree__icon,
-.tree__row.is-active .tree__sym { color: rgba(255, 255, 255, .9); }
+.tree__row.is-active .tree__sym { color: var(--accent); }
 .tree__row.is-active .tree__count {
-  background: rgba(255, 255, 255, .22); border-color: rgba(255, 255, 255, .35); color: #fff;
+  background: rgba(77,141,255,.22); border-color: rgba(77,141,255,.5); color: var(--ink);
 }
 
 .tree::-webkit-scrollbar { width: 10px; }
 .tree::-webkit-scrollbar-thumb {
-  background: rgba(15, 30, 55, .22); border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, .16); border-radius: var(--radius-pill);
   border: 3px solid transparent; background-clip: content-box;
 }
 
 #treeScrim {
   position: fixed; inset: 0; z-index: 35;
-  background: rgba(23, 26, 31, .30);
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  background: rgba(3, 6, 12, .55);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   opacity: 0; visibility: hidden;
   transition: opacity .25s var(--ease-out), visibility 0s linear .25s;
 }
 #treeScrim.is-open { opacity: 1; visibility: visible; transition: opacity .25s var(--ease-out); }
 
-/* ---------- 6. Trièdre XYZ ---------- */
+/* ---------- 6. Trièdre XYZ — plus de carte : il flotte sur le canvas,
+   +15 % (84px → 97px) ---------- */
 .triad {
-  position: fixed; top: 64px; right: 14px; z-index: 20;
-  padding: 6px;
-  background: var(--sheen), var(--glass-strong);
-  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
-  border: 1px solid var(--hairline); border-radius: 14px;
-  box-shadow: var(--shadow-panel), inset 0 1px 0 var(--hairline-light);
+  position: fixed; top: 76px; right: 14px; z-index: 20;
+  padding: 0;
+  background: none; border: 0; box-shadow: none;
+  /* pas de backdrop-filter : gizmo posé directement sur la scène */
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .45));
   animation: panel-in .25s var(--ease-out) .16s both;
 }
-#triadSvg { display: block; width: 84px; height: 84px; }
+#triadSvg { display: block; width: 97px; height: 97px; }   /* 84 × 1.15 */
 #triadSvg line { stroke-width: 2; stroke-linecap: round; }
 #triadSvg .center { fill: var(--ink-3); }
-.ax-x { stroke: #e8483f; }
-.ax-y { stroke: #1f9e46; }
+.ax-x { stroke: #ff6157; }        /* axes ré-étalonnés pour fond sombre */
+.ax-y { stroke: #30d158; }
 .ax-z { stroke: var(--accent); }
-.tip--pos.ax-x { fill: #e8483f; }
-.tip--pos.ax-y { fill: #1f9e46; }
+.tip--pos.ax-x { fill: #ff6157; }
+.tip--pos.ax-y { fill: #30d158; }
 .tip--pos.ax-z { fill: var(--accent); }
 .tip--neg { stroke-width: 1.5; }
-.tip--neg.ax-x { fill: rgba(255,255,255,.94); stroke: #e8483f; }
-.tip--neg.ax-y { fill: rgba(255,255,255,.94); stroke: #1f9e46; }
-.tip--neg.ax-z { fill: rgba(255,255,255,.94); stroke: var(--accent); }
-.axlabel { font: 600 11px var(--font-ui); fill: var(--ink); text-anchor: middle; dominant-baseline: middle; }
+.tip--neg.ax-x { fill: rgba(10,14,22,.92); stroke: #ff6157; }  /* négatifs = sombres */
+.tip--neg.ax-y { fill: rgba(10,14,22,.92); stroke: #30d158; }
+.tip--neg.ax-z { fill: rgba(10,14,22,.92); stroke: var(--accent); }
+.axlabel { font: 600 11px var(--font-ui); fill: var(--ink-2); text-anchor: middle; dominant-baseline: middle; }
 
-/* ---------- 7. Barre d'état ---------- */
+/* Variante optionnelle "Apple" — activée par GIZMO_STYLE='apple' dans le JS
+   (le JS ajoute la classe .triad--apple et rend des anneaux fins) */
+.triad--apple #triadSvg line { stroke-width: 1.25; opacity: .85; }
+.triad--apple .axlabel { display: none; }
+.triad--apple .tip--neg { fill: rgba(10,14,22,.92); stroke-width: 1; opacity: .55; }
+.triad--apple:hover .tip--pos { filter: drop-shadow(0 0 5px rgba(77,141,255,.8)); }
+
+/* ---------- 7. Barre d'état (+~30 % de hauteur) ---------- */
 .statusbar {
   position: fixed; bottom: 14px; left: 0; right: 0; z-index: 30;
   display: flex; justify-content: center; pointer-events: none;
@@ -358,7 +381,7 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 .statusbar__pill {
   pointer-events: auto;
   display: inline-flex; align-items: center; gap: 14px;
-  max-width: calc(100vw - 28px); padding: 9px 18px;
+  max-width: calc(100vw - 28px); padding: 12px 24px;
   background: var(--sheen), var(--glass-strong);
   backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
   border: 1px solid var(--hairline); border-radius: var(--radius-pill);
@@ -371,29 +394,30 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   font-family: var(--font-mono); font-variant-numeric: tabular-nums;
   font-size: 12px; letter-spacing: .02em; white-space: nowrap;
 }
-.sb-hint { font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+/* hint "←/→ : vues · molette : rotation" supprimé (markup retirable ensuite) */
+.sb-hint { display: none; }
 
-/* ---------- 8. Légende ---------- */
+/* ---------- 8. Légende — déplacée en bas à droite, chip compacte ---------- */
 #legend {
-  position: fixed; bottom: 14px; left: 14px; z-index: 15;
-  display: flex; flex-direction: column; gap: 6px;
-  padding: 10px 14px;
-  background: var(--sheen), var(--glass-strong);
+  position: fixed; bottom: 14px; right: 14px; z-index: 15;
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 8px 12px;
+  background: var(--sheen), var(--glass);
   backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
   border: 1px solid var(--hairline); border-radius: var(--radius-ctl);
   box-shadow: var(--shadow-panel), inset 0 1px 0 var(--hairline-light);
-  font-size: 12px; color: var(--ink-2);
+  font-size: 11px; color: var(--ink-2);
 }
 .legend-item { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
-.legend-dot { width: 13px; height: 13px; border-radius: 4px; border: 1.5px solid; }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; border: 1.5px solid; }  /* carré technique */
 .legend-dot--normal { border-color: var(--spec); }
-.legend-dot--important { border-color: var(--important); background: rgba(217, 43, 43, .15); }
+.legend-dot--important { border-color: var(--important); background: rgba(255, 107, 107, .16); }
 
-/* ---------- 9. Panneau d'intro (opacity/transform pilotés par main.js) ---------- */
+/* ---------- 9. Panneau d'intro ---------- */
 #introPanel {
-  position: fixed; left: 320px; bottom: 74px; z-index: 12;
+  position: fixed; left: 352px; bottom: 74px; z-index: 12;
   display: flex; gap: 16px; align-items: flex-start;
-  width: min(460px, calc(100vw - 344px));
+  width: min(460px, calc(100vw - 380px));
   padding: 18px 20px;
   background: var(--sheen), var(--glass-strong);
   backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
@@ -405,8 +429,8 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 .intro-photo img, .intro-photo--ph {
   width: 84px; height: 84px; border-radius: 22px; object-fit: cover;
   border: 1px solid var(--hairline);
-  box-shadow: 0 4px 14px rgba(16, 24, 40, .16);
-  background: #fff; display: grid; place-items: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .5);
+  background: rgba(255, 255, 255, .06); display: grid; place-items: center;
 }
 .intro-photo--ph { font: 700 26px var(--font-ui); color: var(--accent-hover); background: var(--accent-soft); }
 .intro-content { min-width: 0; }
@@ -424,7 +448,7 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   position: fixed; inset: 0; z-index: 50;
   display: flex; align-items: center; justify-content: center;
   padding: 24px;
-  background: rgba(236, 244, 251, .5);
+  background: var(--glass-veil);
   backdrop-filter: var(--blur-veil); -webkit-backdrop-filter: var(--blur-veil);
   opacity: 0; visibility: hidden;
   transition: opacity .25s var(--ease-out), visibility 0s linear .25s;
@@ -448,11 +472,11 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   margin-left: auto; flex: 0 0 34px; width: 34px; height: 34px;
   display: grid; place-items: center; padding: 0;
   border: 1px solid var(--hairline); border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, .7); color: var(--ink-2); font-size: 13px;
+  background: rgba(255, 255, 255, .08); color: var(--ink-2); font-size: 13px;
   cursor: pointer;
   transition: background-color 180ms var(--ease), transform 180ms var(--ease);
 }
-.ficheClose:hover { background: #fff; color: var(--ink); transform: translateY(-1px); }
+.ficheClose:hover { background: rgba(255, 255, 255, .16); color: var(--ink); transform: translateY(-1px); }
 .ficheMeta { margin: 6px 0 14px; font-size: 12px; color: var(--ink-2); }
 .ficheImg {
   display: block; max-width: 100%; max-height: 260px;
@@ -466,11 +490,12 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 }
 .fiche::-webkit-scrollbar { width: 10px; }
 .fiche::-webkit-scrollbar-thumb {
-  background: rgba(15, 30, 55, .22); border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, .16); border-radius: var(--radius-pill);
   border: 3px solid transparent; background-clip: content-box;
 }
 
-/* ---------- 11. Annotations FTA (aucun transform : CSS3DRenderer les pose) ---------- */
+/* ---------- 11. Annotations FTA — style blueprint : arêtes vives,
+   rayons ≤ 2px, remplissage translucide sombre ---------- */
 .gdnt, .gdnt-datum, .gdnt-cote { backface-visibility: hidden; }
 .gdnt {
   position: relative;
@@ -480,13 +505,13 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 }
 .gdnt-frame {
   display: inline-flex; align-items: stretch;
-  border: 1.5px solid var(--spec); border-radius: 4px; overflow: hidden;
-  background: rgba(255, 255, 255, .88);
-  box-shadow: 0 1px 4px rgba(16, 24, 40, .14);
+  border: 1px solid var(--spec); border-radius: 1px; overflow: hidden;
+  background: rgba(10, 16, 26, .85);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .5);
   font-size: 11px; font-weight: 600;
 }
 .gdnt-sym { padding: 3px 7px; font-size: 13px; color: var(--spec); }
-.gdnt-cell { padding: 3px 8px; border-left: 1.5px solid var(--spec); }
+.gdnt-cell { padding: 3px 8px; border-left: 1px solid var(--spec); }
 .gdnt--important .gdnt-frame { border-color: var(--important); }
 .gdnt--important .gdnt-cell { border-left-color: var(--important); }
 .gdnt--important .gdnt-frame,
@@ -494,31 +519,31 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 .gdnt--important .gdnt-cell { color: var(--important); }
 .gdnt-datum {
   width: 22px; height: 22px; display: grid; place-items: center;
-  border: 1.5px solid var(--spec); border-radius: 4px;
-  background: rgba(255, 255, 255, .88);
-  box-shadow: 0 1px 4px rgba(16, 24, 40, .14);
+  border: 1px solid var(--spec); border-radius: 1px;
+  background: rgba(10, 16, 26, .85);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .5);
   font: 700 12px var(--font-mono); color: var(--spec-ink);
 }
 .gdnt-cote {
-  padding: 2px 7px; border-radius: 5px;
-  background: rgba(255, 255, 255, .82); border: 1px solid rgba(39, 71, 110, .4);
+  padding: 2px 7px; border-radius: 2px;
+  background: rgba(10, 16, 26, .82); border: 1px solid rgba(127, 179, 255, .45);
   font: 500 10px var(--font-mono); font-variant-numeric: tabular-nums;
   color: var(--spec-ink);
-  box-shadow: 0 1px 3px rgba(16, 24, 40, .12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .45);
 }
 .gdnt-link {
   font: 600 11px var(--font-ui); color: var(--accent-hover);
-  background: rgba(255, 255, 255, .78);
-  border: 1px solid var(--hairline); border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid var(--hairline); border-radius: 2px;
   padding: 2px 9px; cursor: pointer;
   transition: background-color 180ms var(--ease);
 }
-.gdnt-link:hover { background: #fff; }
+.gdnt-link:hover { background: rgba(255, 255, 255, .16); }
 .gdnt-date {
   order: -1;
   font: 500 10px var(--font-mono); color: var(--ink-2);
-  background: rgba(255, 255, 255, .76); border: 1px solid var(--hairline);
-  border-radius: 5px; padding: 1px 6px;
+  background: rgba(10, 16, 26, .80); border: 1px solid var(--hairline);
+  border-radius: 2px; padding: 1px 6px;
 }
 
 /* ---------- 12. Entrée des panneaux ---------- */
@@ -536,11 +561,11 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   .toolbar__file, .search-chip, .triad { display: none; }
   .sb-hint { display: none; }
   #tree {
-    top: 64px; bottom: 14px;
-    width: min(290px, 86vw);
+    top: 76px; bottom: 14px;
+    width: min(320px, 86vw);
     transform: translateX(calc(-100% - 14px));
     transition: transform .28s var(--ease-out);
-    box-shadow: 14px 0 34px rgba(16, 24, 40, .22);
+    box-shadow: 14px 0 34px rgba(0, 0, 0, .55);
   }
   .tree.is-open { transform: none; }
   #introPanel { left: 14px; right: 14px; bottom: 76px; width: auto; }
@@ -557,8 +582,8 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 /* ---------- 14. Fallback sans backdrop-filter ---------- */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .brand, .toolbar__views, .search-chip, .contacts a, .toolbar__menu,
-  #tree, .statusbar__pill, .triad, #legend, #introPanel, .fiche {
-    background: rgba(255, 255, 255, .94);
+  #tree, .statusbar__pill, #legend, #introPanel, .fiche {
+    background: rgba(11, 15, 23, .97);
   }
 }
 
