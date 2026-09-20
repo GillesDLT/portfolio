@@ -1,8 +1,8 @@
 {
   "exp:stgStirweld": {
-    "titre": "Stage d'observation — Stirweld",
+    "titre": "Stirweld — Stage d'observation",
     "section": 1,
-    "meta": "08/2025 · Rennes, Bretagne, Fr",
+    "meta": "05/2025 · Rennes, Bretagne, Fr",
     "img": "assets/images/stirweld.jpg",
     "contenu": [
       "Bien avant d'entrer en licence, j'ai eu l'opportunité de réaliser un stage d'observation d'une semaine au sein d'une entreprise spécialisée en soudage-malaxage (Friction Stir Welding).",
@@ -13,54 +13,481 @@
     "imgs": ["assets/images/book-fanchon.jpg", "assets/images/book-GDI.jpg"],
     "tags": ["soudage", "usinage"]
   },
-  "exp:i2mL2": { "titre": "Stage R&D — Thermodynamique et mécanique des fluides — I2M", "section": 1, "meta": "sept. 2023 – juil. 2024 · Bordeaux · Stage (11 mois)", "contenu": ["Études expérimentales et numériques d'une sphère évoluant dans un matériau à changement de phases.", "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."], "tags": ["Thermodynamique", "Mécanique des fluides"] },
-  "exp:stgExoes": { "titre": "Stagiaire bureau d'étude — EXOES", "section": 1, "meta": "mai 2024 – juil. 2024 · Gradignan · Stage (3 mois)", "contenu": ["Stage au sein du bureau d'étude d'EXOES, entreprise spécialisée en électromobilité.", "Amélioration de pièces d'interface pour le système d'immersion des batteries, création de notices de montage, mise en pratique des compétences de CAO.", "Renforcement de la maîtrise des normes techniques et collaboration au sein d'une équipe en environnement industriel."], "tags": ["CAO", "Rédaction technique", "Gestion de projet"] },
-  "exp:i2mL3": { "titre": "Stagiaire R&D — Tolérancement et maîtrise dimensionnelle — I2M Bordeaux", "section": 1, "meta": "sept. 2024 – juil. 2025 · Bordeaux · Stage (11 mois)", "contenu": ["Études numériques sur la création de jumeaux numériques pour la surveillance de l'usure et le tolérancement de pièces usinées, sous la tutelle du Pr. D. Teissandier.", "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie."], "tags": ["Simulations", "Jumeaux numériques", "Conception géométrique"] },
-  "exp:frlLaTeX": { "titre": "Expert LaTeX freelance — Fiverr", "section": 1, "meta": "oct. 2024 – aujourd'hui · À distance", "contenu": ["Rédaction, formatage et typographie de documents professionnels sur mesure avec LaTeX.", "Débogage et structuration avancée de documents complexes pour une mise en page fiable, claire et professionnelle.", "Expertise développée sur plusieurs années : rigueur technique, gestion efficace du temps et communication claire."], "tags": ["LaTeX", "Typographie", "Débogage"] },
-  "exp:altSafran": { "titre": "Alternant en maîtrise dimensionnelle — Safran Aircraft Engines", "section": 1, "meta": "sept. 2025 – aujourd'hui · Corbeil-Essonnes · Alternance", "contenu": [ "📘 Étude approfondie de la norme ISO 10579:2010 relative aux pièces non rigides et à la définition de l’état libre, dans une démarche d’état de l’art sur les pratiques de contrôle dimensionnel.", "Travaux réalisés :", "• Lecture et analyse détaillée de la norme et de ses implications pour le contrôle des pièces non rigides", "• Analyse des méthodes de mise en contrainte utilisées lors du contrôle dimensionnel", "• Rédaction d’un document technique comparant et recensant différents outillages de mise au rond et de redressage", "🔩 Étude comparative des liaisons boulonnées dans le cadre de l’analyse des jeux de montage sur des assemblages multi-vis.", "Travaux réalisés :", "• Analyse des méthodes de chaînes de cotes 1D et des limites de ces approches conventionnelles", "• Modélisation par Analyse Fonctionnelle Technique (AFT) et spécification sous CATIA V5 FTA", "• Développement d’une approche Best-Fit Tchebychev pour évaluer le jeu de montage", "• Mise en place de simulations de Monte-Carlo en Python pour étudier l’influence des tolérances et du nombre de vis" ], "tags": [ "Normes ISO", "Tolérancement géométrique", "Métrologie", "AFT", "CATIA V5 FTA", "Monte-Carlo", "Python" ] },
-
-
-  "etu:lycee": { "titre": "Baccalauréat général — Lycée de La Sauque", "section": 2, "meta": "sept. 2019 – août 2022", "contenu": ["Baccalauréat général, spécialités Mathématiques et Physique-Chimie."], "tags": ["Mathématiques", "Physique"] },
-  "etu:licenceSPI": { "titre": "Licence Sciences Pour l'Ingénieur — Université de Bordeaux", "section": 2, "meta": "sept. 2022 – août 2025 · Mention Bien", "contenu": ["Cursus Master en Ingénierie Mécanique Génie Civil et Énergétique (CMI MGCE), spécialité Génie Mécanique, option Simulation."], "tags": ["Génie mécanique", "CAO", "Simulation"] },
-  "etu:masterGM": { "titre": "Master Génie Mécanique — Université de Bordeaux", "section": 2, "meta": "sept. 2025 – août 2027 · Parcours Conception Avancée", "img": "./assets/images/logoUB.png", "contenu": ["CMI MGCE (Cursus Master en Ingénierie Mécanique, Génie Civil et Énergétique), parcours Conception Avancée.", "Formation d'excellence spécialisée en tolérancement et maîtrise dimensionnelle, labellisée par le réseau Figure."], "tags": ["Conception géométrique", "CAO", "Tolérancement"] },
-  "etu:CMI": { "titre": "CMI MGCE — Cursus Master en Ingénierie", "section": 2, "meta": "Université de Bordeaux · Réseau Figure", "contenu": ["Cycle CMI MGCE (Cursus Master en Ingénierie Mécanique, Génie Civil et Énergétique), labellisé par le réseau Figure.", "TODO : compléter (sélections, enseignements renforcés, stages spécifiques…)."], "tags": ["CMI", "Réseau Figure", "Conception géométrique"] },
-  "aso:scoutACT": { "titre": "Assistant intendant du chef des scouts marins de Bordeaux", "section": 2, "meta": "sept. 2024 – août 2025 · Guides et Scouts d'Europe", "contenu": ["Participation à l'encadrement et à l'organisation d'activités nautiques dans un cadre exigeant et responsabilisant.", "Gestion complète de l'intendance et du budget d'un camp de 35 jeunes pendant 17 jours.", "Développement de compétences en coordination, gestion des ressources et travail en équipe."], "tags": ["Gestion de budget", "Activités nautiques", "Travail en équipe"] },
-  "aso:scoutCC": { "titre": "Chef des étudiants scouts de Bordeaux", "section": 2, "meta": "sept. 2025 – aujourd'hui · Guides et Scouts d'Europe", "contenu": ["Encadrement et accompagnement d'un groupe de 25 étudiants dans un cadre éducatif et formateur.", "Organisation annuelle des activités et supervision d'événements majeurs : camps itinérants de 10 jours, activités marines de 5 jours.", "Délégation de responsabilités pour développer l'autonomie et l'engagement de chaque membre.", "Prise de parole régulière devant des audiences de 20 personnes : leadership, crédibilité et capacité à inspirer la confiance.", "Coordination logistique et gestion des imprévus."], "tags": ["Leadership", "Logistique", "Prise de parole"] },
-  "aso:scoutENR": { "titre": "Engagement associatif — en bref", "section": 2, "meta": "", "contenu": ["Quatre années d'engagement continu chez les Guides et Scouts d'Europe, de l'intendance à la responsabilité d'unité.", "Un apprentissage du management de terrain : planifier, déléguer, improviser, et tenir la logistique d'un camp de plusieurs dizaines de personnes."], "tags": ["Engagement", "Management"] },
-  "dip:bia": { "titre": "BIA — Brevet d'Initiation à l'Aéronautique", "section": 2, "meta": "2021 · Lycée de La Sauque", "contenu": ["Notions d'aéronautisme, météorologie, navigation, réglementation aérienne et mécanique du vol."], "tags": ["Aéronautique"] },
-  "dip:permisB": { "titre": "Permis B", "section": 2, "meta": "TODO · Année", "contenu": ["TODO : année d'obtention, conduite accompagnée…"], "tags": ["Permis"] },
-  "dip:pix": { "titre": "PIX — Compétences numériques, niveau avancé", "section": 2, "meta": "oct. 2024 · Université de Bordeaux", "contenu": ["Validation officielle de compétences numériques de niveau avancé.", "Maîtrise des tableurs, outils d'analyse et de visualisation de données.", "Connaissance des enjeux de protection des données, de traçabilité et d'impact environnemental du numérique."], "tags": ["Numérique", "Data"] },
-  "dip:toeic": { "titre": "TOEIC — 975/990 (C1)", "section": 2, "meta": "nov. 2024 · Université de Bordeaux", "contenu": ["Niveau C1 confirmé en anglais : compréhension orale (C1 : 495/495) et écrite (C1 : 480/495).", "Excellente maîtrise de l'anglais professionnel, notamment dans les contextes techniques, académiques et internationaux."], "tags": ["Anglais C1"] },
-
-  "fac:indusM1": { "titre": "Projet", "section": 3, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies."], "tags": ["Lorem"] },
-  "fac:retroconceptionM1": { "titre": "Projet de rétro-conception", "section": 3, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies."], "tags": ["Lorem"] },
-  "fac:tolerancementM2": { "titre": "Projet de tolérancement", "section": 3, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus luctus."], "tags": ["Lorem"] },
-  "fac:TPmetroM2": { "titre": "TP de métrologie", "section": 3, "meta": "Lorem · TP", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
-  "fac:designL2": { "titre": "Projet de design L2", "section": 3, "meta": "Lorem · Licence 2", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
-  "fac:dimensionnementL3": { "titre": "Projet de calcul L3", "section": 3, "meta": "Lorem · Licence 3", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "fac:conceptionL3": { "titre": "Projet conception R2D2", "section": 3, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor dignissim.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
-  "fac:cahierFiches": { "titre": "Cahier de fiches", "section": 3, "meta": "Lorem · Documentation", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus luctus urna."], "tags": ["Lorem"] },
-  "diy:homelab": { "titre": "Serveur perso et hardware", "section": 3, "meta": "Lorem · Homelab", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
-  "diy:clavierAZ": { "titre": "Clavier AZ", "section": 3, "meta": "Lorem · Projet", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
-  "diy:obsidianWiki": { "titre": "Grosse base de données perso et documentations", "section": 3, "meta": "Lorem · Data", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "diy:portfolio": { "titre": "Ce site web", "section": 3, "meta": "Lorem · Web", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor dignissim.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-
-  "cmp:conception": { "titre": "Conception", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "cmp:maitriseDim": { "titre": "Maîtrise dimensionnelle", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus luctus."], "tags": ["Lorem"] },
-  "cmp:usinage": { "titre": "Usinage", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur."], "tags": ["Lorem"] },
-  "cmp:fabAdditive": { "titre": "Fabrication additive", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "cmp:fermetureGeom": { "titre": "Fermeture géométrique", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur adipiscing."], "tags": ["Lorem"] },
-  "cmp:windowsLinux": { "titre": "Windows/Linux", "section": 4, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
-  "cmp:packOffice": { "titre": "Pack Office", "section": 4, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "cmp:programmation": { "titre": "Programmation", "section": 4, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit vivamus."], "tags": ["Lorem"] },
-  "cmp:llmIA": { "titre": "LLM/IA", "section": 4, "meta": "Lorem · Informatique", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet, consectetur."], "tags": ["Lorem"] },
-  "cmp:metrologie": { "titre": "Métrologie", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "cmp:statistiques": { "titre": "Statistiques", "section": 4, "meta": "Lorem · Compétence", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, suspendisse lectus.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], "tags": ["Lorem"] },
-
-  "spr:escalade": { "titre": "Escalade", "section": 5, "meta": "TODO · Sport", "contenu": ["TODO : pratique (bloc/voie ?), fréquence, niveau, club…"], "tags": ["Sport", "Escalade"] },
-  "spr:halter": { "titre": "Haltérophilie / musculation", "section": 5, "meta": "TODO · Sport", "contenu": ["TODO : pratique, fréquence, objectifs…"], "tags": ["Sport", "Musculation"] },
-  "spr:velo": { "titre": "Vélo", "section": 5, "meta": "TODO · Sport", "contenu": ["TODO : type (route/VTT/gravel ?), pratique…"], "tags": ["Sport", "Vélo"] },
-  "spr:rando": { "titre": "Randonnée", "section": 5, "meta": "TODO · Sport", "contenu": ["TODO : type de sorties, fréquence…"], "tags": ["Sport", "Randonnée"] },
-  "otr:videogames": { "titre": "Jeu vidéo", "section": 5, "meta": "Lorem · Divers", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] },
-  "diy:bricolage": { "titre": "Bricolage", "section": 5, "meta": "Lorem · Divers", "contenu": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus.", "Lorem ipsum dolor sit amet."], "tags": ["Lorem"] }
+  "exp:i2mL2": {
+    "titre": "Stagiaire R&D — Thermodynamique et mécanique des fluides — I2M",
+    "section": 1,
+    "meta": "sept. 2023 – juil. 2024 · Bordeaux · Stage (11 mois)",
+    "contenu": [
+      "Premier stage de recherche, onze mois au sein de l'I2M – Institut de Mécanique et d'Ingénierie de Bordeaux, en R&D thermodynamique et mécanique des fluides.",
+      "Études expérimentales et numériques d'une sphère évoluant dans un matériau à changement de phases : confrontation des mesures et des simulations pour comprendre les échanges thermiques et la dynamique du changement de phase.",
+      "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie : méthodologie, rigueur et communication scientifique."
+    ],
+    "tags": ["Thermodynamique", "Mécanique des fluides", "Simulation"]
+  },
+  "exp:stgExoes": {
+    "titre": "Stagiaire bureau d'études — EXOES",
+    "section": 1,
+    "meta": "mai 2024 – juil. 2024 · Gradignan · Stage (3 mois)",
+    "contenu": [
+      "Stage de trois mois au sein du bureau d'études d'EXOES, entreprise spécialisée en électromobilité.",
+      "Amélioration de pièces d'interface pour le système d'immersion des batteries : itérations de conception en CAO et création de notices de montage.",
+      "Mise en pratique des compétences de conception, développement de la gestion de projet et adaptation aux exigences du milieu industriel.",
+      "Renforcement de la maîtrise des normes techniques et de la collaboration au sein d'une équipe, en environnement industriel et professionnel."
+    ],
+    "tags": ["CAO", "Rédaction technique", "Gestion de projet"]
+  },
+  "exp:i2mL3": {
+    "titre": "Stagiaire R&D — Tolérancement et maîtrise dimensionnelle — I2M Bordeaux",
+    "section": 1,
+    "meta": "sept. 2024 – juil. 2025 · Bordeaux · Stage (11 mois)",
+    "contenu": [
+      "Second stage de onze mois à l'I2M – Institut de Mécanique et d'Ingénierie de Bordeaux, cette fois en R&D tolérancement et maîtrise dimensionnelle, sous la tutelle du Pr. D. Teissandier.",
+      "Études numériques sur la création de jumeaux numériques pour la surveillance de l'usure et le tolérancement de pièces usinées.",
+      "Une spécialisation en parfaite continuité avec mon projet professionnel : cette expérience a fait le lien entre mes études et mon alternance en maîtrise dimensionnelle chez Safran Aircraft Engines."
+    ],
+    "tags": ["Simulations", "Jumeaux numériques", "Conception géométrique"]
+  },
+  "exp:frlLaTeX": {
+    "titre": "Expert LaTeX freelance — Fiverr",
+    "section": 1,
+    "meta": "oct. 2024 – aujourd'hui · À distance",
+    "contenu": [
+      "Rédaction, formatage et typographie de documents professionnels sur mesure avec LaTeX : rapports, mémoires, présentations.",
+      "Débogage et structuration avancée de documents complexes (mise en page, tableaux, bibliographies) afin d'assurer un rendu fiable, clair et professionnel.",
+      "Une activité menée en parallèle de mes études, qui combine rigueur technique, gestion efficace du temps et communication claire pour répondre précisément aux besoins des clients."
+    ],
+    "tags": ["LaTeX", "Typographie", "Freelance"]
+  },
+  "exp:altSafran": {
+    "titre": "Alternant en maîtrise dimensionnelle — Safran Aircraft Engines",
+    "section": 1,
+    "meta": "sept. 2025 – aujourd'hui · Corbeil-Essonnes · Alternance",
+    "contenu": [
+      "📘 Étude approfondie de la norme ISO 10579:2010 relative aux pièces non rigides et à la définition de l'état libre, dans une démarche d'état de l'art sur les pratiques de contrôle dimensionnel.",
+      "Travaux réalisés :",
+      "• Lecture et analyse détaillée de la norme et de ses implications pour la métrologie des pièces non rigides",
+      "• Analyse des méthodes de mise en contrainte utilisées lors du contrôle dimensionnel",
+      "• Rédaction d'un document technique comparant et recensant différents outillages de mise au rond et de redressage",
+      "🛠️ Amélioration continue : identification et proposition de pistes d'amélioration concernant la définition et la gestion de l'état contraint lors des opérations de contrôle.",
+      "🔩 Étude comparative des liaisons boulonnées dans le cadre de l'analyse des jeux de montage sur des assemblages multi-vis.",
+      "Travaux réalisés :",
+      "• Analyse des méthodes de chaînes de cotes 1D et des limites de ces approches conventionnelles",
+      "• Modélisation par Analyse Fonctionnelle Technique (AFT) et spécification sous CATIA V5 FTA",
+      "• Développement d'une approche Best-Fit Tchebychev pour évaluer le jeu de montage",
+      "• Mise en place de simulations de Monte-Carlo en Python pour étudier l'influence des tolérances et du nombre de vis"
+    ],
+    "tags": ["Normes ISO", "Tolérancement géométrique", "Métrologie", "AFT", "CATIA V5 FTA", "Monte-Carlo", "Python"]
+  },
+  "etu:lycee": {
+    "titre": "Baccalauréat général — Lycée de La Sauque",
+    "section": 2,
+    "meta": "sept. 2019 – août 2022",
+    "contenu": [
+      "Baccalauréat général au Lycée de La Sauque, avec les spécialités Mathématiques et Physique-Chimie.",
+      "Un cursus scientifique qui a posé les fondations de ma formation d'ingénieur."
+    ],
+    "tags": ["Mathématiques", "Physique"]
+  },
+  "etu:licenceSPI": {
+    "titre": "Licence Sciences Pour l'Ingénieur — Université de Bordeaux",
+    "section": 2,
+    "meta": "sept. 2022 – août 2025 · Mention Bien",
+    "contenu": [
+      "Licence Sciences Pour l'Ingénieur obtenue avec mention Bien.",
+      "Cursus Master en Ingénierie Mécanique Génie Civil et Énergétique (CMI MGCE), spécialité Génie Mécanique, option Simulation.",
+      "Trois années qui m'ont donné les fondamentaux du génie mécanique — de la mécanique des structures à la CAO — et mes deux premières expériences de recherche en laboratoire."
+    ],
+    "tags": ["Génie mécanique", "CAO", "Simulation", "Mention Bien"]
+  },
+  "etu:masterGM": {
+    "titre": "Master Génie Mécanique — Université de Bordeaux",
+    "section": 2,
+    "meta": "sept. 2025 – août 2027 · Parcours Conception Avancée",
+    "img": "./assets/images/logoUB.png",
+    "contenu": [
+      "Master Génie Mécanique, parcours Conception Avancée, à l'Université de Bordeaux.",
+      "Une formation d'excellence spécialisée en tolérancement et maîtrise dimensionnelle, labellisée par le réseau Figure.",
+      "Que je poursuis en alternance chez Safran Aircraft Engines, au plus près des applications industrielles."
+    ],
+    "tags": ["Conception géométrique", "CAO", "Tolérancement"]
+  },
+  "etu:CMI": {
+    "titre": "CMI MGCE — Cursus Master en Ingénierie",
+    "section": 2,
+    "meta": "Université de Bordeaux · Réseau Figure",
+    "contenu": [
+      "Cursus Master en Ingénierie Mécanique, Génie Civil et Énergétique (CMI MGCE) : un parcours intégrant licence et master en un cursus unique, avec admission sur dossier et enseignements renforcés.",
+      "Formation labellisée par le réseau Figure, qui privilégie l'initiation précoce à la recherche et l'ancrage professionnel.",
+      "Un cadre qui a structuré tout mon parcours : enseignements renforcés, stages de laboratoire dès la licence (deux fois onze mois à l'I2M) et poursuite en master parcours Conception Avancée."
+    ],
+    "tags": ["CMI", "Réseau Figure", "Conception géométrique"]
+  },
+  "aso:scoutACT": {
+    "titre": "Assistant intendant du chef des scouts marins de Bordeaux",
+    "section": 2,
+    "meta": "sept. 2024 – août 2025 · Guides et Scouts d'Europe",
+    "contenu": [
+      "Participation à l'encadrement et à l'organisation d'activités nautiques dans un cadre exigeant et responsabilisant.",
+      "Gestion complète de l'intendance et du budget d'un camp de 35 jeunes pendant 17 jours, garantissant le bon déroulement logistique et matériel.",
+      "Développement de compétences en coordination, gestion des ressources et travail en équipe."
+    ],
+    "tags": ["Gestion de budget", "Activités nautiques", "Travail en équipe"]
+  },
+  "aso:scoutCC": {
+    "titre": "Chef des étudiants scouts de Bordeaux",
+    "section": 2,
+    "meta": "sept. 2025 – aujourd'hui · Guides et Scouts d'Europe",
+    "contenu": [
+      "Encadrement et accompagnement d'un groupe de 25 étudiants dans un cadre éducatif et formateur.",
+      "Organisation annuelle des activités et supervision d'événements majeurs : camps itinérants de 10 jours, activités marines de 5 jours.",
+      "Délégation de responsabilités pour développer l'autonomie et l'engagement de chaque membre.",
+      "Prise de parole régulière devant des audiences de 20 personnes : leadership, crédibilité et capacité à inspirer la confiance.",
+      "Coordination logistique et gestion des imprévus pour assurer le bon déroulement des projets."
+    ],
+    "tags": ["Leadership", "Logistique", "Prise de parole"]
+  },
+  "aso:scoutENR": {
+    "titre": "Engagement associatif — en bref",
+    "section": 2,
+    "meta": "Guides et Scouts d'Europe · Vue d'ensemble",
+    "contenu": [
+      "Quatre années d'engagement continu chez les Guides et Scouts d'Europe, de l'intendance à la responsabilité d'unité.",
+      "Un apprentissage du management de terrain : planifier, déléguer, improviser, et tenir la logistique d'un camp de plusieurs dizaines de personnes."
+    ],
+    "tags": ["Engagement", "Management"]
+  },
+  "dip:bia": {
+    "titre": "BIA — Brevet d'Initiation à l'Aéronautique",
+    "section": 2,
+    "meta": "2021 · Lycée de La Sauque",
+    "contenu": [
+      "Notions d'aéronautisme, météorologie, navigation, réglementation aérienne et mécanique du vol."
+    ],
+    "tags": ["Aéronautique"]
+  },
+  "dip:permisB": {
+    "titre": "Permis B",
+    "section": 2,
+    "meta": "TODO · Année",
+    "contenu": ["TODO : année d'obtention, conduite accompagnée…"],
+    "tags": ["Permis"]
+  },
+  "dip:pix": {
+    "titre": "PIX — Compétences numériques, niveau avancé",
+    "section": 2,
+    "meta": "oct. 2024 · Université de Bordeaux",
+    "contenu": [
+      "Validation officielle de compétences numériques de niveau avancé : capacité à utiliser de manière autonome et experte les outils numériques pour rechercher, traiter et présenter l'information.",
+      "Maîtrise des tableurs, outils d'analyse et de visualisation de données.",
+      "Connaissance approfondie des enjeux de protection des données, de traçabilité et d'impacts environnementaux et sociétaux du numérique."
+    ],
+    "tags": ["Numérique", "Data"]
+  },
+  "dip:toeic": {
+    "titre": "TOEIC — 975/990 (C1)",
+    "section": 2,
+    "meta": "nov. 2024 · Université de Bordeaux",
+    "contenu": [
+      "Niveau C1 confirmé en anglais : compréhension orale (C1 : 495/495) et écrite (C1 : 480/495).",
+      "Excellente maîtrise de l'anglais professionnel, notamment dans les contextes techniques, académiques et internationaux."
+    ],
+    "tags": ["Anglais C1"]
+  },
+  "fac:indusM1": {
+    "titre": "Projet industriel — M1",
+    "section": 3,
+    "meta": "Master 1 · Projet d'études",
+    "contenu": [
+      "Projet de M1 mené en équipe sur une problématique d'ingénierie, traité comme une mission de bureau d'études : analyse du besoin, cahier des charges, étude et justification des solutions.",
+      "Travail en mode projet : planification, répartition des tâches, revues d'avancement, livrables professionnels et soutenance devant un jury."
+    ],
+    "tags": ["Gestion de projet", "Bureau d'études"]
+  },
+  "fac:retroconceptionM1": {
+    "titre": "Projet de rétro-conception",
+    "section": 3,
+    "meta": "Master 1 · Projet",
+    "contenu": [
+      "Rétro-conception d'un produit existant : démontage, analyse fonctionnelle et géométrique, puis reconstruction complète de la définition numérique.",
+      "De la cotation fonctionnelle au dossier de définition : reconstituer plans, spécifications et tolérancements comme si la pièce sortait du bureau d'études d'origine."
+    ],
+    "tags": ["CAO", "Cotation fonctionnelle", "Tolérancement"]
+  },
+  "fac:tolerancementM2": {
+    "titre": "Projet de tolérancement",
+    "section": 3,
+    "meta": "Master 2 · Projet",
+    "contenu": [
+      "Projet de tolérancement appliqué : de la définition fonctionnelle d'un assemblage aux spécifications géométriques normalisées (ISO GPS).",
+      "Analyse des chaînes de cotes et de l'aptitude fonctionnelle de l'assemblage, en cohérence directe avec mes travaux de maîtrise dimensionnelle chez Safran Aircraft Engines."
+    ],
+    "tags": ["Tolérancement", "ISO GPS", "Chaînes de cotes"]
+  },
+  "fac:TPmetroM2": {
+    "titre": "TP de métrologie",
+    "section": 3,
+    "meta": "Master 2 · Travaux pratiques",
+    "contenu": [
+      "Travaux pratiques de métrologie dimensionnelle : instrumentation, contrôle de pièces et exploitation des mesures.",
+      "Étalonnage, calcul d'incertitudes et exploitation statistique des résultats — le socle expérimental de la maîtrise dimensionnelle que je pratique en entreprise."
+    ],
+    "tags": ["Métrologie", "Incertitudes", "Contrôle"]
+  },
+  "fac:designL2": {
+    "titre": "Projet de design L2",
+    "section": 3,
+    "meta": "Licence 2 · Projet",
+    "contenu": [
+      "Premier vrai projet de conception : partir d'un besoin, générer et comparer des concepts, puis aboutir à une solution argumentée.",
+      "Démarche complète de design mécanique : analyse fonctionnelle, croquis de recherche, modélisation CAO et présentation du concept."
+    ],
+    "tags": ["Conception", "CAO", "Analyse fonctionnelle"]
+  },
+  "fac:dimensionnementL3": {
+    "titre": "Projet de calcul L3",
+    "section": 3,
+    "meta": "Licence 3 · Projet",
+    "contenu": [
+      "Projet de calcul et de dimensionnement d'un ensemble mécanique : vérification de la tenue par calculs analytiques (RDM), puis confrontation aux résultats d'un modèle éléments finis.",
+      "Rédaction d'un dossier de justification : hypothèses de modélisation, critères de résistance et synthèse des résultats."
+    ],
+    "tags": ["Dimensionnement", "RDM", "Éléments finis"]
+  },
+  "fac:conceptionL3": {
+    "titre": "Projet conception R2D2",
+    "section": 3,
+    "meta": "Licence 3 · Projet d'équipe",
+    "contenu": [
+      "Projet de conception en équipe autour d'un robot inspiré de R2D2 : de l'analyse fonctionnelle à la définition de l'architecture mécanique complète.",
+      "Modélisation CAO des sous-ensembles, choix des liaisons et des motorisations, puis justification et présentation des solutions techniques retenues."
+    ],
+    "tags": ["Conception", "CAO", "Travail en équipe"]
+  },
+  "fac:cahierFiches": {
+    "titre": "Cahier de fiches",
+    "section": 3,
+    "meta": "Perso · Documentation",
+    "contenu": [
+      "Un cahier de fiches de synthèse construit au fil de mes études : mécanique, matériaux, dessin industriel, tolérancement, normes…",
+      "Né de mon stage chez Stirweld, nourri par le Guide du dessinateur industriel (A. Chevalier) et le Guide des sciences et technologies industrielles (J.-L. Fanchon), aujourd'hui prolongé par mon vault Obsidian.",
+      "Une méthode de travail : reformuler, schématiser et relier les notions pour vraiment les faire miennes."
+    ],
+    "tags": ["Synthèse", "Documentation", "Méthode"]
+  },
+  "diy:homelab": {
+    "titre": "Homelab — serveur perso et hardware",
+    "section": 3,
+    "meta": "Perso · Infrastructure",
+    "contenu": [
+      "Mon homelab tourne sur un nœud Proxmox VE : machines virtuelles et conteneurs LXC, dont un serveur Minecraft et une instance Open WebUI pour l'IA locale (Ollama en local, API distantes).",
+      "Sécurisation soignée de l'accès : VPN WireGuard pour l'accès distant, interface d'administration exposée uniquement à des adresses autorisées, double authentification et Fail2ban.",
+      "Mon terrain de jeu permanent pour l'administration système, le réseau et le matériel — et l'infrastructure qui héberge une partie de mes projets."
+    ],
+    "tags": ["Proxmox", "Linux", "Réseau", "Docker"]
+  },
+  "diy:clavierAZ": {
+    "titre": "Clavier AZ",
+    "section": 3,
+    "meta": "Perso · Projet",
+    "contenu": [
+      "Projet autour du clavier : personnaliser la saisie (disposition, configuration) pour un confort de frappe à mes mains.",
+      "TODO : préciser le périmètre exact (matériel custom, remapping, firmware…)."
+    ],
+    "tags": ["Clavier", "Ergonomie"]
+  },
+  "diy:obsidianWiki": {
+    "titre": "Vault Obsidian — base de connaissances perso",
+    "section": 3,
+    "meta": "Perso · Documentation",
+    "contenu": [
+      "Un vault Obsidian qui me sert de second cerveau : cours et documentations techniques, notes de projets, synthèses, et l'intégralité des fiches qui alimentent ce portfolio.",
+      "Organisé en MOC, templates et conventions de nommage : chaque fiche carrière porte les métadonnées qui permettent au site de la retrouver.",
+      "Une vraie démarche de gestion de l'information, qui nourrit aussi mon intérêt pour les outils de connaissance et les LLM."
+    ],
+    "tags": ["Obsidian", "Markdown", "Documentation"]
+  },
+  "diy:portfolio": {
+    "titre": "Ce site web",
+    "section": 3,
+    "meta": "Perso · Développement web",
+    "contenu": [
+      "Le site que vous parcourez : un portfolio 3D développé en JavaScript avec Three.js — un cube que l'on fait tourner, dont chaque face s'ouvre sur une section, avec des plans d'annotations à la manière d'une définition FTA.",
+      "Une architecture simple et saine : contenus stockés en JSON (sections, textes), chargés dynamiquement, fiches reliées entre elles par des identifiants.",
+      "Hébergé sur GitHub Pages avec mon domaine gillesdlt.fr. Un projet qui combine conception, développement et déploiement — et qui m'a beaucoup appris sur le web moderne."
+    ],
+    "tags": ["Three.js", "JavaScript", "Web"]
+  },
+  "cmp:conception": {
+    "titre": "Conception",
+    "section": 4,
+    "meta": "Génie mécanique",
+    "contenu": [
+      "De la fonction au réel : analyse fonctionnelle, génération d'architectures, définition des liaisons et justification des solutions techniques.",
+      "Pratiquée en projets académiques, en bureau d'études (EXOES) et en maîtrise dimensionnelle chez Safran Aircraft Engines, avec CATIA V5 comme outil principal."
+    ],
+    "tags": ["CAO", "CATIA V5", "Analyse fonctionnelle"]
+  },
+  "cmp:maitriseDim": {
+    "titre": "Maîtrise dimensionnelle",
+    "section": 4,
+    "meta": "Spécialité",
+    "contenu": [
+      "Ma spécialité : traduire les fonctions d'un assemblage en spécifications dimensionnelles et géométriques cohérentes (ISO GPS).",
+      "Chaînes de cotes 1D, tolérancement 3D (AFT, CATIA V5 FTA), pièces non rigides (ISO 10579) et analyse des jeux de montage.",
+      "Une compétence construite en R&D à l'I2M puis confrontée au réel chez Safran Aircraft Engines."
+    ],
+    "tags": ["ISO GPS", "Tolérancement", "CATIA V5 FTA"]
+  },
+  "cmp:usinage": {
+    "titre": "Usinage",
+    "section": 4,
+    "meta": "Fabrication mécanique",
+    "contenu": [
+      "Bonne compréhension des procédés d'usinage et de leurs contraintes, pour définir des pièces réalistes et bien cotées.",
+      "Approfondie par mes travaux de R&D sur la surveillance de l'usure de pièces usinées, et par la découverte du soudage-malaxage chez Stirweld."
+    ],
+    "tags": ["Usinage", "Fabrication"]
+  },
+  "cmp:fabAdditive": {
+    "titre": "Fabrication additive",
+    "section": 4,
+    "meta": "Fabrication",
+    "contenu": [
+      "Impression 3D pour le prototypage rapide et la fabrication de pièces fonctionnelles ou d'accessoires.",
+      "Conception adaptée au procédé : choix du matériau, orientation, supports et prise en compte des tolérances d'impression."
+    ],
+    "tags": ["Impression 3D", "Prototypage"]
+  },
+  "cmp:fermetureGeom": {
+    "titre": "Fermeture géométrique",
+    "section": 4,
+    "meta": "Tolérancement",
+    "contenu": [
+      "Fermeture des boucles géométriques dans les mécanismes : des chaînes de cotes 1D classiques aux approches tridimensionnelles.",
+      "Au cœur de l'analyse des jeux et des conditions d'assemblage, pratiquée via l'Analyse Fonctionnelle Technique et les spécifications CATIA V5 FTA."
+    ],
+    "tags": ["Chaînes de cotes", "Assemblage", "AFT"]
+  },
+  "cmp:windowsLinux": {
+    "titre": "Windows/Linux",
+    "section": 4,
+    "meta": "Informatique",
+    "contenu": [
+      "À l'aise sur les deux environnements : Windows pour les outils métier (CAO, suite Office), Linux au quotidien.",
+      "Poste principal sous CachyOS (Arch) avec Hyprland/Wayland : environnement configuré de A à Z, dotfiles versionnées sur GitHub, scripts bash et automatisations."
+    ],
+    "tags": ["Linux", "Arch", "Hyprland", "Bash"]
+  },
+  "cmp:packOffice": {
+    "titre": "Pack Office",
+    "section": 4,
+    "meta": "Informatique",
+    "contenu": [
+      "Maîtrise des outils bureautiques : documents longs structurés, tableurs (formules, tableaux croisés) et présentations.",
+      "Compétences certifiées niveau avancé par PIX : recherche, traitement et présentation de l'information."
+    ],
+    "tags": ["Office", "Excel", "PowerPoint"]
+  },
+  "cmp:programmation": {
+    "titre": "Programmation",
+    "section": 4,
+    "meta": "Informatique",
+    "contenu": [
+      "Python pour le calcul et l'analyse : simulations de Monte-Carlo appliquées aux tolérances, exploitation de données, scripts d'automatisation.",
+      "JavaScript pour le web — dont ce portfolio en Three.js — et scripting bash pour l'administration de mon poste et de mon homelab.",
+      "Une pratique orientée problème : écrire le bon outil au bon moment, pas l'inverse."
+    ],
+    "tags": ["Python", "JavaScript", "Bash"]
+  },
+  "cmp:llmIA": {
+    "titre": "LLM / IA",
+    "section": 4,
+    "meta": "Informatique",
+    "contenu": [
+      "Usage quotidien et raisonné des modèles de langage : assistanat technique, rédaction, revue de code, extraction d'information documentaire.",
+      "Auto-hébergement d'Open WebUI sur mon homelab, couplé à des API distantes et à des modèles locaux (Ollama), avec gestion de bases de connaissances.",
+      "Une double culture : savoir en tirer le meilleur, et comprendre ce qui se passe sous le capot."
+    ],
+    "tags": ["LLM", "IA", "Ollama", "Open WebUI"]
+  },
+  "cmp:metrologie": {
+    "titre": "Métrologie",
+    "section": 4,
+    "meta": "Compétence",
+    "contenu": [
+      "Métrologie dimensionnelle : stratégies de contrôle, incertitudes de mesure et influence de l'état de contrainte des pièces.",
+      "État de l'art des outillages de mise au rond et de redressage, mené chez Safran Aircraft Engines autour de la norme ISO 10579 sur les pièces non rigides."
+    ],
+    "tags": ["Métrologie", "ISO 10579", "Contrôle"]
+  },
+  "cmp:statistiques": {
+    "titre": "Statistiques",
+    "section": 4,
+    "meta": "Compétence",
+    "contenu": [
+      "Statistiques appliquées à l'ingénierie : simulations de Monte-Carlo pour l'analyse de l'influence des tolérances, traitement des incertitudes et exploitation de campagnes de mesures.",
+      "Analyse et visualisation de données, certifiées niveau avancé par PIX."
+    ],
+    "tags": ["Monte-Carlo", "Analyse de données", "Incertitudes"]
+  },
+  "spr:escalade": {
+    "titre": "Escalade",
+    "section": 5,
+    "meta": "Sport",
+    "contenu": [
+      "L'escalade : engagement, lecture de voie et gestion de l'effort — un bon contrepoint terrain à la rigueur de l'ingénieur.",
+      "TODO : préciser (bloc/voie, fréquence, niveau, club…)."
+    ],
+    "tags": ["Sport", "Escalade"]
+  },
+  "spr:halter": {
+    "titre": "Haltérophilie / musculation",
+    "section": 5,
+    "meta": "Sport",
+    "contenu": [
+      "Une pratique régulière de la musculation : méthode, régularité et progression mesurable.",
+      "TODO : préciser (fréquence, objectifs…)."
+    ],
+    "tags": ["Sport", "Musculation"]
+  },
+  "spr:velo": {
+    "titre": "Vélo",
+    "section": 5,
+    "meta": "Sport",
+    "contenu": [
+      "Le vélo, pour le quotidien comme pour l'échappée.",
+      "TODO : préciser (route/VTT/gravel, pratique…)."
+    ],
+    "tags": ["Sport", "Vélo"]
+  },
+  "spr:rando": {
+    "titre": "Randonnée",
+    "section": 5,
+    "meta": "Sport",
+    "contenu": [
+      "De la rando à la journée aux camps itinérants avec les scouts : marcher, s'orienter, gérer l'effort et la logistique.",
+      "TODO : préciser (type de sorties, fréquence…)."
+    ],
+    "tags": ["Sport", "Randonnée"]
+  },
+  "otr:videogames": {
+    "titre": "Jeu vidéo",
+    "section": 5,
+    "meta": "Divers",
+    "contenu": [
+      "Joueur PC depuis toujours — un loisir qui a nourri au passage ma culture technique : matériel, périphériques, gaming sous Linux.",
+      "Poussé jusqu'à administrer mon propre serveur Minecraft, hébergé sur mon homelab Proxmox."
+    ],
+    "tags": ["Gaming", "PC"]
+  },
+  "diy:bricolage": {
+    "titre": "Bricolage",
+    "section": 5,
+    "meta": "Divers",
+    "contenu": [
+      "Réparer, modifier, construire : du dépannage maison aux montages informatiques.",
+      "L'extension naturelle du métier d'ingénieur : comprendre comment c'est fait, et trouver comment le faire mieux."
+    ],
+    "tags": ["Bricolage", "Réparation"]
+  }
 }
