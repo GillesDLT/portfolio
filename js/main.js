@@ -180,6 +180,7 @@ async function openFiche(hrefOrId) {
   tags.replaceChildren();
   for (const tag of t.tags || []) { const sp = document.createElement("span"); sp.textContent = tag; tags.append(sp); }
   overlay.classList.add("is-open");
+  fichePreview.classList.remove("is-on");
   document.documentElement.classList.add("fiche-lock");
   history.replaceState(null, "", `#fiche=${id}`);   // URL partageable
 }
@@ -434,3 +435,68 @@ async function init() {
   }
 }
 init();
+/* ---------- Aperçu de fiche au survol des annotations FTA ---------- */
+const fichePreview = document.createElement("div");
+fichePreview.id = "fichePreview";
+document.body.append(fichePreview);
+
+const previewMouse = { x: innerWidth / 2, y: innerHeight / 2 };
+let previewTimer = null;
+
+function placeFichePreview() {
+  const r = fichePreview.getBoundingClientRect();
+  let x = previewMouse.x + 16, y = previewMouse.y + 16;
+  if (x + r.width  > innerWidth  - 8) x = previewMouse.x - r.width  - 16;
+  if (y + r.height > innerHeight - 8) y = previewMouse.y - r.height - 16;
+  fichePreview.style.left = `${Math.max(8, x)}px`;
+  fichePreview.style.top  = `${Math.max(8, y)}px`;
+}
+
+addEventListener("mousemove", (e) => {
+  previewMouse.x = e.clientX; previewMouse.y = e.clientY;
+  if (fichePreview.classList.contains("is-on")) placeFichePreview();
+});
+
+addEventListener("mouseover", (e) => {
+  const el = e.target.closest?.(".gdnt, .gdnt-cote, .gdnt-datum");
+  if (!el?.dataset.fiche) return;
+  if (el.contains(e.relatedTarget)) return;       // simple déplacement entre enfants
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(async () => {
+    const id = decodeURIComponent(el.dataset.fiche.match(/fiche=([^&]+)/)?.[1] ?? "");
+    const t = (await loadFiches())?.[id];         // même cache que openFiche
+    if (!t) return;
+    fichePreview.innerHTML = `
+      <h3 class="fp-titre"></h3>
+      <p class="fp-meta meta mono"></p>
+      <div class="fp-contenu"></div>
+      <span class="fp-hint">Cliquer pour ouvrir la fiche</span>`;
+    fichePreview.querySelector(".fp-titre").textContent = t.titre ?? "";
+    fichePreview.querySelector(".fp-meta").textContent = t.meta || "";
+    const cont = fichePreview.querySelector(".fp-contenu");
+    cont.replaceChildren();
+    if (t.img) {
+      const img = document.createElement("img");
+      img.src = t.img; img.alt = ""; img.className = "fp-img";
+      img.onerror = () => img.remove();
+      cont.append(img);
+    }
+    for (const par of (t.contenu || []).slice(0, 2)) {
+      const p = document.createElement("p");
+      p.textContent = par.length > 140 ? par.slice(0, par.lastIndexOf(" ", 140)).trimEnd() + "…" : par;
+      cont.append(p);
+    }
+    fichePreview.classList.add("is-on");
+    placeFichePreview();
+  }, 250);
+});
+
+addEventListener("mouseout", (e) => {
+  const el = e.target.closest?.(".gdnt, .gdnt-cote, .gdnt-datum");
+  if (el && !el.contains(e.relatedTarget)) {
+    clearTimeout(previewTimer);
+    fichePreview.classList.remove("is-on");
+  }
+});
+
+addEventListener("open-fiche", () => fichePreview.classList.remove("is-on"));

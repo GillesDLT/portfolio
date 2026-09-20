@@ -49,58 +49,59 @@ const shortTitle = (s, n = 28) =>
     ? s.slice(0, s.lastIndexOf(" ", n) > 0 ? s.lastIndexOf(" ", n) : n).trimEnd() + "…"
     : s;
 
+/* Rend une annotation interactive.
+   - target est un NUMBER  → c'est une section : le clic navigue vers elle
+   - target est un STRING  → c'est une fiche "#fiche=…" : survol = aperçu,
+                             clic = ouverture de la fiche                */
 function makeClickable(el, target) {
   if (!target) return;
-  el.style.pointerEvents = "auto";   // l'annoEl parent est en pointer-events:none
+
+  /* L'annoEl parent est en pointer-events:none, seul le label reçoit la souris */
+  el.style.pointerEvents = "auto";
   el.style.cursor = "pointer";
+
+  /* Sous-libellé (ligne du bas) commun aux deux cas : "→ …" */
   const sub = document.createElement("div");
   sub.className = "gdnt-link";
   el.append(sub);
+
   if (typeof target === "number") {
+    /* ---- Cas 1 : cible = une section (index) ---- */
     sub.textContent = "→ …";
     sectionTitle(target).then((t) => { sub.textContent = `→ ${t}`; });
     el.addEventListener("click", () =>
       window.dispatchEvent(new CustomEvent("goto-section", { detail: { index: target } })));
-      } else {
-      sub.textContent = "→ …";
-      ficheTitle(target).then((t) => {
-        sub.textContent = t ? `→ ${shortTitle(t)}` : "→ ouvrir la fiche";
-        if (t) el.title = t;
-      });
 
-      if (el.querySelector(".gdnt-frame")) {
-        /* Spécification AVEC cadre : on garde les 3 lignes —
-           la date reste un div au-dessus du cadre (order:-1 dans la colonne .gdnt) */
-        ficheMeta(target).then((m) => {
-          if (!m) return;
-          const date = document.createElement("div");
-          date.className = "gdnt-date";
-          date.textContent = m;
-          el.append(date);
-        });
-      } else {
-        /* Cote SANS cadre (dimensionISO) : une seule ligne « date → titre » */
-        for (const n of [...el.childNodes]) if (n !== sub) n.remove();
-        sub.textContent = "…";
-        Promise.all([ficheMeta(target), ficheTitle(target)]).then(([m, t]) => {
-          const label = t ? shortTitle(t) : "ouvrir la fiche";
-          sub.replaceChildren();
-          if (m) {
-            const d = document.createElement("span");
-            d.className = "gdnt-date";
-            d.textContent = m + " ";
-            sub.append(d);                 // date en gris mono, dans la ligne
-          }
-          sub.append(`→ ${label}`);
-          if (t) el.title = t;
-        });
-      }
+  } else {
+    /* ---- Cas 2 : cible = une fiche "#fiche=…" ---- */
 
-      el.addEventListener("click", (e) => {
-        if (e.ctrlKey || e.metaKey) { window.open(target, "_blank"); return; }
-        window.dispatchEvent(new CustomEvent("open-fiche", { detail: { href: target } }));
-      });
-    }
+    /* 1) LE branchement de l'aperçu : on expose la cible sur l'élément.
+          main.js lit el.dataset.fiche au survol pour afficher la mini-page. */
+    el.dataset.fiche = target;
+
+    /* 2) Ligne du bas : titre de la fiche, tronqué à 28 caractères */
+    sub.textContent = "→ …";
+    ficheTitle(target).then((t) => {
+      sub.textContent = t ? `→ ${shortTitle(t)}` : "→ ouvrir la fiche";
+      if (t) el.title = t;                 // tooltip natif = titre complet
+    });
+
+    /* 3) Date affichée AU-DESSUS du cadre (remonte via order:-1 en CSS) :
+          c'est tout ce qu'il y a avant le premier " · " du champ meta */
+    ficheMeta(target).then((m) => {
+      if (!m) return;
+      const date = document.createElement("div");
+      date.className = "gdnt-date";
+      date.textContent = m;
+      el.append(date);
+    });
+
+    /* 4) Clic : ouverture de la vraie fiche ; Ctrl/Meta+clic = nouvel onglet */
+    el.addEventListener("click", (e) => {
+      if (e.ctrlKey || e.metaKey) { window.open(target, "_blank"); return; }
+      window.dispatchEvent(new CustomEvent("open-fiche", { detail: { href: target } }));
+    });
+  }
 }
 
 /* ---- registre des plans de datum (rempli par buildFTA(getPlane)) ---- */
@@ -189,28 +190,15 @@ export const COTE = {
   ARROW_W: 2,    // demi-largeur des pointes
 };
 
-/* Cote ISO : rappels + ligne de cote + pointes fines + TEXTE libre.
-   opts = {
-     off       : -30,          // distance de la ligne de cote (signé = côté)
-     angle     : 0,            // orientation du texte en degrés (0, 90, -90…)
-     labelUV   : null,         // [u,v] position manuelle absolue du texte
-     labelOff  : null,         // [du,dv] décalage manuel depuis le milieu de la ligne
-     gap       : COTE.GAP,     // écart auto texte ↔ ligne de cote
-     arrow     : COTE.ARROW,   // longueur des pointes
-     arrowW    : COTE.ARROW_W, // demi-largeur des pointes
-     z         : 1,            // élévation du label
-     className : "gdnt-cote",  // style du texte
-     section   : undefined,    // cible cliquable "#fiche=…"
-   }
-   Rétro-compatible : dimensionISO(text, i, p1, p2, off, section) marche encore. */
-export function dimensionISO(text, i, p1, p2, opts = {}, compatSection) {
-  if (typeof opts === "number") opts = { off: opts };              // ancien style d'appel
+export function dimensionISO(i, p1, p2, opts = {}, compatSection) {
+  if (typeof opts === "number") opts = { off: opts };
   if (compatSection !== undefined && opts.section === undefined) opts.section = compatSection;
 
   const {
     off = -30, angle = 0, labelUV = null, labelOff = null,
-    gap = COTE.GAP, arrow = COTE.ARROW, arrowW = COTE.ARROW_W,
-    z = 1, className = "gdnt-cote", section,
+    labelTranslate = [0, 0], gap = COTE.GAP,
+    arrow = COTE.ARROW, arrowW = COTE.ARROW_W,
+    z = 1, className = "gdnt-cote", section
   } = opts;
 
   const [u1, v1] = toUV(i, p1), [u2, v2] = toUV(i, p2);
@@ -223,25 +211,23 @@ export function dimensionISO(text, i, p1, p2, opts = {}, compatSection) {
   flatPoly(i, [[u2, v2], B]);
   flatPoly(i, [A, B]);
 
-  /* Pointes fines (flatArrow) au lieu des triangles pleins flatTri */
   flatArrow(i, A[0], A[1], B[0] - A[0], B[1] - A[1], arrow, arrowW);
   flatArrow(i, B[0], B[1], A[0] - B[0], A[1] - B[1], arrow, arrowW);
 
-  /* Position du texte : labelUV (absolu) > labelOff (relatif) > auto (côté de off) */
   const mu = (A[0] + B[0]) / 2, mv = (A[1] + B[1]) / 2;
-  let lu, lv;
-  if (labelUV)       { [lu, lv] = labelUV; }
-  else if (labelOff) { [lu, lv] = [mu + labelOff[0], mv + labelOff[1]]; }
-  else {             // auto : décalé perpendiculairement, du même côté que off
-    lu = mu + (alongU ? 0 : s) * gap;
-    lv = mv + (alongU ? s : 0) * gap;
-  }
+  let [lu, lv] = labelUV ?? (
+    labelOff ? [mu + labelOff[0], mv + labelOff[1]] :
+    [mu + (alongU ? 0 : s) * gap, mv + (alongU ? s : 0) * gap]
+  );
+
+  lu += labelTranslate[0];
+  lv += labelTranslate[1];
 
   const el = document.createElement("div");
   el.className = className;
-  el.textContent = text;
+
   const o = putLabel(el, i, lu, lv, section, z);
-  if (o && angle) o.rotation.z = THREE.MathUtils.degToRad(angle);  // texte pivoté 90°/-90°
+  if (o && angle) o.rotation.z = THREE.MathUtils.degToRad(angle);
   return o;
 }
 
@@ -294,8 +280,8 @@ export function buildFTA(getPlane) {
   specificationISO("⏥", "I2M polytoCAT",     "#fiche=exp:i2mL3",      1, [0, 50, 25], [-80, 50]);
   specificationISO("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX",   1, [0, -28, 49], [-100, -28]);
   specificationISO("⌭", "Stage Exoes",       "#fiche=exp:stgExoes",  1, [0, -35, 35], [-95, -80], [-35, -80]);
-  dimensionISO("Stage BE",   1, [0, 43, -42], [0, -43, -42], { off:  35, angle: 90, section: "#fiche=exp:stgStirweld" });
-  dimensionISO("I2M thermo", 1, [0, -45, -1], [0, -45, 25], { off: -30, section: "#fiche=exp:i2mL2" });
+  dimensionISO( 1, [0, 43, -42], [0, -43, -42], { off:  35, angle: 90, section: "#fiche=exp:stgStirweld" , labelTranslate: [10, -5]});
+  dimensionISO( 1, [0, -45, -1], [0, -45, 25], { off: -25, section: "#fiche=exp:i2mL2" , labelTranslate: [60, 7]});
    /* ---- S2 FORMATIONS & DIVERS (face · plane 2) : etu · aso · dip · exp ---- */
   // Formations
   specificationISO("⌖", ["Ø0.2","A","B"],  "#fiche=etu:masterGM",   2, [ 30,  30, 20], [  72,  78]);  // Master GM
@@ -303,12 +289,12 @@ export function buildFTA(getPlane) {
   specificationISO("⌖", "Bac général",     "#fiche=etu:lycee",      2, [  0,  45, 20], [   0,  92]);  // Bac
   // Bénévolat
   specificationISO("⌖", ["Ø0.25","A","B"], "#fiche=aso:scoutCC",    2, [-30,  30, 20], [ -72,  78]);  // Chef scouts
-  dimensionISO("Ø30 H7", 2, [-15, 0, 20], [15, 0, 20], -40, "#fiche=aso:scoutACT");                  // Assistant intendant (alésage Ø30 [1])
-  dimensionISO("Intendance", 2, [-15, 0, 20], [15, 0, 20], { off: -40, section: "#fiche=aso:scoutACT" });
+  dimensionISO( 2, [-15, 0, 20], [15, 0, 20], -40, "#fiche=aso:scoutACT");                  // Assistant intendant (alésage Ø30 [1])
+  dimensionISO( 2, [-15, 0, 20], [15, 0, 20], { off: -40, section: "#fiche=aso:scoutACT" });
   // Certifications
   specificationISO("⌖", "TOEIC C1",        "#fiche=dip:toeic",      2, [ 45,   0, 20], [ 100,   0]);
   specificationISO("⏥", "PIX",             "#fiche=dip:pix",        2, [-30, -30, 20], [ -72, -78]);
-  dimensionISO("BIA",        2, [ 23, 24, 20], [23, -4, 20], { off:  30, section: "#fiche=dip:bia" });
+  dimensionISO(2, [ 23, 24, 20], [23, -4, 20], { off:  30, section: "#fiche=dip:bia", labelTranslate: [10, -5] });
   // Freelance & Divers
   specificationISO("⌖", "STIRWELD FSW",    "#fiche=exp:stgStirweld", 2, [  0, -52, 20], [   0, -92]);
   specificationISO("⌖", "I2M thermo",      "#fiche=exp:i2mL2",       2, [ 15,  15, 20], [  76,  40]);
