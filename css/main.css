@@ -613,13 +613,33 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   #tree.is-open { transform: none; }
   #introPanel { left: 14px; right: 14px; bottom: 76px; width: auto; }
 }
+/* ====== MOBILE : le segmented control (ISO + S1–S5) devient barre du bas ====== */
 @media (max-width: 640px) {
-  .toolbar { flex-wrap: wrap; row-gap: 10px; }
-  .toolbar__center { order: 3; width: 100%; justify-content: center; }
-  .toolbar__views { --seg-w: 38px; --seg-step: 40px; }
-  #introPanel { bottom: 68px; padding: 14px 16px; }
-  .intro-photo { flex-basis: 64px; }
-  .intro-photo img, .intro-photo--ph { width: 64px; height: 64px; border-radius: 18px; }
+  /* le bas est libéré : barre d'état + légende masquées */
+  .statusbar, #legend { display: none; }
+
+  /* la pilule de vues sort de la topbar et se fixe en bas */
+  .toolbar .toolbar__center {
+    position: fixed;
+    top: auto;
+    left: 0; right: 0;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    width: auto;
+    display: flex;
+    justify-content: center;
+    z-index: 30;
+    pointer-events: none;   /* la bande invisible ne doit pas bloquer l'orbite du canvas */
+    transform: none;        /* pas de centrage par transform : panel-in "both" l'écraserait */
+    animation: none;        /* neutralise panel-in ici */
+  }
+  .toolbar .toolbar__views {
+    pointer-events: auto;   /* seuls les boutons captent les clics */
+    --seg-w: 44px; --seg-step: 46px;
+  }
+  .toolbar__views button { height: 38px; }  /* zone tactile confortable */
+
+  /* l'intro remonte au-dessus de la barre de vues */
+  #introPanel { bottom: calc(74px + env(safe-area-inset-bottom)); }
 }
 
 /* ---------- 14. Fallback sans backdrop-filter ---------- */
