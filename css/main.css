@@ -535,11 +535,9 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   font: 700 12px var(--font-mono); color: var(--spec-ink);
 }
 .gdnt-cote {
-  padding: 2px 7px; border-radius: 2px;
-  background: rgba(10, 16, 26, .82); border: 1px solid rgba(127, 179, 255, .45);
+  background: none; border: 0;
   font: 500 10px var(--font-mono); font-variant-numeric: tabular-nums;
   color: var(--spec-ink);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, .45);
 }
 .gnt-link-fix {}
 .gdnt-link {
