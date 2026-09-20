@@ -62,25 +62,45 @@ function makeClickable(el, target) {
     el.addEventListener("click", () =>
       window.dispatchEvent(new CustomEvent("goto-section", { detail: { index: target } })));
       } else {
-    sub.textContent = "→ …";
-    ficheTitle(target).then((t) => {
-      sub.textContent = t ? `→ ${shortTitle(t)}` : "→ ouvrir la fiche";
-      if (t) el.title = t;
-    });
-    /* Date/méta affichée AU-DESSUS du cadre de spécification */
-    ficheMeta(target).then((m) => {
-      if (m) {
-        const date = document.createElement("div");
-        date.className = "gdnt-date";
-        date.textContent = m;
-        el.append(date);
+      sub.textContent = "→ …";
+      ficheTitle(target).then((t) => {
+        sub.textContent = t ? `→ ${shortTitle(t)}` : "→ ouvrir la fiche";
+        if (t) el.title = t;
+      });
+
+      if (el.querySelector(".gdnt-frame")) {
+        /* Spécification AVEC cadre : on garde les 3 lignes —
+           la date reste un div au-dessus du cadre (order:-1 dans la colonne .gdnt) */
+        ficheMeta(target).then((m) => {
+          if (!m) return;
+          const date = document.createElement("div");
+          date.className = "gdnt-date";
+          date.textContent = m;
+          el.append(date);
+        });
+      } else {
+        /* Cote SANS cadre (dimensionISO) : une seule ligne « date → titre » */
+        for (const n of [...el.childNodes]) if (n !== sub) n.remove();
+        sub.textContent = "…";
+        Promise.all([ficheMeta(target), ficheTitle(target)]).then(([m, t]) => {
+          const label = t ? shortTitle(t) : "ouvrir la fiche";
+          sub.replaceChildren();
+          if (m) {
+            const d = document.createElement("span");
+            d.className = "gdnt-date";
+            d.textContent = m + " ";
+            sub.append(d);                 // date en gris mono, dans la ligne
+          }
+          sub.append(`→ ${label}`);
+          if (t) el.title = t;
+        });
       }
-    });
-    el.addEventListener("click", (e) => {
-      if (e.ctrlKey || e.metaKey) { window.open(target, "_blank"); return; }
-      window.dispatchEvent(new CustomEvent("open-fiche", { detail: { href: target } }));
-    });
-  }
+
+      el.addEventListener("click", (e) => {
+        if (e.ctrlKey || e.metaKey) { window.open(target, "_blank"); return; }
+        window.dispatchEvent(new CustomEvent("open-fiche", { detail: { href: target } }));
+      });
+    }
 }
 
 /* ---- registre des plans de datum (rempli par buildFTA(getPlane)) ---- */

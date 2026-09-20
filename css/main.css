@@ -512,6 +512,7 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   display: inline-flex; flex-direction: column; align-items: center; gap: 4px;
   font-family: var(--font-mono); font-variant-numeric: tabular-nums;
   color: var(--spec-ink); white-space: nowrap;
+  transition: box-shadow .15s ease, filter .15s ease;
 }
 .gdnt-frame {
   display: inline-flex; align-items: stretch;
@@ -541,19 +542,29 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
 }
 .gnt-link-fix {}
 .gdnt-link {
-  align-self: flex-start;          /* collé à gauche */
-  font: 600 10px var(--font-ui);   /* plus petit (était 11px) */
-  color: var(--accent-hover);      /* couleur conservée */
+  white-space: nowrap;
+  align-self: flex-start;
+  font: 600 10px var(--font-ui);
+  color: var(--accent-hover);
   background: none; border: 0; padding: 0;
   cursor: pointer;
 }
-.gdnt-link:hover { text-decoration: underline; text-underline-offset: 3px;  }
+.gdnt-link:hover { text-decoration: none; }
 .gdnt-date {
   order: -1;
   align-self: flex-start;          /* calée à droite du cadre */
   font: 500 10px var(--font-mono);
   color: var(--ink-2);
   background: none; border: 0; padding: 0;
+}
+/* halo de survol : lueur derrière chaque glyphe, pas une boîte */
+.gdnt:hover :is(.gdnt-sym, .gdnt-cell, .gdnt-link, .gdnt-date),
+.gdnt-cote:hover,
+.gdnt-cote:hover :is(.gdnt-link, .gdnt-date),
+.gdnt-datum:hover {
+  text-shadow:
+    0 0 10px  color-mix(in srgb, #4fbdff 60%, transparent),
+    0 0 26px color-mix(in srgb, #4d8dff 75%, transparent);
 }
 
 /* ---------- 12. Entrée des panneaux ---------- */
