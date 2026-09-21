@@ -14,7 +14,7 @@
     "tags": ["soudage", "usinage"]
   },
   "exp:i2mL2": {
-    "titre": "I2M Trefle — Stagiaire R&D  en Thermodynamique et Mécanique des Fluides",
+    "titre": "I2M Trefle — Projet R&D  en Thermodynamique et Mécanique des Fluides",
     "section": 1,
     "meta": "09/2023 - 07/2024",
     "img": "assets/images/i2m.png",
@@ -76,15 +76,48 @@
     ]
   },
   "exp:i2mL3": {
-    "titre": "Stagiaire R&D — Tolérancement et maîtrise dimensionnelle — I2M Bordeaux",
+    "titre": "I2M IMC — Création de polytopes pour le tolérancement de Pièces",
     "section": 1,
-    "meta": "sept. 2024 – juil. 2025 · Bordeaux · Stage (11 mois)",
+    "meta": "09/2024 - 07/2025",
+    "img": "assets/images/i2m.png",
     "contenu": [
-      "Second stage de onze mois à l'I2M – Institut de Mécanique et d'Ingénierie de Bordeaux, cette fois en R&D tolérancement et maîtrise dimensionnelle, sous la tutelle du Pr. D. Teissandier.",
-      "Études numériques sur la création de jumeaux numériques pour la surveillance de l'usure et le tolérancement de pièces usinées.",
-      "Une spécialisation en parfaite continuité avec mon projet professionnel : cette expérience a fait le lien entre mes études et mon alternance en maîtrise dimensionnelle chez Safran Aircraft Engines."
+      {"type": "titre", "texte": "Description"},
+      "Dans le cadre de mon projet de recherche avec le CMI en L3, j'ai étudié à l'I2M au département Ingénierie Mécanique et Conception sous la supervision du Professeur Teissandier. Le projet portait sur la création de jumeaux numériques pour la surveillance à l'usure et le tolérancement de pièces mécaniques, en s'appuyant sur une approche par polytopes.",
+      "Le contexte : toute pièce fabriquée présente des écarts géométriques par rapport à sa géométrie nominale, pouvant compromettre le fonctionnement d'un système mécanique. L'originalité des travaux de l'I2M permet de modéliser les écarts cumulés et de gérer les contacts multiples entre pièces sans prendre en compte l'hyperstatisme de l'assemblage.",
+      {"type": "titre", "texte": "Expérimentation avec les polytopes"},
+      "J'ai participé à la mise en pratique de cette approche théorique en l'appliquant à un système que j'avais conçu l'année précédente : une béquille de moto d'atelier. L'étude s'est concentrée sur les pivots situés à l'avant du mécanisme.",
+      "Outils utilisés :",
+      " - PolitoCAT (Polytopes for Computer Aided Tolerancing) : outil de simulation dédié à l'analyse de tolérances par approche polyédrique, développé au laboratoire I2M",
+      " - Politopix : bibliothèque C++ dédiée aux opérations sur polyèdres convexes",
+      " - CREO PTC et Salome : modélisation paramétrique et maillage",
+      "Méthodologie en trois étapes :",
+      " 1. Préparation des géométries : Import des fichiers CAO au format STEP, création de Skin Models via PolitoCAT, génération de déviations géométriques (déformations uniformes ou champs gaussiens aléatoires)",
+      " 2. Création des éléments de contact : Modélisation des surfaces de contact avec la commande DifferenceSurface, générant une surface active combinant les défauts des pièces en contact",
+      " 3. Simulation des déplacements : Application d'un chargement via ComputeRigidContact, générant le polytope associé aux déviations",
+      "Résultats : Plusieurs configurations ont été simulées — une bague, deux bagues, quatre bagues. La configuration avec quatre bagues (proche de la situation réelle) élimine les porte-à-faux et se traduit par une simple translation, confirmée par l'orientation des fiches de contact. Les efforts sont principalement repris par une seule bague de chaque côté, une répartition non uniforme qui pourrait entraîner une usure prématurée à terme.",
+      {"type": "titre", "texte": "Compétences développées"},
+        "Domaines techniques : ",
+      " Tolérancement géométrique et maîtrise dimensionnelle",
+      " Modélisation numérique par polytopes",
+      " Analyse de défauts géométriques et impact fonctionnel",
+        "Numérique et méthodologie :",
+      " Recherche bibliographique",
+      " Maîtrise de PolitoCAT et de l'écosystème Politopix",
+      " Utilisation de CREO PTC et Salome pour la préparation des géométries",
+      " Interprétation de résultats de simulation et diagnostic de problèmes"
     ],
-    "tags": ["Simulations", "Jumeaux numériques", "Conception géométrique"]
+    "imgs": [
+      "assets/images/facL2design.png",
+      "assets/images/i2mL3.png"
+    ],
+    "tags": [
+      "polytope",
+      "tolerancement",
+      "jumeauNumerique"
+    ],
+    "type": "Stage",
+    "links": {},
+    "status": "active"
   },
   "exp:frlLaTeX": {
     "titre": "Expert LaTeX freelance — Fiverr",

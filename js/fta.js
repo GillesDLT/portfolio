@@ -277,7 +277,7 @@ export function buildFTA(getPlane) {
 
   /* ---- S1 EXPÉRIENCES : face droite (+X), 6 annotations cliquables ---- */
   specificationISO("⌖", ["Alternance Safran","A"], "#fiche=exp:altSafran", 1, [0, 60, 10], [50, 80], [-10, 80], undefined, true);
-  specificationISO("⏥", "I2M polytoCAT",     "#fiche=exp:i2mL3",      1, [0, 50, 25], [-80, 50]);
+  specificationISO("⏥", "I2M polytopes",     "#fiche=exp:i2mL3",      1, [0, 50, 25], [-90, 50]);
   specificationISO("⏥", "Expert LaTeX",     "#fiche=exp:frlLaTeX",   1, [0, -28, 49], [-100, -28]);
   specificationISO("⌭", "Stage BE",       "#fiche=exp:stgExoes",  1, [0, -35, 35], [-95, -80], [-35, -80]);
   dimensionISO( 1, [0, 43, -42], [0, -43, -42], { off:  35, angle: 90, section: "#fiche=exp:stgStirweld" , labelTranslate: [-7, -7]});
