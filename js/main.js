@@ -162,7 +162,18 @@ async function openFiche(hrefOrId) {
     img.onerror = () => img.remove(); // logo manquant → pas de cadre vide
     cont.append(img);
   }
-  for (const par of t.contenu || []) { const p = document.createElement("p"); p.textContent = par; cont.append(p); }
+  for (const par of t.contenu || []) {
+    if (typeof par === "object" && par.type === "titre") {
+      const titre = document.createElement("div");
+      titre.className = "ficheContenuTitre";
+      titre.textContent = par.texte;
+      cont.append(titre);
+    } else {
+      const p = document.createElement("p");
+      p.textContent = par;
+      cont.append(p);
+    }
+  }
   if (t.imgs?.length) {
     const wrap = document.createElement("div");
     wrap.className = "ficheImgs";

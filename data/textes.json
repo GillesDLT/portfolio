@@ -14,15 +14,31 @@
     "tags": ["soudage", "usinage"]
   },
   "exp:i2mL2": {
-    "titre": "Stagiaire R&D — Thermodynamique et mécanique des fluides — I2M",
+    "titre": "I2M Trefle — Stagiaire R&D  en Thermodynamique et Mécanique des Fluides",
     "section": 1,
-    "meta": "sept. 2023 – juil. 2024 · Bordeaux · Stage (11 mois)",
+    "meta": "09/2023 - 07/2024",
+    "img": "assets/images/i2m.png",
     "contenu": [
-      "Premier stage de recherche, onze mois au sein de l'I2M – Institut de Mécanique et d'Ingénierie de Bordeaux, en R&D thermodynamique et mécanique des fluides.",
-      "Études expérimentales et numériques d'une sphère évoluant dans un matériau à changement de phases : confrontation des mesures et des simulations pour comprendre les échanges thermiques et la dynamique du changement de phase.",
-      "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie : méthodologie, rigueur et communication scientifique."
+      {"type": "titre", "texte": "Description"},
+      "Première expérience de recherche au sein du département TREFLE rassemblant l’essentiel de l’activité dans les domaines de la mécanique des fluides et des transferts au sein de l’Institut de Mécanique et Ingénierie de Bordeaux.",
+      "Stage R&D portant sur l'étude expérimentale et numérique d'une sphère évoluant dans un matériau à changement de phase (MCP), dans l'objectif de stocker de l'énergie thermique. Deux rapports produits : une étude bibliographique sur le comportement thermique d'une sphère creuse, et une étude expérimentale visant à caractériser le comportement de différentes billes (matériaux, tailles, densités), complétée par une étude de répétabilité du processus.",
+      "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie.",
+      {"type": "titre", "texte": "Compétences"},
+      "Domaines techniques: Thermodynamique et transferts thermiques, Mécanique des fluides",
+      "Expérimental: Conception et mise en œuvre de protocoles expérimentaux, Étude de répétabilité et analyse de l'incertitude de mesure, Analyse et interprétation de données expérimentales",
+      "Numérique et méthodologie: Recherche bibliographique, Démarche scientifique : formulation d'hypothèses, validation, reproductibilité",
+      "Transversal: Rédaction de rapports techniques et scientifiques en LaTeX, Rigueur méthodologique et autonomie dans un laboratoire de recherche"
     ],
-    "tags": ["Thermodynamique", "Mécanique des fluides", "Simulation"]
+    "imgs": [
+      "assets/images/i2mL2_schema.png",
+      "assets/images/i2mL2_bille.png"
+    ],
+    "tags": [
+      "thermodynamique",
+      "mecaniqueDesFluides",
+      "simulation",
+      "LaTeX"
+    ]
   },
   "exp:stgExoes": {
     "titre": "Stagiaire bureau d'études — EXOES",

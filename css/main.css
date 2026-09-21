@@ -522,6 +522,12 @@ li.is-open > .tree__row .tree__caret::before { transform: rotate(45deg); }
   background: rgba(255, 255, 255, .16); border-radius: var(--radius-pill);
   border: 3px solid transparent; background-clip: content-box;
 }
+.ficheContenuTitre {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--accent);
+}
 
 /* ---------- 11. Annotations FTA — style blueprint : arêtes vives,
    rayons ≤ 2px, remplissage translucide sombre ---------- */
