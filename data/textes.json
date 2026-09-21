@@ -25,9 +25,9 @@
       "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie.",
       {"type": "titre", "texte": "Compétences"},
       "Domaines techniques: Thermodynamique et transferts thermiques, Mécanique des fluides",
-      "Expérimental: Conception et mise en œuvre de protocoles expérimentaux, Étude de répétabilité et analyse de l'incertitude de mesure, Analyse et interprétation de données expérimentales",
+      "Conception et mise en œuvre de protocoles expérimentaux, Étude de répétabilité et analyse de l'incertitude de mesure, Analyse et interprétation de données expérimentales",
       "Numérique et méthodologie: Recherche bibliographique, Démarche scientifique : formulation d'hypothèses, validation, reproductibilité",
-      "Transversal: Rédaction de rapports techniques et scientifiques en LaTeX, Rigueur méthodologique et autonomie dans un laboratoire de recherche"
+      "Rédaction de rapports techniques et scientifiques en LaTeX, Rigueur méthodologique et autonomie dans un laboratoire de recherche"
     ],
     "imgs": [
       "assets/images/i2mL2_schema.png",
@@ -41,16 +41,39 @@
     ]
   },
   "exp:stgExoes": {
-    "titre": "Stagiaire bureau d'études — EXOES",
+    "titre": "Exoes — Stage en Bureau d'Etudes",
     "section": 1,
-    "meta": "mai 2024 – juil. 2024 · Gradignan · Stage (3 mois)",
+    "meta": "05/2024 - 07/2024",
+    "img": "assets/images/exoes.jpg",
     "contenu": [
-      "Stage de trois mois au sein du bureau d'études d'EXOES, entreprise spécialisée en électromobilité.",
-      "Amélioration de pièces d'interface pour le système d'immersion des batteries : itérations de conception en CAO et création de notices de montage.",
-      "Mise en pratique des compétences de conception, développement de la gestion de projet et adaptation aux exigences du milieu industriel.",
-      "Renforcement de la maîtrise des normes techniques et de la collaboration au sein d'une équipe, en environnement industriel et professionnel."
+      {"type": "titre", "texte": "Description"},
+      "À l'occasion de mon stage de licence, j'ai intégré le Bureau d'Études d'Exoes, une entreprise spécialisée dans les solutions d'électromobilité.",
+      "J'ai notamment participé à la conception d'une pièce d'interface fusible destinée au système de refroidissement de batteries. Cette pièce standardisée devait pouvoir s'intégrer à différentes configurations d'assemblage, tout en restant compatible avec les composants environnants. Une attention particulière devait notamment être portée aux éventuelles interférences avec des éléments existants, comme des pièces rigides susceptibles de limiter l'espace disponible.",
+      "J'ai également participé au passage de la conception à la réalisation de la pièce : consultation de fournisseurs, demandes de devis pour l'usinage et définition de la nomenclature nécessaire à sa fabrication, comprenant notamment la visserie, les éléments d'étanchéité et les autres composants associés.",
+      {"type": "titre", "texte": "Compétences"},
+        "Domaines techniques :",
+      "- Conception mécanique",
+      "- Conception de pièces d'interface",
+      "- Assemblages mécaniques",
+      "- Nomenclatures",
+      "- Documentation technique",
+      "- Besoins fonctionnels",
+      "Numérique et méthodologie :",
+      "- Conception assistée par ordinateur (CAO)",
+      "- Consultation de fournisseurs et demandes de devis",
+      "- Rédaction de notices de montage",
+      "- Passage de la conception à la réalisation",
+      "- Confrontation du modèle CAO aux contraintes de montage"
     ],
-    "tags": ["CAO", "Rédaction technique", "Gestion de projet"]
+    "imgs": [
+      "assets/images/stgExoes-linkedin.jpg"
+    ],
+    "tags": [
+      "BE",
+      "Conception",
+      "Sketch",
+      "Nomenclature"
+    ]
   },
   "exp:i2mL3": {
     "titre": "Stagiaire R&D — Tolérancement et maîtrise dimensionnelle — I2M Bordeaux",
