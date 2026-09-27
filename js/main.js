@@ -404,13 +404,15 @@ async function init() {
       mail: '<svg viewBox="0 0 16 16"><path d="M0 3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V3Zm1.5.8L8 8.3l6.5-4.5V3.5l-6.5 4.5L1.5 3.5v.3Z"/></svg>',
       linkedin: '<svg viewBox="0 0 16 16"><path d="M3.4 5.7H.6V15h2.8V5.7ZM2 1a1.7 1.7 0 1 0 0 3.4A1.7 1.7 0 0 0 2 1Zm5.4 4.7H4.8V15h2.7v-4.9c0-2 2.6-2.2 2.6 0V15h2.7V9.2c0-4.3-4.4-4.1-5.4-2V5.7Z"/></svg>',
       github: '<svg viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.5 15.6c.4 0 .5-.2.5-.4v-1.4c-2 .4-2.5-.9-2.5-.9-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8 0 1.2.8 1.2.8.7 1.3 2 .9 2.4.7 0-.6.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1 0-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.4 7.4 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.5 1.1.1 1.9.1 2.1.5.5.8 1.2.8 2.1 0 3.1-1.9 3.8-3.6 4 .3.2.6.7.6 1.5v2.2c0 .2.1.5.5.4A8 8 0 0 0 8 0Z"/></svg>'
+      /*cv: `<svg viewBox="0 0 16 16"><path d="..."/></svg>`*/
     };
 
     const contacts = document.getElementById("contacts");
     contacts.innerHTML = `
       <a href="mailto:${profil.mail}">${ICONS.mail}<span>${profil.mail}</span></a>
       <a href="${profil.linkedin}" target="_blank" rel="noopener">${ICONS.linkedin}<span>LinkedIn</span></a>
-      <a href="${profil.github}"  target="_blank" rel="noopener">${ICONS.github}<span>GitHub</span></a>`;
+      <a href="${profil.github}"  target="_blank" rel="noopener">${ICONS.github}<span>GitHub</span></a>
+      <a href="${profil.cv}" target="_blank" rel="noopener">CV</a>`;
     /* Remplir l'intro panel avec les données du profil */
     introPanel.querySelector(".intro-name").textContent = profil.nom;
     introPanel.querySelector(".intro-accroche").textContent = profil.accroche;
