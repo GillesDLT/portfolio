@@ -16,7 +16,7 @@
   "exp:i2mL2": {
     "titre": "I2M Trefle — Projet R&D  en Thermodynamique et Mécanique des Fluides",
     "section": 1,
-    "meta": "09/2023 - 07/2024",
+    "meta": "09/2023 - 07/2024 · Talence, Gironde, Fr",
     "img": "assets/images/i2m.png",
     "contenu": [
       {"type": "titre", "texte": "Description"},
@@ -43,7 +43,7 @@
   "exp:stgExoes": {
     "titre": "Exoes — Stage en Bureau d'Etudes",
     "section": 1,
-    "meta": "05/2024 - 07/2024",
+      "meta": "05/2024 - 07/2024 · Gradignan, Gironde, Fr",
     "img": "assets/images/exoes.jpg",
     "contenu": [
       {"type": "titre", "texte": "Description"},
@@ -78,7 +78,7 @@
   "exp:i2mL3": {
     "titre": "I2M IMC — Création de polytopes pour le tolérancement de Pièces",
     "section": 1,
-    "meta": "09/2024 - 07/2025",
+    "meta": "09/2024 - 07/2025 · Talence, Gironde, Fr",
     "img": "assets/images/i2m.png",
     "contenu": [
       {"type": "titre", "texte": "Description"},
@@ -114,21 +114,46 @@
       "polytope",
       "tolerancement",
       "jumeauNumerique"
-    ],
-    "type": "Stage",
-    "links": {},
-    "status": "active"
+    ]
   },
   "exp:frlLaTeX": {
-    "titre": "Expert LaTeX freelance — Fiverr",
+    "titre": "Freelance Fiverr — Expert LaTeX",
     "section": 1,
-    "meta": "oct. 2024 – aujourd'hui · À distance",
+    "meta": "09/2024 - now · télétravail, Fr",
+    "img": "assets/images/latex.jpg",
     "contenu": [
-      "Rédaction, formatage et typographie de documents professionnels sur mesure avec LaTeX : rapports, mémoires, présentations.",
-      "Débogage et structuration avancée de documents complexes (mise en page, tableaux, bibliographies) afin d'assurer un rendu fiable, clair et professionnel.",
-      "Une activité menée en parallèle de mes études, qui combine rigueur technique, gestion efficace du temps et communication claire pour répondre précisément aux besoins des clients."
+      {"type": "titre", "texte": "Description"},
+      "Rédaction, mise en forme et typographie de documents et de figures professionnels sur mesure avec LaTeX.",
+      "Débogage et structuration avancée de documents complexes afin d'assurer une mise en page fiable, claire et professionnelle.",
+      "Lecture de documentation de package, des documentclass customs des clients . besoin de s'adatper à la méthode de travail du client.",
+      "Expertise développée sur plusieurs années, combinant rigueur technique, gestion efficace du temps et communication claire pour répondre précisément aux besoins des clients.",
+        "Missions notables : débogage de l'équivalent de 7 feuilles A4 de logs d'erreurs pour un même document, création de PDF interactifs et conception de figures techniques avec TikZ.",
+      {"type": "titre", "texte": "Compétences"},
+      "Domaines techniques :",
+      "- LaTeX",
+      "- TikZ",
+        "- LuaLaTeX",
+      "- Typographie et mise en page",
+      "- Création de PDF interactifs",
+      "- Débogage de documents complexes",
+      "Numérique et méthodologie :",
+      "- Rigueur technique",
+      "- Gestion du temps",
+      "- Analyse et résolution de problèmes",
+      "- Communication avec les clients",
+      "(Ci-dessous des échantillons de projets LaTeX qui m'inspirent)"
     ],
-    "tags": ["LaTeX", "Typographie", "Freelance"]
+    "imgs": [
+      "assets/images/latex-showcase1.png",
+      "assets/images/latex-showcase2.png",
+      "assets/images/latex-showcase3.png",
+      "assets/images/latex-showcase4.png"
+    ],
+    "tags": [
+      "freelance",
+      "LaTeX",
+      "business"
+    ]
   },
   "exp:altSafran": {
     "titre": "Alternant en maîtrise dimensionnelle — Safran Aircraft Engines",
@@ -163,7 +188,7 @@
   "etu:licenceSPI": {
     "titre": "Licence Sciences Pour l'Ingénieur — Université de Bordeaux",
     "section": 2,
-    "meta": "sept. 2022 – août 2025 · Mention Bien",
+    "meta": "sept. 2022 – août 2025 · Talence, Gironde, Fr",
     "contenu": [
       "Licence Sciences Pour l'Ingénieur obtenue avec mention Bien.",
       "Cursus Master en Ingénierie Mécanique Génie Civil et Énergétique (CMI MGCE), spécialité Génie Mécanique, option Simulation.",
@@ -174,7 +199,7 @@
   "etu:masterGM": {
     "titre": "Master Génie Mécanique — Université de Bordeaux",
     "section": 2,
-    "meta": "sept. 2025 – août 2027 · Parcours Conception Avancée",
+    "meta": "sept. 2025 – août 2027 · Talence, Gironde, Fr",
     "img": "./assets/images/logoUB.png",
     "contenu": [
       "Master Génie Mécanique, parcours Conception Avancée, à l'Université de Bordeaux.",
