@@ -1,5 +1,7 @@
 import { initCAD } from "./cube3d.js";
 import { buildTree, setActive } from "./tree.js";
+import { marked } from "./vendor/marked.esm.js";
+import DOMPurify from "./vendor/dompurify.es.mjs";
 
 const tree = document.getElementById("tree");
 const space = document.getElementById("scrollSpace");
@@ -132,9 +134,9 @@ const overlay = document.createElement("div");
 overlay.id = "ficheOverlay";
 overlay.innerHTML = `
   <article class="fiche">
+    <button class="ficheClose" type="button" aria-label="Fermer cette fiche (Échap)">✕</button>
     <header>
       <h2 class="ficheTitre"></h2>
-      <button class="ficheClose" aria-label="Fermer (Échap)">✕</button>
     </header>
     <p class="ficheMeta meta mono"></p>
     <div class="ficheContenu"></div>
@@ -143,28 +145,34 @@ overlay.innerHTML = `
 document.body.append(overlay);
 
 let ficheCache = null;
-const loadFiches = () => (ficheCache ??= fetch("data/textes.json").then((r) => r.json()).catch(() => null));
+const markdownCache = new Map();
+let openFicheRequest = 0;
+const loadFiches = () => (ficheCache ??= fetch("data/textes.json").then((r) => {
+  if (!r.ok) throw new Error(`Chargement des fiches impossible (${r.status})`);
+  return r.json();
+}).catch((err) => { console.error(err); return null; }));
 
-async function openFiche(hrefOrId) {
-  const id = decodeURIComponent(String(hrefOrId).match(/fiche=([^&]+)/)?.[1] ?? hrefOrId);
-  const data = await loadFiches();
-  const t = data?.[String(id)];
-  if (!t) { console.warn("Fiche introuvable :", id); return; }
-  overlay.querySelector(".ficheTitre").textContent = t.titre ?? "";
-  overlay.querySelector(".ficheMeta").textContent = t.meta || "";
-  const cont = overlay.querySelector(".ficheContenu");
-  cont.replaceChildren();
-  if (t.img) {
-    const img = document.createElement("img");
-    img.src = t.img;
-    img.alt = t.titre ?? "";          // accessibilité
-    img.className = "ficheImg";
-    img.onerror = () => img.remove(); // logo manquant → pas de cadre vide
-    cont.append(img);
+async function loadMarkdown(path) {
+  // Les pages éditoriales sont locales au dossier data/pages/.
+  if (typeof path !== "string" || !path.startsWith("data/pages/") || path.includes("..")) {
+    throw new Error(`Chemin Markdown non autorisé : ${path}`);
   }
-  for (const par of t.contenu || []) {
+  if (!markdownCache.has(path)) {
+    markdownCache.set(path, fetch(path).then((r) => {
+      if (!r.ok) throw new Error(`Impossible de charger ${path} (${r.status})`);
+      return r.text();
+    }).catch((err) => {
+      markdownCache.delete(path); // permet de réessayer après une erreur temporaire
+      throw err;
+    }));
+  }
+  return markdownCache.get(path);
+}
+
+function renderLegacyContent(cont, t) {
+  for (const par of (t.contenu || t.resume || [])) {
     if (typeof par === "object" && par.type === "titre") {
-      const titre = document.createElement("div");
+      const titre = document.createElement("h2");
       titre.className = "ficheContenuTitre";
       titre.textContent = par.texte;
       cont.append(titre);
@@ -182,23 +190,73 @@ async function openFiche(hrefOrId) {
       img.src = src;
       img.alt = "";
       img.className = "ficheImg";
-      img.onerror = () => img.remove(); // même logique que t.img : image absente → pas de cadre vide
+      img.onerror = () => img.remove();
       wrap.append(img);
     }
     cont.append(wrap);
   }
+}
+
+async function openFiche(hrefOrId) {
+  const request = ++openFicheRequest;
+  const id = decodeURIComponent(String(hrefOrId).match(/fiche=([^&]+)/)?.[1] ?? hrefOrId);
+  const data = await loadFiches();
+  const t = data?.[String(id)];
+  if (!t) { console.warn("Fiche introuvable :", id); return; }
+
+  let markdown = null;
+  if (t.page) {
+    try { markdown = await loadMarkdown(t.page); }
+    catch (err) { console.error(err); }
+  }
+  // Un clic rapide sur une autre spécification ne doit pas afficher la
+  // réponse réseau plus lente de la fiche précédente.
+  if (request !== openFicheRequest) return;
+
+  overlay.querySelector(".ficheTitre").textContent = t.titre ?? "";
+  overlay.querySelector(".ficheMeta").textContent = t.meta || "";
+  const cont = overlay.querySelector(".ficheContenu");
+  cont.replaceChildren();
+  if (t.img) {
+    const img = document.createElement("img");
+    img.src = t.img;
+    img.alt = t.titre ?? "";
+    img.className = "ficheImg ficheImg--cover";
+    img.onerror = () => img.remove();
+    cont.append(img);
+  }
+  if (markdown !== null) {
+    // Le Markdown peut inclure du HTML éditorial (figures redimensionnées),
+    // nettoyé avant insertion pour empêcher l'exécution de scripts.
+    const dirty = marked.parse(markdown, { gfm: true, breaks: false });
+    cont.innerHTML = DOMPurify.sanitize(dirty, { USE_PROFILES: { html: true } });
+    cont.querySelectorAll('a[href^="http"]').forEach((a) => {
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    });
+    cont.querySelectorAll("img").forEach((img) => {
+      img.onerror = () => {
+        const figure = img.closest("figure");
+        (figure ?? img).remove();
+      };
+    });
+  } else {
+    renderLegacyContent(cont, t);
+  }
+
   const tags = overlay.querySelector(".ficheTags");
   tags.replaceChildren();
   for (const tag of t.tags || []) { const sp = document.createElement("span"); sp.textContent = tag; tags.append(sp); }
   overlay.classList.add("is-open");
   fichePreview.classList.remove("is-on");
   document.documentElement.classList.add("fiche-lock");
-  history.replaceState(null, "", `#fiche=${id}`);   // URL partageable
+  history.replaceState(null, "", `#fiche=${id}`);
 }
 function closeFiche() {
+  ++openFicheRequest; // invalide également un chargement Markdown en cours
   overlay.classList.remove("is-open");
   document.documentElement.classList.remove("fiche-lock");
-  history.replaceState(null, "", location.pathname + location.search);   // retire le hash
+  history.replaceState(null, "", location.pathname + location.search);
 }
 
 addEventListener("keydown", (e) => {
@@ -493,7 +551,8 @@ addEventListener("mouseover", (e) => {
       img.onerror = () => img.remove();
       cont.append(img);
     }
-    for (const par of (t.contenu || []).slice(0, 2)) {
+    const teaser = t.resume || (t.contenu || []).filter((par) => typeof par === "string");
+    for (const par of teaser.slice(0, 2)) {
       const p = document.createElement("p");
       p.textContent = par.length > 140 ? par.slice(0, par.lastIndexOf(" ", 140)).trimEnd() + "…" : par;
       cont.append(p);

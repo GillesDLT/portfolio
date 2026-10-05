@@ -10,8 +10,14 @@
       "Au-delà de la technique, cette semaine a été l'occasion de mieux cerner des métiers comme ceux d'ingénieur soudeur et de projeteur. Pour approfondir mes connaissances suite à cette expérience, j'ai acquis le Guide du dessinateur industriel de A. Chevalier et le Guide des sciences et technologies industrielles de J.-L. Fanchon.",
       "Une première étape déterminante dans mon parcours."
     ],
-    "imgs": ["assets/images/book-fanchon.jpg", "assets/images/book-GDI.jpg"],
-    "tags": ["soudage", "usinage"]
+    "imgs": [
+      "assets/images/book-fanchon.jpg",
+      "assets/images/book-GDI.jpg"
+    ],
+    "tags": [
+      "soudage",
+      "usinage"
+    ]
   },
   "exp:i2mL2": {
     "titre": "I2M Trefle — Projet R&D  en Thermodynamique et Mécanique des Fluides",
@@ -19,11 +25,17 @@
     "meta": "09/2023 - 07/2024 · Talence, Gironde, Fr",
     "img": "assets/images/i2m.png",
     "contenu": [
-      {"type": "titre", "texte": "Description"},
+      {
+        "type": "titre",
+        "texte": "Description"
+      },
       "Première expérience de recherche au sein du département TREFLE rassemblant l’essentiel de l’activité dans les domaines de la mécanique des fluides et des transferts au sein de l’Institut de Mécanique et Ingénierie de Bordeaux.",
       "Stage R&D portant sur l'étude expérimentale et numérique d'une sphère évoluant dans un matériau à changement de phase (MCP), dans l'objectif de stocker de l'énergie thermique. Deux rapports produits : une étude bibliographique sur le comportement thermique d'une sphère creuse, et une étude expérimentale visant à caractériser le comportement de différentes billes (matériaux, tailles, densités), complétée par une étude de répétabilité du processus.",
       "Développement d'une expertise face aux exigences techniques et théoriques du domaine de la recherche et de l'ingénierie.",
-      {"type": "titre", "texte": "Compétences"},
+      {
+        "type": "titre",
+        "texte": "Compétences"
+      },
       "Domaines techniques: Thermodynamique et transferts thermiques, Mécanique des fluides",
       "Conception et mise en œuvre de protocoles expérimentaux, Étude de répétabilité et analyse de l'incertitude de mesure, Analyse et interprétation de données expérimentales",
       "Numérique et méthodologie: Recherche bibliographique, Démarche scientifique : formulation d'hypothèses, validation, reproductibilité",
@@ -43,15 +55,21 @@
   "exp:stgExoes": {
     "titre": "Exoes — Stage en Bureau d'Etudes",
     "section": 1,
-      "meta": "05/2024 - 07/2024 · Gradignan, Gironde, Fr",
+    "meta": "05/2024 - 07/2024 · Gradignan, Gironde, Fr",
     "img": "assets/images/exoes.jpg",
     "contenu": [
-      {"type": "titre", "texte": "Description"},
+      {
+        "type": "titre",
+        "texte": "Description"
+      },
       "À l'occasion de mon stage de licence, j'ai intégré le Bureau d'Études d'Exoes, une entreprise spécialisée dans les solutions d'électromobilité.",
       "J'ai notamment participé à la conception d'une pièce d'interface fusible destinée au système de refroidissement de batteries. Cette pièce standardisée devait pouvoir s'intégrer à différentes configurations d'assemblage, tout en restant compatible avec les composants environnants. Une attention particulière devait notamment être portée aux éventuelles interférences avec des éléments existants, comme des pièces rigides susceptibles de limiter l'espace disponible.",
       "J'ai également participé au passage de la conception à la réalisation de la pièce : consultation de fournisseurs, demandes de devis pour l'usinage et définition de la nomenclature nécessaire à sa fabrication, comprenant notamment la visserie, les éléments d'étanchéité et les autres composants associés.",
-      {"type": "titre", "texte": "Compétences"},
-        "Domaines techniques :",
+      {
+        "type": "titre",
+        "texte": "Compétences"
+      },
+      "Domaines techniques :",
       "- Conception mécanique",
       "- Conception de pièces d'interface",
       "- Assemblages mécaniques",
@@ -81,10 +99,16 @@
     "meta": "09/2024 - 07/2025 · Talence, Gironde, Fr",
     "img": "assets/images/i2m.png",
     "contenu": [
-      {"type": "titre", "texte": "Description"},
+      {
+        "type": "titre",
+        "texte": "Description"
+      },
       "Dans le cadre de mon projet de recherche avec le CMI en L3, j'ai étudié à l'I2M au département Ingénierie Mécanique et Conception sous la supervision du Professeur Teissandier. Le projet portait sur la création de jumeaux numériques pour la surveillance à l'usure et le tolérancement de pièces mécaniques, en s'appuyant sur une approche par polytopes.",
       "Le contexte : toute pièce fabriquée présente des écarts géométriques par rapport à sa géométrie nominale, pouvant compromettre le fonctionnement d'un système mécanique. L'originalité des travaux de l'I2M permet de modéliser les écarts cumulés et de gérer les contacts multiples entre pièces sans prendre en compte l'hyperstatisme de l'assemblage.",
-      {"type": "titre", "texte": "Expérimentation avec les polytopes"},
+      {
+        "type": "titre",
+        "texte": "Expérimentation avec les polytopes"
+      },
       "J'ai participé à la mise en pratique de cette approche théorique en l'appliquant à un système que j'avais conçu l'année précédente : une béquille de moto d'atelier. L'étude s'est concentrée sur les pivots situés à l'avant du mécanisme.",
       "Outils utilisés :",
       " - PolitoCAT (Polytopes for Computer Aided Tolerancing) : outil de simulation dédié à l'analyse de tolérances par approche polyédrique, développé au laboratoire I2M",
@@ -95,12 +119,15 @@
       " 2. Création des éléments de contact : Modélisation des surfaces de contact avec la commande DifferenceSurface, générant une surface active combinant les défauts des pièces en contact",
       " 3. Simulation des déplacements : Application d'un chargement via ComputeRigidContact, générant le polytope associé aux déviations",
       "Résultats : Plusieurs configurations ont été simulées — une bague, deux bagues, quatre bagues. La configuration avec quatre bagues (proche de la situation réelle) élimine les porte-à-faux et se traduit par une simple translation, confirmée par l'orientation des fiches de contact. Les efforts sont principalement repris par une seule bague de chaque côté, une répartition non uniforme qui pourrait entraîner une usure prématurée à terme.",
-      {"type": "titre", "texte": "Compétences développées"},
-        "Domaines techniques : ",
+      {
+        "type": "titre",
+        "texte": "Compétences développées"
+      },
+      "Domaines techniques : ",
       " Tolérancement géométrique et maîtrise dimensionnelle",
       " Modélisation numérique par polytopes",
       " Analyse de défauts géométriques et impact fonctionnel",
-        "Numérique et méthodologie :",
+      "Numérique et méthodologie :",
       " Recherche bibliographique",
       " Maîtrise de PolitoCAT et de l'écosystème Politopix",
       " Utilisation de CREO PTC et Salome pour la préparation des géométries",
@@ -120,39 +147,15 @@
     "titre": "Freelance Fiverr — Expert LaTeX",
     "section": 1,
     "meta": "09/2024 - now · télétravail, Fr",
-    "img": "assets/images/latex.jpg",
-    "contenu": [
-      {"type": "titre", "texte": "Description"},
-      "Rédaction, mise en forme et typographie de documents et de figures professionnels sur mesure avec LaTeX.",
-      "Débogage et structuration avancée de documents complexes afin d'assurer une mise en page fiable, claire et professionnelle.",
-      "Lecture de documentation de package, des documentclass customs des clients . besoin de s'adatper à la méthode de travail du client.",
-      "Expertise développée sur plusieurs années, combinant rigueur technique, gestion efficace du temps et communication claire pour répondre précisément aux besoins des clients.",
-        "Missions notables : débogage de l'équivalent de 7 feuilles A4 de logs d'erreurs pour un même document, création de PDF interactifs et conception de figures techniques avec TikZ.",
-      {"type": "titre", "texte": "Compétences"},
-      "Domaines techniques :",
-      "- LaTeX",
-      "- TikZ",
-        "- LuaLaTeX",
-      "- Typographie et mise en page",
-      "- Création de PDF interactifs",
-      "- Débogage de documents complexes",
-      "Numérique et méthodologie :",
-      "- Rigueur technique",
-      "- Gestion du temps",
-      "- Analyse et résolution de problèmes",
-      "- Communication avec les clients",
-      "(Ci-dessous des échantillons de projets LaTeX qui m'inspirent)"
-    ],
-    "imgs": [
-      "assets/images/latex-showcase1.png",
-      "assets/images/latex-showcase2.png",
-      "assets/images/latex-showcase3.png",
-      "assets/images/latex-showcase4.png"
-    ],
     "tags": [
       "freelance",
       "LaTeX",
       "business"
+    ],
+    "page": "data/pages/experiences/frlLaTeX.md",
+    "resume": [
+      "Mise en page, typographie et débogage de documents professionnels avec LaTeX.",
+      "Rapports, mémoires, documents complexes et figures techniques, notamment avec TikZ."
     ]
   },
   "exp:altSafran": {
@@ -173,7 +176,15 @@
       "• Développement d'une approche Best-Fit Tchebychev pour évaluer le jeu de montage",
       "• Mise en place de simulations de Monte-Carlo en Python pour étudier l'influence des tolérances et du nombre de vis"
     ],
-    "tags": ["Normes ISO", "Tolérancement géométrique", "Métrologie", "AFT", "CATIA V5 FTA", "Monte-Carlo", "Python"]
+    "tags": [
+      "Normes ISO",
+      "Tolérancement géométrique",
+      "Métrologie",
+      "AFT",
+      "CATIA V5 FTA",
+      "Monte-Carlo",
+      "Python"
+    ]
   },
   "etu:lycee": {
     "titre": "Baccalauréat général — Lycée de La Sauque",
@@ -183,7 +194,10 @@
       "Baccalauréat général au Lycée de La Sauque, avec les spécialités Mathématiques et Physique-Chimie.",
       "Un cursus scientifique qui a posé les fondations de ma formation d'ingénieur."
     ],
-    "tags": ["Mathématiques", "Physique"]
+    "tags": [
+      "Mathématiques",
+      "Physique"
+    ]
   },
   "etu:licenceSPI": {
     "titre": "Licence Sciences Pour l'Ingénieur — Université de Bordeaux",
@@ -194,7 +208,12 @@
       "Cursus Master en Ingénierie Mécanique Génie Civil et Énergétique (CMI MGCE), spécialité Génie Mécanique, option Simulation.",
       "Trois années qui m'ont donné les fondamentaux du génie mécanique — de la mécanique des structures à la CAO — et mes deux premières expériences de recherche en laboratoire."
     ],
-    "tags": ["Génie mécanique", "CAO", "Simulation", "Mention Bien"]
+    "tags": [
+      "Génie mécanique",
+      "CAO",
+      "Simulation",
+      "Mention Bien"
+    ]
   },
   "etu:masterGM": {
     "titre": "Master Génie Mécanique — Université de Bordeaux",
@@ -206,7 +225,11 @@
       "Une formation d'excellence spécialisée en tolérancement et maîtrise dimensionnelle, labellisée par le réseau Figure.",
       "Que je poursuis en alternance chez Safran Aircraft Engines, au plus près des applications industrielles."
     ],
-    "tags": ["Conception géométrique", "CAO", "Tolérancement"]
+    "tags": [
+      "Conception géométrique",
+      "CAO",
+      "Tolérancement"
+    ]
   },
   "etu:CMI": {
     "titre": "CMI MGCE — Cursus Master en Ingénierie",
@@ -217,7 +240,11 @@
       "Formation labellisée par le réseau Figure, qui privilégie l'initiation précoce à la recherche et l'ancrage professionnel.",
       "Un cadre qui a structuré tout mon parcours : enseignements renforcés, stages de laboratoire dès la licence (deux fois onze mois à l'I2M) et poursuite en master parcours Conception Avancée."
     ],
-    "tags": ["CMI", "Réseau Figure", "Conception géométrique"]
+    "tags": [
+      "CMI",
+      "Réseau Figure",
+      "Conception géométrique"
+    ]
   },
   "aso:scoutACT": {
     "titre": "Assistant intendant du chef des scouts marins de Bordeaux",
@@ -228,7 +255,11 @@
       "Gestion complète de l'intendance et du budget d'un camp de 35 jeunes pendant 17 jours, garantissant le bon déroulement logistique et matériel.",
       "Développement de compétences en coordination, gestion des ressources et travail en équipe."
     ],
-    "tags": ["Gestion de budget", "Activités nautiques", "Travail en équipe"]
+    "tags": [
+      "Gestion de budget",
+      "Activités nautiques",
+      "Travail en équipe"
+    ]
   },
   "aso:scoutCC": {
     "titre": "Chef des étudiants scouts de Bordeaux",
@@ -241,7 +272,11 @@
       "Prise de parole régulière devant des audiences de 20 personnes : leadership, crédibilité et capacité à inspirer la confiance.",
       "Coordination logistique et gestion des imprévus pour assurer le bon déroulement des projets."
     ],
-    "tags": ["Leadership", "Logistique", "Prise de parole"]
+    "tags": [
+      "Leadership",
+      "Logistique",
+      "Prise de parole"
+    ]
   },
   "aso:scoutENR": {
     "titre": "Engagement associatif — en bref",
@@ -251,7 +286,10 @@
       "Quatre années d'engagement continu chez les Guides et Scouts d'Europe, de l'intendance à la responsabilité d'unité.",
       "Un apprentissage du management de terrain : planifier, déléguer, improviser, et tenir la logistique d'un camp de plusieurs dizaines de personnes."
     ],
-    "tags": ["Engagement", "Management"]
+    "tags": [
+      "Engagement",
+      "Management"
+    ]
   },
   "dip:bia": {
     "titre": "BIA — Brevet d'Initiation à l'Aéronautique",
@@ -260,14 +298,20 @@
     "contenu": [
       "Notions d'aéronautisme, météorologie, navigation, réglementation aérienne et mécanique du vol."
     ],
-    "tags": ["Aéronautique"]
+    "tags": [
+      "Aéronautique"
+    ]
   },
   "dip:permisB": {
     "titre": "Permis B",
     "section": 2,
     "meta": "TODO · Année",
-    "contenu": ["TODO : année d'obtention, conduite accompagnée…"],
-    "tags": ["Permis"]
+    "contenu": [
+      "TODO : année d'obtention, conduite accompagnée…"
+    ],
+    "tags": [
+      "Permis"
+    ]
   },
   "dip:pix": {
     "titre": "PIX — Compétences numériques, niveau avancé",
@@ -278,7 +322,10 @@
       "Maîtrise des tableurs, outils d'analyse et de visualisation de données.",
       "Connaissance approfondie des enjeux de protection des données, de traçabilité et d'impacts environnementaux et sociétaux du numérique."
     ],
-    "tags": ["Numérique", "Data"]
+    "tags": [
+      "Numérique",
+      "Data"
+    ]
   },
   "dip:toeic": {
     "titre": "TOEIC — 975/990 (C1)",
@@ -288,7 +335,9 @@
       "Niveau C1 confirmé en anglais : compréhension orale (C1 : 495/495) et écrite (C1 : 480/495).",
       "Excellente maîtrise de l'anglais professionnel, notamment dans les contextes techniques, académiques et internationaux."
     ],
-    "tags": ["Anglais C1"]
+    "tags": [
+      "Anglais C1"
+    ]
   },
   "fac:indusM1": {
     "titre": "Projet industriel — M1",
@@ -298,7 +347,10 @@
       "Projet de M1 mené en équipe sur une problématique d'ingénierie, traité comme une mission de bureau d'études : analyse du besoin, cahier des charges, étude et justification des solutions.",
       "Travail en mode projet : planification, répartition des tâches, revues d'avancement, livrables professionnels et soutenance devant un jury."
     ],
-    "tags": ["Gestion de projet", "Bureau d'études"]
+    "tags": [
+      "Gestion de projet",
+      "Bureau d'études"
+    ]
   },
   "fac:retroconceptionM1": {
     "titre": "Projet de rétro-conception",
@@ -308,7 +360,11 @@
       "Rétro-conception d'un produit existant : démontage, analyse fonctionnelle et géométrique, puis reconstruction complète de la définition numérique.",
       "De la cotation fonctionnelle au dossier de définition : reconstituer plans, spécifications et tolérancements comme si la pièce sortait du bureau d'études d'origine."
     ],
-    "tags": ["CAO", "Cotation fonctionnelle", "Tolérancement"]
+    "tags": [
+      "CAO",
+      "Cotation fonctionnelle",
+      "Tolérancement"
+    ]
   },
   "fac:tolerancementM2": {
     "titre": "Projet de tolérancement",
@@ -318,7 +374,11 @@
       "Projet de tolérancement appliqué : de la définition fonctionnelle d'un assemblage aux spécifications géométriques normalisées (ISO GPS).",
       "Analyse des chaînes de cotes et de l'aptitude fonctionnelle de l'assemblage, en cohérence directe avec mes travaux de maîtrise dimensionnelle chez Safran Aircraft Engines."
     ],
-    "tags": ["Tolérancement", "ISO GPS", "Chaînes de cotes"]
+    "tags": [
+      "Tolérancement",
+      "ISO GPS",
+      "Chaînes de cotes"
+    ]
   },
   "fac:TPmetroM2": {
     "titre": "TP de métrologie",
@@ -328,7 +388,11 @@
       "Travaux pratiques de métrologie dimensionnelle : instrumentation, contrôle de pièces et exploitation des mesures.",
       "Étalonnage, calcul d'incertitudes et exploitation statistique des résultats — le socle expérimental de la maîtrise dimensionnelle que je pratique en entreprise."
     ],
-    "tags": ["Métrologie", "Incertitudes", "Contrôle"]
+    "tags": [
+      "Métrologie",
+      "Incertitudes",
+      "Contrôle"
+    ]
   },
   "fac:designL2": {
     "titre": "Projet de design L2",
@@ -338,7 +402,11 @@
       "Premier vrai projet de conception : partir d'un besoin, générer et comparer des concepts, puis aboutir à une solution argumentée.",
       "Démarche complète de design mécanique : analyse fonctionnelle, croquis de recherche, modélisation CAO et présentation du concept."
     ],
-    "tags": ["Conception", "CAO", "Analyse fonctionnelle"]
+    "tags": [
+      "Conception",
+      "CAO",
+      "Analyse fonctionnelle"
+    ]
   },
   "fac:dimensionnementL3": {
     "titre": "Projet de calcul L3",
@@ -348,7 +416,11 @@
       "Projet de calcul et de dimensionnement d'un ensemble mécanique : vérification de la tenue par calculs analytiques (RDM), puis confrontation aux résultats d'un modèle éléments finis.",
       "Rédaction d'un dossier de justification : hypothèses de modélisation, critères de résistance et synthèse des résultats."
     ],
-    "tags": ["Dimensionnement", "RDM", "Éléments finis"]
+    "tags": [
+      "Dimensionnement",
+      "RDM",
+      "Éléments finis"
+    ]
   },
   "fac:conceptionL3": {
     "titre": "Projet conception R2D2",
@@ -358,7 +430,11 @@
       "Projet de conception en équipe autour d'un robot inspiré de R2D2 : de l'analyse fonctionnelle à la définition de l'architecture mécanique complète.",
       "Modélisation CAO des sous-ensembles, choix des liaisons et des motorisations, puis justification et présentation des solutions techniques retenues."
     ],
-    "tags": ["Conception", "CAO", "Travail en équipe"]
+    "tags": [
+      "Conception",
+      "CAO",
+      "Travail en équipe"
+    ]
   },
   "fac:cahierFiches": {
     "titre": "Cahier de fiches",
@@ -369,7 +445,11 @@
       "Né de mon stage chez Stirweld, nourri par le Guide du dessinateur industriel (A. Chevalier) et le Guide des sciences et technologies industrielles (J.-L. Fanchon), aujourd'hui prolongé par mon vault Obsidian.",
       "Une méthode de travail : reformuler, schématiser et relier les notions pour vraiment les faire miennes."
     ],
-    "tags": ["Synthèse", "Documentation", "Méthode"]
+    "tags": [
+      "Synthèse",
+      "Documentation",
+      "Méthode"
+    ]
   },
   "diy:homelab": {
     "titre": "Homelab — serveur perso et hardware",
@@ -380,7 +460,12 @@
       "Sécurisation soignée de l'accès : VPN WireGuard pour l'accès distant, interface d'administration exposée uniquement à des adresses autorisées, double authentification et Fail2ban.",
       "Mon terrain de jeu permanent pour l'administration système, le réseau et le matériel — et l'infrastructure qui héberge une partie de mes projets."
     ],
-    "tags": ["Proxmox", "Linux", "Réseau", "Docker"]
+    "tags": [
+      "Proxmox",
+      "Linux",
+      "Réseau",
+      "Docker"
+    ]
   },
   "diy:clavierAZ": {
     "titre": "Clavier AZ",
@@ -390,7 +475,10 @@
       "Projet autour du clavier : personnaliser la saisie (disposition, configuration) pour un confort de frappe à mes mains.",
       "TODO : préciser le périmètre exact (matériel custom, remapping, firmware…)."
     ],
-    "tags": ["Clavier", "Ergonomie"]
+    "tags": [
+      "Clavier",
+      "Ergonomie"
+    ]
   },
   "diy:obsidianWiki": {
     "titre": "Vault Obsidian — base de connaissances perso",
@@ -401,7 +489,11 @@
       "Organisé en MOC, templates et conventions de nommage : chaque fiche carrière porte les métadonnées qui permettent au site de la retrouver.",
       "Une vraie démarche de gestion de l'information, qui nourrit aussi mon intérêt pour les outils de connaissance et les LLM."
     ],
-    "tags": ["Obsidian", "Markdown", "Documentation"]
+    "tags": [
+      "Obsidian",
+      "Markdown",
+      "Documentation"
+    ]
   },
   "diy:portfolio": {
     "titre": "Ce site web",
@@ -412,7 +504,11 @@
       "Une architecture simple et saine : contenus stockés en JSON (sections, textes), chargés dynamiquement, fiches reliées entre elles par des identifiants.",
       "Hébergé sur GitHub Pages avec mon domaine gillesdlt.fr. Un projet qui combine conception, développement et déploiement — et qui m'a beaucoup appris sur le web moderne."
     ],
-    "tags": ["Three.js", "JavaScript", "Web"]
+    "tags": [
+      "Three.js",
+      "JavaScript",
+      "Web"
+    ]
   },
   "cmp:conception": {
     "titre": "Conception",
@@ -422,7 +518,11 @@
       "De la fonction au réel : analyse fonctionnelle, génération d'architectures, définition des liaisons et justification des solutions techniques.",
       "Pratiquée en projets académiques, en bureau d'études (EXOES) et en maîtrise dimensionnelle chez Safran Aircraft Engines, avec CATIA V5 comme outil principal."
     ],
-    "tags": ["CAO", "CATIA V5", "Analyse fonctionnelle"]
+    "tags": [
+      "CAO",
+      "CATIA V5",
+      "Analyse fonctionnelle"
+    ]
   },
   "cmp:maitriseDim": {
     "titre": "Maîtrise dimensionnelle",
@@ -433,7 +533,11 @@
       "Chaînes de cotes 1D, tolérancement 3D (AFT, CATIA V5 FTA), pièces non rigides (ISO 10579) et analyse des jeux de montage.",
       "Une compétence construite en R&D à l'I2M puis confrontée au réel chez Safran Aircraft Engines."
     ],
-    "tags": ["ISO GPS", "Tolérancement", "CATIA V5 FTA"]
+    "tags": [
+      "ISO GPS",
+      "Tolérancement",
+      "CATIA V5 FTA"
+    ]
   },
   "cmp:usinage": {
     "titre": "Usinage",
@@ -443,7 +547,10 @@
       "Bonne compréhension des procédés d'usinage et de leurs contraintes, pour définir des pièces réalistes et bien cotées.",
       "Approfondie par mes travaux de R&D sur la surveillance de l'usure de pièces usinées, et par la découverte du soudage-malaxage chez Stirweld."
     ],
-    "tags": ["Usinage", "Fabrication"]
+    "tags": [
+      "Usinage",
+      "Fabrication"
+    ]
   },
   "cmp:fabAdditive": {
     "titre": "Fabrication additive",
@@ -453,7 +560,10 @@
       "Impression 3D pour le prototypage rapide et la fabrication de pièces fonctionnelles ou d'accessoires.",
       "Conception adaptée au procédé : choix du matériau, orientation, supports et prise en compte des tolérances d'impression."
     ],
-    "tags": ["Impression 3D", "Prototypage"]
+    "tags": [
+      "Impression 3D",
+      "Prototypage"
+    ]
   },
   "cmp:fermetureGeom": {
     "titre": "Fermeture géométrique",
@@ -463,7 +573,11 @@
       "Fermeture des boucles géométriques dans les mécanismes : des chaînes de cotes 1D classiques aux approches tridimensionnelles.",
       "Au cœur de l'analyse des jeux et des conditions d'assemblage, pratiquée via l'Analyse Fonctionnelle Technique et les spécifications CATIA V5 FTA."
     ],
-    "tags": ["Chaînes de cotes", "Assemblage", "AFT"]
+    "tags": [
+      "Chaînes de cotes",
+      "Assemblage",
+      "AFT"
+    ]
   },
   "cmp:windowsLinux": {
     "titre": "Windows/Linux",
@@ -473,7 +587,12 @@
       "À l'aise sur les deux environnements : Windows pour les outils métier (CAO, suite Office), Linux au quotidien.",
       "Poste principal sous CachyOS (Arch) avec Hyprland/Wayland : environnement configuré de A à Z, dotfiles versionnées sur GitHub, scripts bash et automatisations."
     ],
-    "tags": ["Linux", "Arch", "Hyprland", "Bash"]
+    "tags": [
+      "Linux",
+      "Arch",
+      "Hyprland",
+      "Bash"
+    ]
   },
   "cmp:packOffice": {
     "titre": "Pack Office",
@@ -483,7 +602,11 @@
       "Maîtrise des outils bureautiques : documents longs structurés, tableurs (formules, tableaux croisés) et présentations.",
       "Compétences certifiées niveau avancé par PIX : recherche, traitement et présentation de l'information."
     ],
-    "tags": ["Office", "Excel", "PowerPoint"]
+    "tags": [
+      "Office",
+      "Excel",
+      "PowerPoint"
+    ]
   },
   "cmp:programmation": {
     "titre": "Programmation",
@@ -494,7 +617,11 @@
       "JavaScript pour le web — dont ce portfolio en Three.js — et scripting bash pour l'administration de mon poste et de mon homelab.",
       "Une pratique orientée problème : écrire le bon outil au bon moment, pas l'inverse."
     ],
-    "tags": ["Python", "JavaScript", "Bash"]
+    "tags": [
+      "Python",
+      "JavaScript",
+      "Bash"
+    ]
   },
   "cmp:llmIA": {
     "titre": "LLM / IA",
@@ -505,7 +632,12 @@
       "Auto-hébergement d'Open WebUI sur mon homelab, couplé à des API distantes et à des modèles locaux (Ollama), avec gestion de bases de connaissances.",
       "Une double culture : savoir en tirer le meilleur, et comprendre ce qui se passe sous le capot."
     ],
-    "tags": ["LLM", "IA", "Ollama", "Open WebUI"]
+    "tags": [
+      "LLM",
+      "IA",
+      "Ollama",
+      "Open WebUI"
+    ]
   },
   "cmp:metrologie": {
     "titre": "Métrologie",
@@ -515,7 +647,11 @@
       "Métrologie dimensionnelle : stratégies de contrôle, incertitudes de mesure et influence de l'état de contrainte des pièces.",
       "État de l'art des outillages de mise au rond et de redressage, mené chez Safran Aircraft Engines autour de la norme ISO 10579 sur les pièces non rigides."
     ],
-    "tags": ["Métrologie", "ISO 10579", "Contrôle"]
+    "tags": [
+      "Métrologie",
+      "ISO 10579",
+      "Contrôle"
+    ]
   },
   "cmp:statistiques": {
     "titre": "Statistiques",
@@ -525,7 +661,11 @@
       "Statistiques appliquées à l'ingénierie : simulations de Monte-Carlo pour l'analyse de l'influence des tolérances, traitement des incertitudes et exploitation de campagnes de mesures.",
       "Analyse et visualisation de données, certifiées niveau avancé par PIX."
     ],
-    "tags": ["Monte-Carlo", "Analyse de données", "Incertitudes"]
+    "tags": [
+      "Monte-Carlo",
+      "Analyse de données",
+      "Incertitudes"
+    ]
   },
   "spr:escalade": {
     "titre": "Escalade",
@@ -535,7 +675,10 @@
       "L'escalade : engagement, lecture de voie et gestion de l'effort — un bon contrepoint terrain à la rigueur de l'ingénieur.",
       "TODO : préciser (bloc/voie, fréquence, niveau, club…)."
     ],
-    "tags": ["Sport", "Escalade"]
+    "tags": [
+      "Sport",
+      "Escalade"
+    ]
   },
   "spr:halter": {
     "titre": "Haltérophilie / musculation",
@@ -545,7 +688,10 @@
       "Une pratique régulière de la musculation : méthode, régularité et progression mesurable.",
       "TODO : préciser (fréquence, objectifs…)."
     ],
-    "tags": ["Sport", "Musculation"]
+    "tags": [
+      "Sport",
+      "Musculation"
+    ]
   },
   "spr:velo": {
     "titre": "Vélo",
@@ -555,7 +701,10 @@
       "Le vélo, pour le quotidien comme pour l'échappée.",
       "TODO : préciser (route/VTT/gravel, pratique…)."
     ],
-    "tags": ["Sport", "Vélo"]
+    "tags": [
+      "Sport",
+      "Vélo"
+    ]
   },
   "spr:rando": {
     "titre": "Randonnée",
@@ -565,7 +714,10 @@
       "De la rando à la journée aux camps itinérants avec les scouts : marcher, s'orienter, gérer l'effort et la logistique.",
       "TODO : préciser (type de sorties, fréquence…)."
     ],
-    "tags": ["Sport", "Randonnée"]
+    "tags": [
+      "Sport",
+      "Randonnée"
+    ]
   },
   "otr:videogames": {
     "titre": "Jeu vidéo",
@@ -575,7 +727,10 @@
       "Joueur PC depuis toujours — un loisir qui a nourri au passage ma culture technique : matériel, périphériques, gaming sous Linux.",
       "Poussé jusqu'à administrer mon propre serveur Minecraft, hébergé sur mon homelab Proxmox."
     ],
-    "tags": ["Gaming", "PC"]
+    "tags": [
+      "Gaming",
+      "PC"
+    ]
   },
   "diy:bricolage": {
     "titre": "Bricolage",
@@ -585,6 +740,9 @@
       "Réparer, modifier, construire : du dépannage maison aux montages informatiques.",
       "L'extension naturelle du métier d'ingénieur : comprendre comment c'est fait, et trouver comment le faire mieux."
     ],
-    "tags": ["Bricolage", "Réparation"]
+    "tags": [
+      "Bricolage",
+      "Réparation"
+    ]
   }
 }
